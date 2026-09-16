@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 .superpowers/sdd/
+.worktrees/
 
 # ROS 2 / colcon 生成物
 build/
@@ -11,4 +12,3 @@ log/
 # IDE
 .vscode/
 .idea/
-
