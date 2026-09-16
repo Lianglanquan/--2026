@@ -726,6 +726,7 @@ void Application::InitializeProtocol() {
 }
 
 void Application::ShowActivationCode(const std::string& code, const std::string& message) {
+    ESP_LOGI(TAG, "Activation code: %s (%s)", code.c_str(), message.c_str());
     struct digit_sound {
         char digit;
         const std::string_view& sound;

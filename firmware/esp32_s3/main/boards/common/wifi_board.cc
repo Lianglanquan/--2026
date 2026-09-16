@@ -176,6 +176,9 @@ void WifiBoard::StartWifiConfigMode() {
 
     wifi_manager.StartConfigAp();
 
+    ESP_LOGI(TAG, "WiFi config AP: SSID=%s URL=%s", wifi_manager.GetApSsid().c_str(),
+             wifi_manager.GetApWebUrl().c_str());
+
     // Show config prompt after a short delay
     Application::GetInstance().Schedule([&wifi_manager]() {
         std::string hint = Lang::Strings::CONNECT_TO_HOTSPOT;
