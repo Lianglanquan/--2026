@@ -1115,6 +1115,7 @@ idf_component_register(SRCS ${SOURCES}
                         bt
                         fatfs
                         xiaozhi-fonts
+                        wheelbot_control
                         ${MAIN_PRIV_REQUIRES_EXTRA}
                     )
 

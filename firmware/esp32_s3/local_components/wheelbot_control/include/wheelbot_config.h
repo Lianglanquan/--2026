@@ -1,0 +1,33 @@
+#ifndef WHEELBOT_CONFIG_H
+#define WHEELBOT_CONFIG_H
+
+#include "driver/gpio.h"
+#include "driver/uart.h"
+
+#define WHEELBOT_UART_PORT UART_NUM_1
+#define WHEELBOT_UART_TX_GPIO GPIO_NUM_17
+#define WHEELBOT_UART_RX_GPIO GPIO_NUM_16
+#define WHEELBOT_UART_BAUD 115200
+#define WHEELBOT_UART_RX_BUFFER 2048
+#define WHEELBOT_UART_TX_BUFFER 2048
+
+/* I2S wiring for the INMP441 microphone and MAX98357A amplifier.
+ * BCLK and WS are shared; microphone data is input and amplifier data is
+ * output. These GPIOs match the wiring documented in docs/wiring/README.md.
+ */
+#define WHEELBOT_I2S_PORT 0
+#define WHEELBOT_I2S_BCLK_GPIO GPIO_NUM_4
+#define WHEELBOT_I2S_WS_GPIO GPIO_NUM_5
+#define WHEELBOT_I2S_MIC_SD_GPIO GPIO_NUM_6
+#define WHEELBOT_I2S_SPK_DIN_GPIO GPIO_NUM_7
+#define WHEELBOT_AUDIO_SAMPLE_RATE 16000U
+#define WHEELBOT_AUDIO_DMA_BUF_COUNT 4U
+#define WHEELBOT_AUDIO_DMA_BUF_LEN 256U
+
+#define WHEELBOT_INTENT_TIMEOUT_MS 200U
+#define WHEELBOT_COMMAND_PERIOD_MS 20U
+#define WHEELBOT_WHEEL_RADIUS_M 0.05f
+#define WHEELBOT_TRACK_WIDTH_M 0.30f
+#define WHEELBOT_MAX_WHEEL_RPM 180.0f
+
+#endif
