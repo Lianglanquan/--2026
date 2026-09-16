@@ -1,0 +1,25 @@
+{
+    "type": "wheelbot-s3-audio",
+    "target": "esp32s3",
+    "builds": [
+        {
+            "name": "wheelbot-s3-audio",
+            "sdkconfig_append": [
+                "CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y",
+                "CONFIG_PARTITION_TABLE_CUSTOM_FILENAME=\"partitions/v2/16m.csv\"",
+                "CONFIG_SPIRAM=y",
+                "CONFIG_SPIRAM_MODE_OCT=y",
+                "CONFIG_SPIRAM_SPEED_80M=y",
+                "CONFIG_WAKE_WORD_DISABLED=n",
+                "CONFIG_USE_ESP_WAKE_WORD=n",
+                "CONFIG_USE_AFE_WAKE_WORD=n",
+                "CONFIG_USE_CUSTOM_WAKE_WORD=y",
+                "CONFIG_CUSTOM_WAKE_WORD=\"ni hao xiao yun\"",
+                "CONFIG_CUSTOM_WAKE_WORD_DISPLAY=\"你好小云\"",
+                "CONFIG_CUSTOM_WAKE_WORD_THRESHOLD=20",
+                "CONFIG_SR_WN_WN9_NIHAOXIAOZHI_TTS=n",
+                "CONFIG_SR_MN_CN_MULTINET7_QUANT=y"
+            ]
+        }
+    ]
+}

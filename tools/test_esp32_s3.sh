@@ -24,6 +24,14 @@ assert config["type"] == "wheelbot-s3-audio"
 assert config["target"] == "esp32s3"
 assert config["builds"][0]["name"] == "wheelbot-s3-audio"
 
+production = json.loads((board_dir / "config.production.json").read_text(encoding="utf-8"))
+options = production["builds"][0]["sdkconfig_append"]
+assert 'CONFIG_USE_CUSTOM_WAKE_WORD=y' in options
+assert 'CONFIG_CUSTOM_WAKE_WORD="ni hao xiao yun"' in options
+assert 'CONFIG_CUSTOM_WAKE_WORD_DISPLAY="你好小云"' in options
+assert 'CONFIG_CUSTOM_WAKE_WORD_THRESHOLD=20' in options
+assert 'CONFIG_SR_MN_CN_MULTINET7_QUANT=y' in options
+
 header = (board_dir / "config.h").read_text(encoding="utf-8")
 expected = {
     "AUDIO_I2S_GPIO_BCLK": 4,
@@ -35,6 +43,12 @@ for name, gpio in expected.items():
     assert re.search(rf"^#define\s+{name}\s+GPIO_NUM_{gpio}\s*$", header, re.MULTILINE), name
 assert "AUDIO_I2S_METHOD_SIMPLEX" not in header
 PY
+
+grep -Fq -- '--config config.production.json' "$repo_root/tools/build_esp32_s3.sh"
+grep -Fq -- '--language zh-CN' "$repo_root/tools/build_esp32_s3.sh"
+grep -Fq 'WHEELBOT_ESP32_BUILD_DIR' "$repo_root/tools/build_esp32_s3.sh"
+grep -Fq 'trap cleanup_project_build EXIT' "$repo_root/tools/build_esp32_s3.sh"
+grep -Fq 'WHEELBOT_ESP32_PORT' "$repo_root/tools/flash_esp32_s3.sh"
 
 cmake -S "$repo_root/tests/esp32_s3" -B "$build_dir" \
     -DWHEELBOT_COMPONENT_DIR="$component_dir"
