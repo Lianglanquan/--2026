@@ -596,6 +596,9 @@ choice BOARD_TYPE
     config BOARD_TYPE_WDMOMO_CGC_144
         bool "WDMomo ESP32-CGC-144"
         depends on IDF_TARGET_ESP32
+    config BOARD_TYPE_WHEELBOT_S3_AUDIO
+        bool "WheelBot ESP32-S3 Audio"
+        depends on IDF_TARGET_ESP32S3
     config BOARD_TYPE_WK_ESP32S3_DEV
         bool "WK ESP32-S3 Dev Board (维控智能开发板)"
         depends on IDF_TARGET_ESP32S3

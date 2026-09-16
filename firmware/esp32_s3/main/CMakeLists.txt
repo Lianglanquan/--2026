@@ -91,7 +91,9 @@ set(EMOTE_RESOLUTION "320_240")
 
 # Select the board source directory from Kconfig
 # Set default assets if the board uses partition table V2
-if(CONFIG_BOARD_TYPE_BREAD_COMPACT_WIFI)
+if(CONFIG_BOARD_TYPE_WHEELBOT_S3_AUDIO)
+    set(BOARD_DIR "wheelbot-s3-audio")
+elseif(CONFIG_BOARD_TYPE_BREAD_COMPACT_WIFI)
     set(BOARD_DIR "bread-compact-wifi")
     set(BUILTIN_TEXT_FONT font_noto_sans_basic_14_1)
     set(BUILTIN_ICON_FONT font_material_symbols_14_1)
