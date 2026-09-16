@@ -49,6 +49,8 @@ grep -Fq -- '--language zh-CN' "$repo_root/tools/build_esp32_s3.sh"
 grep -Fq 'WHEELBOT_ESP32_BUILD_DIR' "$repo_root/tools/build_esp32_s3.sh"
 grep -Fq 'trap cleanup_project_build EXIT' "$repo_root/tools/build_esp32_s3.sh"
 grep -Fq 'WHEELBOT_ESP32_PORT' "$repo_root/tools/flash_esp32_s3.sh"
+grep -Fq 'if (display == nullptr || !display->SupportsGuiOperations())' \
+    "$repo_root/firmware/esp32_s3/main/assets.cc"
 
 cmake -S "$repo_root/tests/esp32_s3" -B "$build_dir" \
     -DWHEELBOT_COMPONENT_DIR="$component_dir"
