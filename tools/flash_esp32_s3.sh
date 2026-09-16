@@ -20,8 +20,9 @@ fi
 # shellcheck disable=SC1091
 source "$repo_root/tools/esp32_idf_env.sh" >/dev/null
 
-cd "$firmware_dir"
-idf.py -B "$build_dir" -p "$port" flash
+cd "$build_dir"
+python -m esptool --chip esp32s3 --port "$port" --baud 460800 \
+    --before default-reset --after hard-reset write-flash "@flash_args"
 
 if [[ "${WHEELBOT_ESP32_MONITOR:-1}" == "1" ]]; then
     exec idf.py -B "$build_dir" -p "$port" monitor
