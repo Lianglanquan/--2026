@@ -13,5 +13,8 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    entry_points={'console_scripts': ['tcp_to_pty = wheelbot_lidar.tcp_to_pty:main']},
+    entry_points={'console_scripts': [
+        'tcp_to_pty = wheelbot_lidar.tcp_to_pty:main',
+        'scan_watchdog = wheelbot_lidar.scan_watchdog:main',
+    ]},
 )
