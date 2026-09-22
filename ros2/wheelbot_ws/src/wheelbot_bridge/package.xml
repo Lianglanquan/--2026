@@ -2,10 +2,14 @@
 <package format="3">
   <name>wheelbot_bridge</name>
   <version>0.1.0</version>
-  <description>Minimal USB PING/PONG bridge for the WheelBot C Board.</description>
-  <maintainer email="wheelbot@localhost">WheelBot</maintainer>
+  <description>USB bridge for the WheelBot C Board state and command protocol.</description>
+  <maintainer email="wheelbot@example.com">WheelBot</maintainer>
   <license>Apache-2.0</license>
   <exec_depend>rclpy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>wheelbot_interfaces</exec_depend>
+  <exec_depend>python3-serial</exec_depend>
   <export><build_type>ament_python</build_type></export>
 </package>

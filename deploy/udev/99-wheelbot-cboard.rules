@@ -1,0 +1,2 @@
+# DJI C Board USB CDC (STM32Cube default CDC descriptor: 0483:5740)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", SYMLINK+="wheelbot", MODE="0660", GROUP="dialout"

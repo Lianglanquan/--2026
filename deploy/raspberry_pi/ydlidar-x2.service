@@ -1,0 +1,16 @@
+[Unit]
+Description=WheelBot YDLIDAR X2 driver
+After=wheelbot-lidar-tcp.service
+Requires=wheelbot-lidar-tcp.service
+
+[Service]
+Type=simple
+User=fool
+Environment=ROS_DOMAIN_ID=42
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/bin/bash -lc 'source /opt/ros/jazzy/setup.bash && source /home/fool/wheelbot_ws/install/setup.bash && ros2 launch wheelbot_lidar x2.launch.py'
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

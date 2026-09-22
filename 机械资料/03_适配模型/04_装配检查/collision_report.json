@@ -1,0 +1,29 @@
+{
+  "status": "provisional_unresolved_qd4310_rotor_bcd",
+  "hard_collisions": [],
+  "minimum_clearance_mm": null,
+  "unverified_checks": [
+    "absolute_assembly_collision_clearance",
+    "qd4310_rotor_fastener_pattern"
+  ],
+  "checks": [
+    {
+      "name": "HA8_joint_center_preservation",
+      "status": "passed"
+    },
+    {
+      "name": "QD4310_wheel_envelope",
+      "status": "passed_against_local_envelope"
+    },
+    {
+      "name": "absolute_assembly_collision_clearance",
+      "status": "unresolved",
+      "reason": "original absolute assembly placement is not recoverable from isolated STL files"
+    },
+    {
+      "name": "QD4310_rotor_hole_pattern",
+      "status": "unresolved",
+      "reason": "official rotor BCD not uniquely published"
+    }
+  ]
+}

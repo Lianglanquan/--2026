@@ -18,4 +18,6 @@
 
 DJI C Board 是唯一拥有电机控制权的实时核心。树莓派、ESP32-S3、手机、手柄和策略网络只提交控制意图，所有意图必须经过 C Board 的状态估计、仲裁和安全层。
 
+ESP32-S3 的具体串口、人机交互和输入优先级约束见 [`docs/architecture/esp32-s3-interaction.md`](docs/architecture/esp32-s3-interaction.md)。
+
 当前目录中的空文件仅用于保留规划结构；具体驱动和控制实现应在对应模块内逐步添加。

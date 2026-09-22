@@ -1,0 +1,17 @@
+[Unit]
+Description=WheelBot FishBot TCP to PTY transport
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=fool
+RuntimeDirectory=wheelbot-lidar
+RuntimeDirectoryMode=0755
+Environment=PYTHONPATH=/home/fool/wheelbot_ws/src/wheelbot_lidar
+ExecStart=/usr/bin/python3 -u -m wheelbot_lidar.tcp_to_pty --host 0.0.0.0 --port 8889 --device-link /run/wheelbot-lidar/device
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

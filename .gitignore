@@ -8,6 +8,12 @@ __pycache__/
 build/
 install/
 log/
+build.failed.*/
+install.failed.*/
+log.failed.*/
+
+# Embedded vendor checkout metadata
+firmware/c_board/vendor/freertos-gcc/.git/
 
 # IDE
 .vscode/

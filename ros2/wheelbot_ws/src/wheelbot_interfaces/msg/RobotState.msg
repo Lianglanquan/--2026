@@ -1,0 +1,16 @@
+std_msgs/Header header
+string mode
+string cboard_link
+float32[3] gyro
+float32[3] accel
+float32[4] quaternion
+float32[3] rpy
+float32[4] joint_position
+float32[4] joint_velocity
+uint8[4] joint_status
+float32[2] wheel_position
+float32[2] wheel_velocity
+float32[2] wheel_current
+uint32[2] wheel_fault
+float32 battery_voltage
+uint32 faults

@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /tmp/espvenv/bin/python "$@"
