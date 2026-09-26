@@ -1,11 +1,10 @@
 import serial
-import time
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 from wheelbot_interfaces.msg import RobotCommand, RobotState
 
-from wheelbot_bridge.robot_protocol import decode_state, encode_command
+from wheelbot_bridge.robot_protocol import command_from_ros, decode_state, encode_command
 from wheelbot_bridge.usb_protocol import drain_serial_buffer
 
 
@@ -21,8 +20,6 @@ class WheelbotBridge(Node):
         self.sequence = 0
         self.rx_buffer = bytearray()
         self.port = None
-        self.last_pong = False
-        self.next_ping_s = 0.0
         self.timer = self.create_timer(float(self.get_parameter('period').value), self.poll)
 
     def poll(self):
@@ -33,31 +30,21 @@ class WheelbotBridge(Node):
                     int(self.get_parameter('baud').value),
                     timeout=0.01,
                 )
-                self.next_ping_s = 0.0
-            now = time.monotonic()
-            if now >= self.next_ping_s:
-                self.port.write(b'PING\n')
-                self.port.flush()
-                self.next_ping_s = now + 1.0
-            deadline = now + 0.015
-            while time.monotonic() < deadline:
+                self.rx_buffer.clear()
+            while True:
                 waiting = self.port.in_waiting
-                data = self.port.read(waiting if waiting else 1)
-                if not data:
+                if not waiting:
                     break
-                self.rx_buffer.extend(data)
+                self.rx_buffer.extend(self.port.read(waiting))
             frames, lines = drain_serial_buffer(self.rx_buffer)
-            self.last_pong = b'PONG' in lines
-            msg = String()
             if frames:
+                msg = String()
                 msg.data = 'STATE'
-            elif self.last_pong:
-                msg.data = 'PONG'
+                self.pub.publish(msg)
             elif lines:
+                msg = String()
                 msg.data = 'unexpected:' + lines[-1].decode(errors='replace')
-            else:
-                msg.data = 'timeout'
-            self.pub.publish(msg)
+                self.pub.publish(msg)
             self._publish_state_frames(frames)
         except (serial.SerialException, OSError) as exc:
             if self.port is not None:
@@ -67,13 +54,14 @@ class WheelbotBridge(Node):
             self.pub.publish(msg)
 
     def command_callback(self, command):
+        try:
+            payload = command_from_ros(command)
+        except ValueError as exc:
+            self.get_logger().warning(str(exc))
+            return
         if self.port is None or not self.port.is_open:
             return
-        from wheelbot_bridge.robot_protocol import RobotCommand
-        frame = encode_command(self.sequence, RobotCommand(
-            enable=command.enable, mode=command.mode,
-            joint_target=tuple(command.joint_target),
-            wheel_command=tuple(command.wheel_command)))
+        frame = encode_command(self.sequence, payload)
         self.sequence = (self.sequence + 1) & 0xffff
         try:
             self.port.write(frame)

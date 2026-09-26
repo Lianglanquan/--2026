@@ -3,7 +3,7 @@ from pathlib import Path
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -41,5 +41,12 @@ def generate_launch_description():
         _include("wheelbot_description", "sensors.launch.py", "use_description"),
         _include("wheelbot_lidar", "x2.launch.py", "use_lidar"),
         _include("wheelbot_localization", "localization.launch.py", "use_ekf"),
+        Node(
+            package="wheelbot_bridge",
+            executable="state_adapter_node",
+            name="wheelbot_state_adapter",
+            output="screen",
+            condition=UnlessCondition(LaunchConfiguration("use_ekf")),
+        ),
         _include("wheelbot_mapping", "mapping.launch.py", "use_slam"),
     ])

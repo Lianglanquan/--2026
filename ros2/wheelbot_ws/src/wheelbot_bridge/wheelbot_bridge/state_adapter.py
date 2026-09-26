@@ -51,6 +51,10 @@ class WheelOdometer:
         self.yaw_rad = 0.0
         self._last_stamp_s: float | None = None
 
+    def invalidate(self, stamp_s: float) -> WheelOdomSample:
+        self._last_stamp_s = None
+        return self._sample(0.0, 0.0, False, 1_000.0)
+
     def update(self, wheel_velocity_rpm: Sequence[float], stamp_s: float) -> WheelOdomSample:
         if len(wheel_velocity_rpm) <= max(self.wheel_indices):
             raise ValueError("wheel velocity array is shorter than configured wheel indices")

@@ -30,6 +30,6 @@ void wheelbot_actuator_diag_task(void const *argument)
         (void)qd4310_get_state(QD4310_MOTOR_ID_1, (qd4310_state_t *)&wheelbot_qd4310_states[0]);
         (void)qd4310_get_state(QD4310_MOTOR_ID_2, (qd4310_state_t *)&wheelbot_qd4310_states[1]);
         wheelbot_qd4310_state = wheelbot_qd4310_states[0];
-        osDelay(1000U);
+        osDelay(100U);
     }
 }

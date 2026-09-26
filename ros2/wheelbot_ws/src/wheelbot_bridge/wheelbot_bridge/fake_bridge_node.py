@@ -2,20 +2,18 @@ import math
 
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import Imu, JointState
+from sensor_msgs.msg import Imu
 
 from wheelbot_interfaces.msg import RobotState
 
 
 class FakeBridgeNode(Node):
-    """无 C 板时的 Dummy/Fake 模式：发布假 RobotState / joint_states / imu。"""
+    """No C Board: publish synthetic RobotState and IMU for bring-up."""
 
     def __init__(self):
         super().__init__('fake_bridge')
         self.state_pub = self.create_publisher(RobotState, '/wheelbot/state', 10)
-        self.joint_pub = self.create_publisher(JointState, '/joint_states', 10)
         self.imu_pub = self.create_publisher(Imu, '/imu', 10)
-        self.joint_names = ['hip_lf', 'hip_rf', 'hip_lb', 'hip_rb']
         self.declare_parameter('fake_wheel_rpm', 0.0)
         self.t = 0.0
         self.wheel_angle = 0.0
@@ -38,14 +36,10 @@ class FakeBridgeNode(Node):
         state.wheel_position = [self.wheel_angle, self.wheel_angle]
         state.wheel_velocity = [wheel_rpm, wheel_rpm]
         state.wheel_fault = [0, 0]
+        state.joint_position = [math.degrees(0.2 * math.sin(self.t + i)) for i in range(4)]
+        state.joint_velocity = [math.degrees(0.2 * math.cos(self.t + i)) for i in range(4)]
+        state.joint_status = [0] * 4
         self.state_pub.publish(state)
-
-        joint = JointState()
-        joint.header.stamp = now
-        joint.name = self.joint_names
-        joint.position = [0.2 * math.sin(self.t + i) for i in range(4)]
-        joint.velocity = [0.2 * math.cos(self.t + i) for i in range(4)]
-        self.joint_pub.publish(joint)
 
         imu = Imu()
         imu.header.stamp = now

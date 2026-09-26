@@ -12,6 +12,17 @@
 #define WHEELBOT_COMMAND_PAYLOAD_SIZE 26U
 #define WHEELBOT_BATTERY_PAYLOAD_SIZE 8U
 
+/* WB v1 command modes. Joint targets are servo degrees, wheels are RPM. */
+#define WHEELBOT_MODE_IDLE 0U
+#define WHEELBOT_MODE_JOINT 1U
+#define WHEELBOT_MODE_WHEEL 2U
+#define WHEELBOT_MODE_COMBINED 3U
+
+/* State fault mask: HA8 slots [0..3], QD4310 slots [4..5], IMU [6]. */
+#define WHEELBOT_FAULT_HA8(index) (1UL << (index))
+#define WHEELBOT_FAULT_QD4310(index) (1UL << (4U + (index)))
+#define WHEELBOT_FAULT_IMU (1UL << 6U)
+
 typedef enum {
     WHEELBOT_MSG_COMMAND = 1U,
     WHEELBOT_MSG_STATE = 2U,

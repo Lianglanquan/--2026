@@ -6,10 +6,36 @@ import rclpy
 from builtin_interfaces.msg import Time
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
-from sensor_msgs.msg import Imu
+from sensor_msgs.msg import BatteryState, Imu, JointState
 from wheelbot_interfaces.msg import RobotState
 
 from wheelbot_bridge.state_adapter import WheelOdometer, quaternion_wxyz_to_xyzw
+
+JOINT_NAMES = ["ha8_lf", "ha8_lr", "ha8_rf", "ha8_rr"]
+
+
+def wheel_feedback_valid(faults: int, wheel_indices) -> bool:
+    return all(not (faults & (1 << (4 + index))) for index in wheel_indices)
+
+
+def fill_joint_message(state: RobotState, message: JointState, stamp: Time) -> None:
+    message.header.stamp = stamp
+    message.name = JOINT_NAMES
+    message.position = [
+        math.radians(float(x)) if state.joint_status[i] != 255 else math.nan
+        for i, x in enumerate(state.joint_position)
+    ]
+    message.velocity = [
+        math.radians(float(x)) if state.joint_status[i] != 255 else math.nan
+        for i, x in enumerate(state.joint_velocity)
+    ]
+
+
+def fill_battery_message(state: RobotState, message: BatteryState, stamp: Time) -> None:
+    message.header.stamp = stamp
+    message.voltage = float(state.battery_voltage)
+    message.percentage = math.nan
+    message.present = message.voltage > 0.0
 
 
 def fill_imu_message(state: RobotState, message: Imu, frame_id: str, stamp: Time) -> None:
@@ -78,6 +104,8 @@ class StateAdapterNode(Node):
         )
         self._warned_single_wheel = False
         self.imu_pub = self.create_publisher(Imu, "/imu/data", 10)
+        self.joint_pub = self.create_publisher(JointState, "/joint_states", 10)
+        self.battery_pub = self.create_publisher(BatteryState, "/battery_state", 10)
         self.odom_pub = self.create_publisher(Odometry, "/wheelbot/wheel_odom", 10)
         self.state_sub = self.create_subscription(
             RobotState, "/wheelbot/state", self.state_callback, 10
@@ -89,7 +117,18 @@ class StateAdapterNode(Node):
         fill_imu_message(state, imu, self.imu_frame, stamp)
         self.imu_pub.publish(imu)
 
-        sample = self.odometer.update(state.wheel_velocity, stamp.sec + stamp.nanosec * 1e-9)
+        joints = JointState()
+        fill_joint_message(state, joints, stamp)
+        self.joint_pub.publish(joints)
+        battery = BatteryState()
+        fill_battery_message(state, battery, stamp)
+        self.battery_pub.publish(battery)
+
+        stamp_s = stamp.sec + stamp.nanosec * 1e-9
+        if wheel_feedback_valid(state.faults, self.odometer.wheel_indices):
+            sample = self.odometer.update(state.wheel_velocity, stamp_s)
+        else:
+            sample = self.odometer.invalidate(stamp_s)
         odom = Odometry()
         fill_wheel_odom_message(sample, odom, self.odom_frame, self.base_frame, stamp)
         self.odom_pub.publish(odom)

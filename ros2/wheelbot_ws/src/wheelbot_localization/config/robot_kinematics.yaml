@@ -3,6 +3,6 @@ wheelbot_state_adapter:
     # Replace with measured values after the physical assembly is complete.
     wheel_radius_m: 0.10
     wheel_track_m: 0.40
-    # Firmware currently fills wheel index 0 only; change to [0, 1] after validation.
+    # Both wheel feedback slots are populated; enable both once their signs are measured.
     wheel_indices: [0]
     wheel_signs: [1.0]

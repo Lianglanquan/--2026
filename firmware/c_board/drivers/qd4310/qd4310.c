@@ -3,12 +3,15 @@
 #include <string.h>
 
 #include "can.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 #define QD4310_MAX_ID 0x0fu
 #define QD4310_PI 3.14159265358979323846f
 
 static qd4310_state_t qd4310_states[QD4310_MAX_ID + 1u];
 static uint8_t qd4310_state_valid[QD4310_MAX_ID + 1u];
+static uint32_t qd4310_last_feedback_ms[QD4310_MAX_ID + 1u];
 
 static int16_t qd4310_clamp_i16(const float value) {
     if (value >= 32767.0f) return 32767;
@@ -30,7 +33,15 @@ static HAL_StatusTypeDef qd4310_send(const uint8_t id, const uint8_t command,
     header.IDE = CAN_ID_STD;
     header.RTR = CAN_RTR_DATA;
     header.DLC = frame.dlc;
-    return HAL_CAN_AddTxMessage(&hcan1, &header, frame.data, &mailbox);
+    for (unsigned attempt = 0U; attempt < 5U; ++attempt) {
+        taskENTER_CRITICAL();
+        const HAL_StatusTypeDef result = HAL_CAN_AddTxMessage(&hcan1, &header,
+                                                               frame.data, &mailbox);
+        taskEXIT_CRITICAL();
+        if (result == HAL_OK) return HAL_OK;
+        vTaskDelay(1U);
+    }
+    return HAL_ERROR;
 }
 
 HAL_StatusTypeDef qd4310_enable(const uint8_t id) {
@@ -73,6 +84,11 @@ HAL_StatusTypeDef qd4310_get_state(const uint8_t id, qd4310_state_t *state) {
     return status;
 }
 
+uint8_t qd4310_feedback_valid(const uint8_t id) {
+    return id <= QD4310_MAX_ID && qd4310_state_valid[id] &&
+           (HAL_GetTick() - qd4310_last_feedback_ms[id] <= 500U);
+}
+
 void qd4310_handle_can_rx(const uint16_t std_id, const uint8_t *data,
                           const uint8_t length) {
     qd4310_state_t state;
@@ -82,6 +98,7 @@ void qd4310_handle_can_rx(const uint16_t std_id, const uint8_t *data,
     const uint8_t id = (uint8_t)(std_id - 0x500u);
     if (qd4310_decode_feedback(id, std_id, data, length, &state) == 0) {
         qd4310_states[id] = state;
+        qd4310_last_feedback_ms[id] = HAL_GetTick();
         qd4310_state_valid[id] = 1u;
     }
 }

@@ -59,3 +59,17 @@ def test_single_wheel_motion_does_not_claim_yaw_observability():
 def test_invalid_wheel_configuration_is_rejected():
     with pytest.raises(ValueError, match="wheel indices"):
         WheelOdometer(0.1, 0.4, (), ())
+
+
+def test_lost_feedback_does_not_integrate_old_velocity_or_downtime():
+    odometer = WheelOdometer(0.1, 0.4, (0, 1), (1.0, 1.0))
+    odometer.update((60.0, 60.0), 0.0)
+    old_pose = odometer.update((60.0, 60.0), 1.0).x_m
+
+    lost = odometer.invalidate(4.0)
+    resumed = odometer.update((60.0, 60.0), 5.0)
+
+    assert lost.has_valid_motion is False
+    assert lost.x_m == old_pose
+    assert resumed.has_valid_motion is False
+    assert resumed.x_m == old_pose

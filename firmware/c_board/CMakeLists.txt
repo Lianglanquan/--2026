@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 project(wheelbot_cboard C ASM)
 
 option(WHEELBOT_QD4310_TEST "Run one-shot low-current QD4310 test" OFF)
+option(WHEELBOT_HA8_MOTION_ENABLED "Allow HA8 joint angle commands after mechanical calibration" OFF)
 
 set(VENDOR_DJI "${CMAKE_CURRENT_SOURCE_DIR}/vendor/dji" CACHE PATH "DJI Development-Board-C-Examples checkout")
 set(DJI_PROJECT "${VENDOR_DJI}/20.standard_robot" CACHE PATH "DJI standard robot project")
@@ -44,9 +45,12 @@ add_executable(wheelbot_cboard ${C_SOURCES} ${FASHIONSTAR_SOURCES}
   "${CMAKE_CURRENT_SOURCE_DIR}/communication/usb_robot_protocol.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/communication/robot_control.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/startup_stm32f407ighx.s")
-target_compile_definitions(wheelbot_cboard PRIVATE USE_HAL_DRIVER STM32F407xx ARM_MATH_CM4 __FPU_USED=1U __FPU_PRESENT=1U ARM_MATH_MATRIX_CHECK ARM_MATH_ROUNDING __TARGET_FPU_VFP WHEELBOT_DISABLE_BUZZER)
+target_compile_definitions(wheelbot_cboard PRIVATE USE_HAL_DRIVER STM32F407xx ARM_MATH_CM4 __FPU_USED=1U __FPU_PRESENT=1U ARM_MATH_MATRIX_CHECK ARM_MATH_ROUNDING __TARGET_FPU_VFP WHEELBOT_DISABLE_BUZZER WHEELBOT_CONTROL_BUILD)
 if(WHEELBOT_QD4310_TEST)
   target_compile_definitions(wheelbot_cboard PRIVATE WHEELBOT_QD4310_TEST)
+endif()
+if(WHEELBOT_HA8_MOTION_ENABLED)
+  target_compile_definitions(wheelbot_cboard PRIVATE WHEELBOT_HA8_MOTION_ENABLED=1)
 endif()
 target_compile_options(wheelbot_cboard PRIVATE -include "${CMAKE_CURRENT_SOURCE_DIR}/port/wheelbot_compat.h")
 target_compile_options(wheelbot_cboard PRIVATE -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -ffunction-sections -fdata-sections -fno-common -Wall -Wextra)

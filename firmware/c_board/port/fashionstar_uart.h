@@ -12,9 +12,11 @@
  * connector label alone.
  */
 #define WHEELBOT_FASHIONSTAR_UART_INSTANCE USART6
-/* FashionStar factory default ID is 0; verify/change this in the servo
- * configuration before selecting another bus ID. */
-#define WHEELBOT_FASHIONSTAR_DEFAULT_ID   0U
+#define WHEELBOT_HA8_COUNT 4U
+#define WHEELBOT_HA8_LF_ID 1U
+#define WHEELBOT_HA8_LR_ID 2U
+#define WHEELBOT_HA8_RF_ID 3U
+#define WHEELBOT_HA8_RR_ID 4U
 
 void wheelbot_fashionstar_init(void);
 
@@ -22,6 +24,17 @@ void wheelbot_fashionstar_init(void);
 FSUS_STATUS wheelbot_fashionstar_ping(uint8_t servo_id);
 FSUS_STATUS wheelbot_fashionstar_read_status(uint8_t servo_id,
                                              uint8_t *status_value);
+FSUS_STATUS wheelbot_fashionstar_read_angle(uint8_t servo_id, float *angle_deg);
+void wheelbot_fashionstar_submit_targets(const float target_deg[WHEELBOT_HA8_COUNT]);
+void wheelbot_fashionstar_cancel_targets(void);
+uint32_t wheelbot_fashionstar_take_targets(float target_deg[WHEELBOT_HA8_COUNT],
+                                          uint8_t *active);
+uint8_t wheelbot_fashionstar_targets_active(uint32_t generation);
+void wheelbot_fashionstar_record_sample(unsigned index, float angle_deg,
+                                        uint8_t status, uint32_t timestamp_ms);
+void wheelbot_fashionstar_snapshot(float position_deg[WHEELBOT_HA8_COUNT],
+                                   float velocity_dps[WHEELBOT_HA8_COUNT],
+                                   uint8_t status[WHEELBOT_HA8_COUNT]);
 
 /* Last safe diagnostic results, updated only by explicit calls. */
 extern volatile FSUS_STATUS wheelbot_fashionstar_last_ping;

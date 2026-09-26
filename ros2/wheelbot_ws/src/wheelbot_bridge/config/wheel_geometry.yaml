@@ -1,0 +1,5 @@
+wheelbot_cmd_vel:
+  ros__parameters:
+    wheel_radius_m: 0.0
+    wheel_track_m: 0.0
+    motor_signs: [1, 1]

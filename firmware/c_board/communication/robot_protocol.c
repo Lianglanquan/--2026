@@ -1,4 +1,5 @@
 #include "robot_protocol.h"
+#include <math.h>
 
 #include <string.h>
 
@@ -59,6 +60,9 @@ int wheelbot_decode_command(const uint8_t *f, size_t n, uint16_t *seq, wheelbot_
     c->enable = f[8]; c->mode = f[9]; size_t o = 10U;
     for (unsigned i=0; i<4U; ++i, o+=4U) c->joint_target[i]=get_f32(&f[o]);
     for (unsigned i=0; i<2U; ++i, o+=4U) c->wheel_command[i]=get_f32(&f[o]);
+    if (c->mode > WHEELBOT_MODE_COMBINED || c->enable > 1U) return -1;
+    for (unsigned i=0; i<4U; ++i) if (!isfinite(c->joint_target[i])) return -1;
+    for (unsigned i=0; i<2U; ++i) if (!isfinite(c->wheel_command[i])) return -1;
     return 0;
 }
 

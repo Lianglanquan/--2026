@@ -7,6 +7,7 @@ from wheelbot_bridge.robot_protocol import (
     decode_state,
     encode_command,
     encode_state,
+    command_from_ros,
 )
 
 
@@ -63,3 +64,22 @@ def test_decoder_rejects_corrupt_crc_and_wrong_type():
         decode_command(bytes(frame))
     with pytest.raises(ValueError, match="message type"):
         decode_state(encode_command(0, command))
+
+
+def test_ros_command_mode_maps_to_wire_enum():
+    class Message:
+        enable = True
+        mode = "combined"
+        joint_target = [0.1, 0.2, 0.3, 0.4]
+        wheel_command = [12.0, -12.0]
+
+    _, decoded = decode_command(encode_command(3, command_from_ros(Message())))
+    assert decoded.mode == 3
+    assert decoded.wheel_command == pytest.approx((12.0, -12.0))
+
+
+def test_command_rejects_nonfinite_and_unknown_mode():
+    with pytest.raises(ValueError, match="mode"):
+        RobotCommand(True, 255, (0.0,) * 4, (0.0,) * 2)
+    with pytest.raises(ValueError, match="finite"):
+        RobotCommand(True, 2, (float("nan"),) * 4, (0.0,) * 2)

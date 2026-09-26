@@ -1,6 +1,7 @@
 """Typed Python view of the C board's WB v1 binary protocol."""
 
 from dataclasses import dataclass
+import math
 import struct
 
 from wheelbot_bridge.usb_protocol import (
@@ -12,6 +13,7 @@ from wheelbot_bridge.usb_protocol import (
 
 
 COMMAND_PAYLOAD = struct.Struct("<BB4f2f")
+MODES = {"idle": 0, "joint": 1, "wheel": 2, "combined": 3}
 # Must remain byte-for-byte compatible with wheelbot_state_t in C.
 STATE_PAYLOAD = struct.Struct("<I3f3f4f3f4f4f4B2f2f2f2IfI")
 
@@ -31,8 +33,19 @@ class RobotCommand:
     def __post_init__(self):
         _check_count(self.joint_target, 4, "command must contain exactly 4 joints and 2 wheels")
         _check_count(self.wheel_command, 2, "command must contain exactly 4 joints and 2 wheels")
-        if not 0 <= int(self.mode) <= 255:
-            raise ValueError("mode must fit in uint8")
+        if self.mode not in MODES.values():
+            raise ValueError("unknown command mode")
+        if not all(math.isfinite(v) for v in (*self.joint_target, *self.wheel_command)):
+            raise ValueError("command values must be finite")
+
+
+def command_from_ros(message):
+    if message.mode not in MODES:
+        raise ValueError(f"unknown command mode: {message.mode}")
+    return RobotCommand(
+        bool(message.enable), MODES[message.mode],
+        tuple(message.joint_target), tuple(message.wheel_command),
+    )
 
 
 @dataclass(frozen=True)

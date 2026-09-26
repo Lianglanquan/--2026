@@ -59,6 +59,9 @@ int wheelbot_uart_robot_protocol_feed(wheelbot_uart_robot_protocol_t *parser,
         wheelbot_command_t command;
         if (wheelbot_decode_command(parser->buffer, frame_size, NULL, &command) == 0) {
             wheelbot_robot_command_apply(&command);
+        } else {
+            memmove(parser->buffer, &parser->buffer[1], --parser->length);
+            continue;
         }
         memmove(parser->buffer, &parser->buffer[frame_size], parser->length - frame_size);
         parser->length -= frame_size;
