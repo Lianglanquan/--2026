@@ -13,7 +13,12 @@ HAL_StatusTypeDef qd4310_enable(uint8_t id);
 HAL_StatusTypeDef qd4310_disable(uint8_t id);
 HAL_StatusTypeDef qd4310_set_current(uint8_t id, float current_a);
 HAL_StatusTypeDef qd4310_set_speed(uint8_t id, float speed_rpm);
+HAL_StatusTypeDef qd4310_set_low_speed(uint8_t id, float speed_rpm);
 HAL_StatusTypeDef qd4310_set_angle(uint8_t id, float angle_rad);
+HAL_StatusTypeDef qd4310_set_step_angle(uint8_t id, float step_rad);
+HAL_StatusTypeDef qd4310_reboot(uint8_t id);
+HAL_StatusTypeDef qd4310_set_zero_position(uint8_t id);
+HAL_StatusTypeDef qd4310_clear_error(uint8_t id);
 HAL_StatusTypeDef qd4310_get_state(uint8_t id, qd4310_state_t *state);
 uint8_t qd4310_feedback_valid(uint8_t id);
 

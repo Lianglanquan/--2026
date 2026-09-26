@@ -14,7 +14,9 @@
   is considered applied. Explicit idle also cancels queued HA8 targets.
   There is no emergency-stop command or command-age timeout in this path.
 - The C Board queries all four HA8 units through the single USART6-owning task
-  and both QD4310 units on CAN1; it publishes IMU, battery voltage, joint and
+  and the configured QD4310 units on CAN1. The current bench build configures
+  only QD4310 ID 1; use `-DWHEELBOT_QD4310_COUNT=2` after ID 2 is installed.
+  It publishes IMU, battery voltage, joint and
   wheel feedback in the WB v1 state frame. The Pi publishes `/wheelbot/state`,
   `/imu/data`, `/joint_states`, `/battery_state`, and `/wheelbot/wheel_odom`.
   JointState uses radians. Battery percentage is unknown (NaN), not inferred

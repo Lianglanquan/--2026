@@ -4,10 +4,13 @@
 #include <stddef.h>
 #include <stdint.h>
 
-/* Board-level motor assignment after commissioning the two QD4310 units. */
+/* Board-level motor assignment. The current bench build has only ID 1 fitted. */
 #define QD4310_MOTOR_ID_1 ((uint8_t)1u)
 #define QD4310_MOTOR_ID_2 ((uint8_t)2u)
-#define QD4310_MOTOR_COUNT (2u)
+#ifndef WHEELBOT_QD4310_COUNT
+#define WHEELBOT_QD4310_COUNT (1u)
+#endif
+#define QD4310_MOTOR_COUNT (WHEELBOT_QD4310_COUNT)
 
 /* QDrive's official QD4310 CAN protocol (classic CAN, 1 Mbps). */
 enum qd4310_command {
@@ -33,6 +36,7 @@ typedef struct {
 typedef struct {
     uint8_t id;
     uint8_t motor_state;
+    uint8_t enabled;
     uint8_t error_code;
     int16_t current_raw;
     int16_t speed_raw;

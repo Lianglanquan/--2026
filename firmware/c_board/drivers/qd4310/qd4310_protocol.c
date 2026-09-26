@@ -32,6 +32,7 @@ int qd4310_decode_feedback(const uint8_t id, const uint16_t std_id,
 
     state->id = id;
     state->motor_state = data[0];
+    state->enabled = (uint8_t)(data[0] & 0x01u);
     state->error_code = data[1];
     state->current_raw = (int16_t)((uint16_t)data[2] | ((uint16_t)data[3] << 8));
     state->speed_raw = (int16_t)((uint16_t)data[4] | ((uint16_t)data[5] << 8));

@@ -3,6 +3,10 @@ project(wheelbot_cboard C ASM)
 
 option(WHEELBOT_QD4310_TEST "Run one-shot low-current QD4310 test" OFF)
 option(WHEELBOT_HA8_MOTION_ENABLED "Allow HA8 joint angle commands after mechanical calibration" OFF)
+set(WHEELBOT_QD4310_COUNT 1 CACHE STRING "Number of installed QD4310 wheel motors (1 or 2)")
+if(NOT WHEELBOT_QD4310_COUNT MATCHES "^[12]$")
+  message(FATAL_ERROR "WHEELBOT_QD4310_COUNT must be 1 or 2")
+endif()
 
 set(VENDOR_DJI "${CMAKE_CURRENT_SOURCE_DIR}/vendor/dji" CACHE PATH "DJI Development-Board-C-Examples checkout")
 set(DJI_PROJECT "${VENDOR_DJI}/20.standard_robot" CACHE PATH "DJI standard robot project")
@@ -45,7 +49,7 @@ add_executable(wheelbot_cboard ${C_SOURCES} ${FASHIONSTAR_SOURCES}
   "${CMAKE_CURRENT_SOURCE_DIR}/communication/usb_robot_protocol.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/communication/robot_control.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/startup_stm32f407ighx.s")
-target_compile_definitions(wheelbot_cboard PRIVATE USE_HAL_DRIVER STM32F407xx ARM_MATH_CM4 __FPU_USED=1U __FPU_PRESENT=1U ARM_MATH_MATRIX_CHECK ARM_MATH_ROUNDING __TARGET_FPU_VFP WHEELBOT_DISABLE_BUZZER WHEELBOT_CONTROL_BUILD)
+target_compile_definitions(wheelbot_cboard PRIVATE USE_HAL_DRIVER STM32F407xx ARM_MATH_CM4 __FPU_USED=1U __FPU_PRESENT=1U ARM_MATH_MATRIX_CHECK ARM_MATH_ROUNDING __TARGET_FPU_VFP WHEELBOT_DISABLE_BUZZER WHEELBOT_CONTROL_BUILD WHEELBOT_QD4310_COUNT=${WHEELBOT_QD4310_COUNT})
 if(WHEELBOT_QD4310_TEST)
   target_compile_definitions(wheelbot_cboard PRIVATE WHEELBOT_QD4310_TEST)
 endif()

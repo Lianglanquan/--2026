@@ -46,6 +46,18 @@ static void test_official_speed_and_angle_frames(void) {
     assert(frame.data[1] == 0x85u && frame.data[2] == 0xffu);
 }
 
+static void test_all_qdrive_commands_are_encoded(void) {
+    qd4310_can_frame_t frame;
+    assert(qd4310_encode_control(1u, QD4310_CMD_REBOOT, 0, &frame) == 0);
+    assert(frame.data[0] == QD4310_CMD_REBOOT);
+    assert(qd4310_encode_control(1u, QD4310_CMD_SET_ZERO, 0, &frame) == 0);
+    assert(frame.data[0] == QD4310_CMD_SET_ZERO);
+    assert(qd4310_encode_control(1u, QD4310_CMD_CLEAR_ERROR, 0, &frame) == 0);
+    assert(frame.data[0] == QD4310_CMD_CLEAR_ERROR);
+    assert(qd4310_encode_control(1u, QD4310_CMD_STEP_ANGLE, 32767, &frame) == 0);
+    assert(frame.data[0] == QD4310_CMD_STEP_ANGLE);
+}
+
 static void test_feedback_decode(void) {
     const uint8_t payload[8] = {
         0x12u, 0x02u,       /* state, error */
@@ -57,6 +69,7 @@ static void test_feedback_decode(void) {
     assert(qd4310_decode_feedback(1u, 0x501u, payload, sizeof(payload), &state) == 0);
     assert(state.id == 1u);
     assert(state.motor_state == 0x12u);
+    assert(state.enabled == 0u);
     assert(state.error_code == 0x02u);
     assert(state.current_raw == 16384);
     assert(state.speed_raw == -32768);
@@ -78,6 +91,7 @@ int main(void) {
     test_configured_motor_ids();
     test_signed_control_is_little_endian();
     test_official_speed_and_angle_frames();
+    test_all_qdrive_commands_are_encoded();
     test_feedback_decode();
     test_bad_feedback_is_rejected();
     puts("qd4310 codec tests: ok");

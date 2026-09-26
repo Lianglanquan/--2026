@@ -20,6 +20,13 @@ bytes 1..2. Feedback is `state,error,current(int16),speed(int16),angle(uint16)`
 in little-endian order. Current, speed, and angle are scaled respectively to
 `[-10,10] A`, `[-1000,1000] rpm`, and `[0,2pi] rad`.
 
+The implementation follows the public QGimbal QD4310 transport behavior:
+`NOP`, enable, disable, current, speed, angle, low-speed, step-angle, reboot,
+set-zero, and clear-error are all available through the C API. Speed and
+current inputs are clamped to the device ranges before conversion; absolute
+angle is clamped to `[0,2pi]`, and step angle to `[-2pi,2pi]`. Source reference:
+<https://github.com/Liu-Curiousity/QGimbal>.
+
 ## C Board integration
 
 `qd4310.c` calls the existing `HAL_CAN_AddTxMessage(&hcan1, ...)`; it does not
@@ -28,8 +35,8 @@ callback should call `qd4310_handle_can_rx()` after `HAL_CAN_GetRxMessage()` for
 feedback frames. The cached state is updated asynchronously; `qd4310_get_state`
 sends the official NOP request and returns the most recently received state.
 
-The wheelbot board assigns QD4310 IDs 1 and 2 to its two actuator channels.
-No hardware claim is made by this adapter alone. A connected QD4310 ID 1 and
-ID 2,
-correct CANH/CANL termination, common ground, and a verified 1 Mbps bus are
-required for end-to-end validation.
+The current CMake build is configured for one installed motor, ID 1. The
+second wheel remains reserved as ID 2; rebuild with
+`-DWHEELBOT_QD4310_COUNT=2` after that motor is installed and the CAN bus has
+been verified. Correct CANH/CANL termination, common ground, and a verified
+1 Mbps bus are required for end-to-end validation.

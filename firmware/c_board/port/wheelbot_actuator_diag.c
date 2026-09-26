@@ -12,23 +12,28 @@ void wheelbot_actuator_diag_task(void const *argument)
     (void)argument;
 
 #if defined(WHEELBOT_QD4310_TEST)
-    /* Explicit bench test only: both commissioned IDs, low current, then stop. */
-    (void)qd4310_enable(QD4310_MOTOR_ID_1);
-    (void)qd4310_enable(QD4310_MOTOR_ID_2);
+    /* Explicit bench test only: configured IDs, low current, then stop. */
+    for (unsigned i = 0U; i < QD4310_MOTOR_COUNT; ++i) {
+        (void)qd4310_enable((uint8_t)(QD4310_MOTOR_ID_1 + i));
+    }
     osDelay(100U);
-    (void)qd4310_set_current(QD4310_MOTOR_ID_1, 0.2f);
-    (void)qd4310_set_current(QD4310_MOTOR_ID_2, 0.2f);
+    for (unsigned i = 0U; i < QD4310_MOTOR_COUNT; ++i) {
+        (void)qd4310_set_current((uint8_t)(QD4310_MOTOR_ID_1 + i), 0.2f);
+    }
     osDelay(2000U);
-    (void)qd4310_set_current(QD4310_MOTOR_ID_1, 0.0f);
-    (void)qd4310_set_current(QD4310_MOTOR_ID_2, 0.0f);
-    (void)qd4310_disable(QD4310_MOTOR_ID_1);
-    (void)qd4310_disable(QD4310_MOTOR_ID_2);
+    for (unsigned i = 0U; i < QD4310_MOTOR_COUNT; ++i) {
+        const uint8_t id = (uint8_t)(QD4310_MOTOR_ID_1 + i);
+        (void)qd4310_set_current(id, 0.0f);
+        (void)qd4310_disable(id);
+    }
 #endif
 
     for (;;) {
         /* NOP requests feedback only; no enable or motion command is sent. */
-        (void)qd4310_get_state(QD4310_MOTOR_ID_1, (qd4310_state_t *)&wheelbot_qd4310_states[0]);
-        (void)qd4310_get_state(QD4310_MOTOR_ID_2, (qd4310_state_t *)&wheelbot_qd4310_states[1]);
+        for (unsigned i = 0U; i < QD4310_MOTOR_COUNT; ++i) {
+            (void)qd4310_get_state((uint8_t)(QD4310_MOTOR_ID_1 + i),
+                                   (qd4310_state_t *)&wheelbot_qd4310_states[i]);
+        }
         wheelbot_qd4310_state = wheelbot_qd4310_states[0];
         osDelay(100U);
     }
