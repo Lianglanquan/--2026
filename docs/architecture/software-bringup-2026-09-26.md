@@ -12,7 +12,9 @@
   command. `enable=false` or `mode=idle` explicitly stops and disables wheels.
   If a CAN transmit mailbox is full, commands are retried before a generation
   is considered applied. Explicit idle also cancels queued HA8 targets.
-  There is no emergency-stop command or command-age timeout in this path.
+  There is no dedicated emergency-stop command. A C Board command-age watchdog
+  now converts an enabled non-idle command to idle after 200 ms without a fresh
+  validated frame, cancels HA8 targets, stops/disables wheels, and reports fault bit 7.
 - The C Board queries all four HA8 units through the single USART6-owning task
   and the configured QD4310 units on CAN1. The current bench build configures
   only QD4310 ID 1; use `-DWHEELBOT_QD4310_COUNT=2` after ID 2 is installed.
@@ -54,7 +56,7 @@ Board for the actuator owner. The useful architectural analogy is keeping the
 high-level intent separate from low-level joint control, not reusing its pins
 or motion parameters.
 
-Without an automatic command-age stop, a lost USB link does not itself clear
-the last wheel speed on the C Board. Do not operate the mobile robot untethered
-or flash a motion-enabled image before bench-level link-loss behavior and
-mechanical parameters have been reviewed.
+The automatic command-age stop is covered by a host wraparound unit test, but
+must still be verified on a raised-wheel bench by physically removing USB while
+motion is commanded. Do not operate untethered or flash a motion-enabled image
+before that test and the mechanical parameters have been reviewed.

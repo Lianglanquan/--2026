@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>wheelbot_mission</name>
+  <version>0.1.0</version>
+  <description>High-level WheelBot mission lifecycle, XiaoZhi REST gateway, and Nav2 adapter.</description>
+  <maintainer email="wheelbot@example.com">WheelBot</maintainer>
+  <license>Apache-2.0</license>
+  <exec_depend>action_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav2_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>wheelbot_interfaces</exec_depend>
+  <test_depend>python3-pytest</test_depend>
+  <export><build_type>ament_python</build_type></export>
+</package>

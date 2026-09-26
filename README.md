@@ -22,6 +22,18 @@ ESP32-S3 的具体串口、人机交互和输入优先级约束见 [`docs/archit
 
 当前目录中的空文件仅用于保留规划结构；具体驱动和控制实现应在对应模块内逐步添加。
 
+## 任务级语音闭环
+
+- `firmware/esp32_s3/`：固定版本的官方小智固件与 `wheelbot-s3-audio` 专用板型。
+- `ros2/wheelbot_ws/src/wheelbot_mission/`：Mission Manager、Nav2 适配、任务状态与 REST API。
+- `ros2/wheelbot_ws/src/wheelbot_navigation/`：要求显式实测参数的 Nav2 启动边界。
+- `docs/current-system-capability-gap-analysis.md`：按任务书完成的现状与缺口审计。
+- `docs/architecture/mission-manager.md`：小智、任务管理、导航、机械臂服务边界和接口说明。
+- `docs/software-validation-2026-09-26.md`：本阶段实际测试、未完成项与下一步。
+
+真实语义点默认未启用；完成地图、轮参数、雷达外参、footprint 与 Nav2 标定后，逐点设置
+`commissioned: true`。不得用占位坐标进行真机自主运动。
+
 ## MuJoCo 运行规则
 
 凡是运行 MuJoCo 运动演示、姿态测试或控制效果观察，默认同时启动可视化窗口，

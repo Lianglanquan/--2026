@@ -19,5 +19,6 @@ if ! command -v idf.py >/dev/null 2>&1; then
 fi
 
 cd "$repo_root/firmware/esp32_s3"
-idf.py set-target esp32s3
-idf.py build
+python3 scripts/build.py wheelbot-s3-audio --name wheelbot-s3-audio \
+    --language "${WHEELBOT_XIAOZHI_LANGUAGE:-zh-CN}" \
+    --wake-word "${WHEELBOT_XIAOZHI_WAKE_WORD:-nihaoxiaozhi}"

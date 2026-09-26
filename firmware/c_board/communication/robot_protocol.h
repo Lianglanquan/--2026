@@ -18,10 +18,11 @@
 #define WHEELBOT_MODE_WHEEL 2U
 #define WHEELBOT_MODE_COMBINED 3U
 
-/* State fault mask: HA8 slots [0..3], QD4310 slots [4..5], IMU [6]. */
+/* State fault mask: HA8 [0..3], QD4310 [4..5], IMU [6], command timeout [7]. */
 #define WHEELBOT_FAULT_HA8(index) (1UL << (index))
 #define WHEELBOT_FAULT_QD4310(index) (1UL << (4U + (index)))
 #define WHEELBOT_FAULT_IMU (1UL << 6U)
+#define WHEELBOT_FAULT_COMMAND_TIMEOUT (1UL << 7U)
 
 typedef enum {
     WHEELBOT_MSG_COMMAND = 1U,

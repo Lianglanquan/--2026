@@ -1,4 +1,5 @@
 #include "robot_control.h"
+#include "robot_command_watchdog.h"
 #include "usb_robot_protocol.h"
 #include "wheelbot_actuator_diag.h"
 #include "qd4310.h"
@@ -15,6 +16,8 @@
 extern float battery_voltage;
 static volatile wheelbot_command_t pending_command;
 static volatile uint32_t command_generation;
+static volatile uint32_t last_command_ms;
+static volatile uint8_t command_timeout_fault;
 static uint16_t state_sequence;
 
 void wheelbot_robot_command_apply(const void *value)
@@ -22,6 +25,8 @@ void wheelbot_robot_command_apply(const void *value)
     const wheelbot_command_t *command = (const wheelbot_command_t *)value;
     if (command != NULL) {
         pending_command = *command;
+        last_command_ms = HAL_GetTick();
+        command_timeout_fault = 0U;
         ++command_generation;
     }
 }
@@ -30,7 +35,15 @@ static void apply_command(uint32_t *applied_generation)
 {
     wheelbot_command_t command;
     uint32_t generation;
+    const uint32_t now_ms = HAL_GetTick();
     taskENTER_CRITICAL();
+    if (wheelbot_robot_command_expired(now_ms, last_command_ms,
+                                       pending_command.enable, pending_command.mode)) {
+        pending_command.enable = 0U;
+        pending_command.mode = WHEELBOT_MODE_IDLE;
+        command_timeout_fault = 1U;
+        ++command_generation;
+    }
     generation = command_generation;
     command = pending_command;
     taskEXIT_CRITICAL();
@@ -84,6 +97,7 @@ static void fill_state(wheelbot_state_t *state)
     if (gyro == NULL || accel == NULL || quat == NULL || rpy == NULL) {
         state->faults |= WHEELBOT_FAULT_IMU;
     }
+    if (command_timeout_fault != 0U) state->faults |= WHEELBOT_FAULT_COMMAND_TIMEOUT;
     wheelbot_fashionstar_snapshot(state->joint_position, state->joint_velocity,
                                   state->joint_status);
     for (unsigned i = 0U; i < WHEELBOT_HA8_COUNT; ++i) {

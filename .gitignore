@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 .superpowers/sdd/
 .worktrees/
+/tmp/xiaozhi-upstream/
+/tmp/xiaozhi-upstream.tar
 
 # ROS 2 / colcon 生成物
 build/

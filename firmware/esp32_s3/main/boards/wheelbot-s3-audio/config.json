@@ -1,0 +1,14 @@
+{
+    "type": "wheelbot-s3-audio",
+    "target": "esp32s3",
+    "builds": [
+        {
+            "name": "wheelbot-s3-audio",
+            "sdkconfig_append": [
+                "CONFIG_PARTITION_TABLE_CUSTOM_FILENAME=\"partitions/v1/16m.csv\"",
+                "CONFIG_SPIRAM=y",
+                "CONFIG_SPIRAM_MODE_OCT=y"
+            ]
+        }
+    ]
+}

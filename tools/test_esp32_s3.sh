@@ -4,9 +4,16 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 build_dir="${WHEELBOT_ESP32_BUILD_DIR:-/tmp/wheelbot-esp32-build}"
 
-cmake -S "$repo_root/firmware/esp32_s3" -B "$build_dir" -DWHEELBOT_BUILD_TESTS=ON
-cmake --build "$build_dir"
-ctest --test-dir "$build_dir" --output-on-failure
+python3 -m unittest discover -s "$repo_root/firmware/esp32_s3/scripts/tests" -v
+python3 "$repo_root/firmware/esp32_s3/scripts/build.py" --list-boards | \
+    grep -Fx "wheelbot-s3-audio"
+mkdir -p "$build_dir"
+
+cc -std=c11 -Wall -Wextra -Werror \
+    -I"$repo_root/firmware/c_board/communication" \
+    "$repo_root/tests/unit/test_command_watchdog.c" \
+    -o "$build_dir/test_command_watchdog"
+"$build_dir/test_command_watchdog"
 
 cc -std=c11 -Wall -Wextra -Werror \
     -I"$repo_root/firmware/c_board/communication" \

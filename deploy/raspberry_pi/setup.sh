@@ -42,7 +42,8 @@ apt_install_if_missing git cmake build-essential \
 echo "==> WheelBot 运行时 ROS 组件"
 apt_install_if_missing ros-jazzy-xacro ros-jazzy-robot-state-publisher \
     ros-jazzy-tf2-ros ros-jazzy-rosbag2 ros-jazzy-diagnostic-updater \
-    ros-jazzy-rmw-cyclonedds-cpp
+    ros-jazzy-rmw-cyclonedds-cpp ros-jazzy-navigation2 \
+    ros-jazzy-nav2-bringup ros-jazzy-robot-localization ros-jazzy-slam-toolbox
 
 echo "==> 双机通信测试节点（talker/listener 验证用）"
 apt_install_if_missing ros-jazzy-demo-nodes-cpp ros-jazzy-demo-nodes-py

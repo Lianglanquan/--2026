@@ -9,11 +9,12 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 
-def _include(package, launch_file, condition):
+def _include(package, launch_file, condition, launch_arguments=None):
     path = Path(get_package_share_directory(package)) / "launch" / launch_file
     return IncludeLaunchDescription(
         PythonLaunchDescriptionSource(str(path)),
         condition=IfCondition(LaunchConfiguration(condition)),
+        launch_arguments=(launch_arguments or {}).items(),
     )
 
 
@@ -25,6 +26,12 @@ def generate_launch_description():
         DeclareLaunchArgument("use_ekf", default_value="true"),
         DeclareLaunchArgument("use_slam", default_value="false"),
         DeclareLaunchArgument("use_description", default_value="true"),
+        DeclareLaunchArgument("use_mission", default_value="true"),
+        DeclareLaunchArgument("use_nav2", default_value="false"),
+        DeclareLaunchArgument("nav2_params_file", default_value=""),
+        DeclareLaunchArgument("mission_navigation_mode", default_value="nav2"),
+        DeclareLaunchArgument("mission_api_token", default_value="change-me-before-deploy"),
+        DeclareLaunchArgument("mission_use_fake_arm", default_value="false"),
         DeclareLaunchArgument("fake_wheel_rpm", default_value="0.0"),
     ]
     fake_bridge = Node(
@@ -49,4 +56,20 @@ def generate_launch_description():
             condition=UnlessCondition(LaunchConfiguration("use_ekf")),
         ),
         _include("wheelbot_mapping", "mapping.launch.py", "use_slam"),
+        _include(
+            "wheelbot_navigation",
+            "navigation.launch.py",
+            "use_nav2",
+            {"params_file": LaunchConfiguration("nav2_params_file")},
+        ),
+        _include(
+            "wheelbot_mission",
+            "mission.launch.py",
+            "use_mission",
+            {
+                "navigation_mode": LaunchConfiguration("mission_navigation_mode"),
+                "api_token": LaunchConfiguration("mission_api_token"),
+                "use_fake_arm": LaunchConfiguration("mission_use_fake_arm"),
+            },
+        ),
     ])

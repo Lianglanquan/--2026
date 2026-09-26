@@ -1,53 +1,52 @@
-# ESP32-S3 人机交互与串口入口
+# ESP32-S3 小智语音与任务入口
 
 ## 定位
 
-ESP32-S3 是 WheelBot 的人机交互与无线入口，不是主控制器。它不直接驱动电机，只把语音、手机和 BLE 手柄输入转换为控制意图，经 UART 发送给 DJI C Board。
+ESP32-S3 采用官方 `78/xiaozhi-esp32`，负责唤醒、音频、联网、官方云端对话、MCP 和 OTA。
+它不是机器人主控制器，不直接驱动 C Board、电机或机械臂。
 
-## 串口链路
+本仓库以固定提交导入上游，并新增唯一板型 `wheelbot-s3-audio`。上游来源与升级规则见
+`firmware/esp32_s3/UPSTREAM.md`。
 
-默认参数为 115200 baud、8 data bits、无校验、1 stop bit（8N1）。建议连接如下：
+## 硬件
 
-| ESP32-S3 | C Board | 说明 |
-|---|---|---|
-| UART TX | USART1 RX（PB7） | 控制意图帧 |
-| UART RX | USART1 TX（PA9） | 预留状态回传 |
-| GND | GND | 必须共地 |
+目标为 ESP32-S3 N16R8：
 
-C Board 的 USART6（开发板丝印 UART1）继续保留给 FashionStar 舵机，不与 ESP32 复用。两端均为 3.3 V 逻辑；实际接线前核对所用 ESP32-S3 模组引脚复用和电平。
+| GPIO | 连接 |
+|---|---|
+| 4 | INMP441 SCK / MAX98357A BCLK |
+| 5 | INMP441 WS / MAX98357A LRC |
+| 6 | INMP441 SD |
+| 7 | MAX98357A DIN |
 
-同一条 C Board USART1 与 ESP32-S3 UART1 也是全双工链路：ESP32 发送控制帧，C Board 反向发送 `W B` 电压遥测帧（类型 3，18 字节，115200/8N1）。遥测负载包含 `float voltage` 和 `uint16 percentage`，C Board 每 100 ms 发送一次；ESP32 固件已接收、校验 CRC 并记录最新值。
+输入输出共用 BCLK/WS，使用官方 `NoAudioCodecDuplex`。麦克风供电 3.3 V，功放供电
+5 V/VBUS，三者共地；扬声器只能接 SPK+ 与 SPK-。
 
-当前 C Board 工程已包含通用 UART 字节流解析器和主机测试；实际 STM32 中断回调需要与 FashionStar 现有 `HAL_UART_RxCpltCallback` 合并时再接入，避免两个 HAL 回调实现互相覆盖。
+## MCP 能力
 
-## 控制意图
+- `self.wheelbot.navigate(location)`
+- `self.wheelbot.fetch_item(item, pickup_location, return_location)`
+- `self.wheelbot.return_home(location)`
+- `self.wheelbot.get_mission_status(mission_id)`
+- `self.wheelbot.cancel_mission(mission_id)`
 
-```c
-typedef struct {
-    float vx_mps;
-    float yaw_rate_rps;
-    uint8_t mode;
-    uint8_t stop;
-} wheelbot_intent_t;
+这些工具通过带 Bearer token 的 REST 请求调用树莓派 Mission Manager。没有前进、后退、
+轮速、RPM 或关节级 MCP 工具。
+
+## 安全与配置
+
+- `CONFIG_WHEELBOT_MISSION_BASE_URL` 指向树莓派任务服务。
+- `CONFIG_WHEELBOT_MISSION_TOKEN` 必须与 ROS 启动参数一致；部署前必须替换开发默认值。
+- API 断开、非 2xx 响应或任务校验失败都会作为 MCP 错误返回，不会降级为底层运动。
+- 语义位置是否可执行由 Mission Manager 的 `commissioned` 标志决定，ESP32 无权绕过。
+
+## 构建
+
+使用 ESP-IDF 6.1：
+
+```bash
+bash tools/build_esp32_s3.sh
 ```
 
-ESP32-S3 使用车轮半径、轮距和最大转速配置，将 `vx_mps`/`yaw_rate_rps` 换算成左右轮 rpm，再填入与 C Board 共用的 `wheelbot_command_t`。
-
-帧格式为现有 `WB` + version/type/length/sequence + payload + CRC16-CCITT，命令帧固定 36 字节。C Board 侧使用 `communication/uart_robot_protocol.c` 按字节接收，允许中断分包并丢弃坏 CRC 帧。
-
-## 输入优先级和安全
-
-- `stop=1` 在所有输入源中优先级最高。
-- 非停止输入优先级：BLE > Wi-Fi > 语音。
-- 输入意图默认 200 ms 有效；超时后必须由上层发送 stop，C Board 仍需执行自己的 200 ms 安全超时。
-- ESP-SR WakeNet/MultiNet、Wi-Fi HTTP/TCP/UDP、BLE 手柄和 I2S/MAX98357A 播放均通过 provider 接口接入，不得绕过统一路由器和 UART 传输层。
-
-## 当前实现与待硬件验证
-
-`firmware/esp32_s3` 已提供协议核心、差速混合、输入路由、语音/手机文本解析和 ESP-IDF UART 初始化入口。真实 ESP-SR 模型、Wi-Fi 服务、BLE profile、I2S 音频播放以及 UART 电气链路需要在具体 ESP32-S3 模组和接线确认后进行板级联调。
-
-ESP-IDF `app_main` 以 50 Hz 发送当前路由结果；没有有效输入时发送 stop 帧，避免上电后产生运动命令。
-
-Wi-Fi provider 已提供 SoftAP 和 HTTP 控制入口：连接 `WheelBot-ESP32`（密码 `wheelbot42`）后访问 `/control?cmd=vx=0.2;yaw_rate=0;mode=2;stop=0`。请求只进入 Wi-Fi provider 和统一输入路由，不直接写 UART。
-
-主机回归测试统一运行 `bash tools/test_esp32_s3.sh`，覆盖 ESP32 核心库、输入 provider、UART 帧编码，以及 C Board UART 接收器的分包/CRC 行为。
+必须在实物上分别验收扬声器、麦克风、唤醒、官方云对话、MCP 列表、Mission API 和重复
+请求/断网行为；编译成功不等于音频或机器人联调成功。

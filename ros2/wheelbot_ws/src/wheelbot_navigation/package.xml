@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>wheelbot_navigation</name>
+  <version>0.1.0</version>
+  <description>Commissioning-gated Nav2 bringup for WheelBot.</description>
+  <maintainer email="wheelbot@example.com">WheelBot</maintainer>
+  <license>Apache-2.0</license>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>nav2_bringup</exec_depend>
+  <export><build_type>ament_python</build_type></export>
+</package>

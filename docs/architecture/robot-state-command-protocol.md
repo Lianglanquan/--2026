@@ -11,4 +11,7 @@ IEEE-754 float32。接收端必须同时校验 magic、版本、类型、长度�
 `RobotState` 固定包含时间戳、IMU（gyro/accel/quaternion/rpy）、4 个关节、2 个轮、电池和故障字段。
 字段顺序与 `firmware/c_board/communication/robot_protocol.h` 及 ROS 消息完全一致。
 
+`RobotState.faults` 的 bit 7 表示启用中的非 idle 命令超过 200 ms 未刷新；C Board 在置位
+该故障时会把命令转换为 idle、取消关节目标并停止/禁用轮电机。新有效命令会清除此位。
+
 ASCII `PING\n` / `PONG\n` 继续保留，仅用于链路诊断，不替代状态协议。

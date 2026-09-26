@@ -1,0 +1,22 @@
+locations:
+  home:
+    frame_id: map
+    x: 0.0
+    y: 0.0
+    qz: 0.0
+    qw: 1.0
+    commissioned: false
+  workbench:
+    frame_id: map
+    x: 0.0
+    y: 0.0
+    qz: 0.0
+    qw: 1.0
+    commissioned: false
+  arm_zone:
+    frame_id: map
+    x: 0.0
+    y: 0.0
+    qz: 0.0
+    qw: 1.0
+    commissioned: false
