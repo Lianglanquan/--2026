@@ -17,6 +17,7 @@ setup(
         ("share/" + package_name + "/web", glob("web/*")),
     ],
     install_requires=["setuptools", "PyYAML"],
+    tests_require=["pytest"],
     zip_safe=True,
     entry_points={"console_scripts": [
         "mission_manager_node = wheelbot_mission.mission_manager_node:main",

@@ -15,5 +15,6 @@
   <exec_depend>wheelbot_mapping</exec_depend>
   <exec_depend>wheelbot_mission</exec_depend>
   <exec_depend>wheelbot_navigation</exec_depend>
+  <test_depend>python3-pytest</test_depend>
   <export><build_type>ament_python</build_type></export>
 </package>

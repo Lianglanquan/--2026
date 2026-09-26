@@ -6,7 +6,7 @@ setup(name=package_name, version='0.1.0', packages=[package_name], data_files=[
     ('share/' + package_name, ['package.xml']),
     ('share/' + package_name + '/launch', ['launch/bridge.launch.py']),
     ('share/' + package_name + '/config', ['config/wheel_geometry.yaml']),
-], install_requires=['setuptools'], zip_safe=True,
+], install_requires=['setuptools'], tests_require=['pytest'], zip_safe=True,
 entry_points={'console_scripts': [
     'bridge_node = wheelbot_bridge.bridge_node:main',
     'fake_bridge_node = wheelbot_bridge.fake_bridge_node:main',

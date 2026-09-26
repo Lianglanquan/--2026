@@ -14,5 +14,6 @@ setup(
         ("share/" + package_name + "/launch", ["launch/mapping.launch.py"]),
     ],
     install_requires=["setuptools"],
+    tests_require=["pytest"],
     zip_safe=True,
 )

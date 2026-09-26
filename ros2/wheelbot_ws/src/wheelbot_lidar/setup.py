@@ -12,6 +12,7 @@ setup(
         ('share/' + package_name + '/launch', ['launch/x2.launch.py']),
     ],
     install_requires=['setuptools'],
+    tests_require=['pytest'],
     zip_safe=True,
     entry_points={'console_scripts': [
         'tcp_to_pty = wheelbot_lidar.tcp_to_pty:main',

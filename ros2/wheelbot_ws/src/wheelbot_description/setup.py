@@ -9,4 +9,4 @@ setup(name=package_name, version='0.1.0', packages=[package_name], data_files=[
         'launch/rsp.launch.py',
         'launch/sensors.launch.py',
     ]),
-], install_requires=['setuptools'], zip_safe=True)
+], install_requires=['setuptools'], tests_require=['pytest'], zip_safe=True)
