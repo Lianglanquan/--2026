@@ -36,13 +36,15 @@
 ## 当前实际测试结果
 
 - Mission model/API/事件/反馈/安全：20 个测试全部通过。
-- ROS 2/任务 API 纯 Python 回归：43 个可在 Windows 运行的测试全部通过（包含上述 20 项与
-  完整八阶段 REST smoke client 测试）。
+- ROS 2/任务 API 纯 Python 回归：45 个可在 Windows 运行的测试全部通过（包含上述 20 项、
+  URDF 结构检查与完整八阶段 REST smoke client 测试）。
 - C 主机测试：command watchdog、battery protocol、USB command stream、C Board UART receiver
   共 4 个程序通过。
 - 小智板型结构：Kconfig/CMake 一致性、默认 flash 配置、相对 include 共 4 个上游测试通过。
 - Python compileall、Web 控制台 JavaScript 解析、package XML 和板型 JSON 解析通过。
-- GitHub Actions 工作流 YAML 本地解析通过；首次 ROS 2 Jazzy runner 构建仍待推送权限恢复后执行。
+- GitHub Actions `Software integration` 已通过：ROS 2 Jazzy 下 9 个包构建成功，colcon 汇总
+  61 个测试、0 错误、0 失败，并通过“导航→假机械臂服务边界→返航”的 REST/ROS 节点冒烟链路
+  （[run 36242856855](https://github.com/Lianglanquan/--2026/actions/runs/36242856855)）。
 - 小智上游完整 83 项主机测试中，本次引入的两项失败已修复；另 5 项在 Windows 临时目录
   清理阶段因文件锁报错，属于上游测试的 Windows 环境限制，不是功能断言失败。
 
