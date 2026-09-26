@@ -1,0 +1,16 @@
+ydlidar_node:
+  ros__parameters:
+    port: /run/wheelbot-lidar/device
+    baudrate: 115200
+    singleChannel: true
+    frame_id: laser_frame
+    samp_rate: 3
+    resolution_fixed: true
+    auto_reconnect: true
+    reversion: false
+    isToFLidar: false
+    angle_max: 180.0
+    angle_min: -180.0
+    max_range: 8.0
+    min_range: 0.10
+    frequency: 6.0

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot name="wheelbot">
+  <!-- 轮腿连杆/关节参数待机械设计与标定后补充。 -->
+  <link name="base_link"/>
+  <link name="imu_link"/>
+  <link name="laser_frame"/>
+
+  <!-- 零值仅用于软件联调；实物安装外参必须在标定后替换。 -->
+  <joint name="base_to_imu" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="base_to_laser" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser_frame"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+</robot>

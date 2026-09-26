@@ -1,0 +1,369 @@
+{
+  "part_names": [
+    "HA8_外固定1_v1",
+    "HA8_外固定2_v1",
+    "HA8_外固定3_v1",
+    "HA8_外固定4_v1",
+    "HA8_盖板1_v1",
+    "HA8_盖板2_v1",
+    "HA8_盖板3_v1",
+    "HA8_盖板4_v1",
+    "HA8_舵机接口1_v1",
+    "HA8_舵机接口2_v1",
+    "HA8_舵机接口3_v1",
+    "HA8_舵机接口4_v1",
+    "HA8_被动支撑1_v1",
+    "HA8_被动支撑2_v1",
+    "HA8_被动支撑3_v1",
+    "HA8_被动支撑4_v1",
+    "HA8_隔套1_v1",
+    "HA8_隔套2_v1",
+    "HA8_隔套3_v1",
+    "HA8_隔套4_v1",
+    "QD4310_电机固定X1_v1",
+    "QD4310_电机固定X2_v1",
+    "QD4310_轮固定X1_v1",
+    "QD4310_轮固定X2_v1",
+    "QD4310_轮毂X1_v1",
+    "QD4310_轮毂X2_v1"
+  ],
+  "assembly_names": [
+    "HA8_关节适配分总成_v1",
+    "QD4310_轮端适配分总成_v1",
+    "轮足机器人_HA8_QD4310_全适配总装_v1"
+  ],
+  "stl_tolerance_mm": 0.05,
+  "stl_angular_tolerance": 0.1,
+  "files": [
+    {
+      "relative_path": "02_STEP装配与零件/HA8_关节适配分总成_v1.step",
+      "format": "STEP_ASSEMBLY",
+      "bytes": 8356596,
+      "sha256": "c07bd1bc1cfdaab6912584a063b55deb18f89cb023bdeb6d28ae653231a4660b"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_外固定1_v1.step",
+      "format": "STEP",
+      "bytes": 74698,
+      "sha256": "d16c5549353e485e3227b9564b62a987763e6285d6a866b8312577911c408530"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_外固定2_v1.step",
+      "format": "STEP",
+      "bytes": 73367,
+      "sha256": "57e6f3f11cc6096877d7143cba3d5f5c7412d3659764d4e60d3bb22649116fcc"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_外固定3_v1.step",
+      "format": "STEP",
+      "bytes": 74698,
+      "sha256": "29bf0d4fa610130a388e4adec1d3bc44f8a948ed42d9a9438e02b55508b67bf4"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_外固定4_v1.step",
+      "format": "STEP",
+      "bytes": 73367,
+      "sha256": "5a7472c7c61ea97fbf3c295ef4cd167b680c7c0d694aca5db566e49d673f1d16"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_盖板1_v1.step",
+      "format": "STEP",
+      "bytes": 46558,
+      "sha256": "c895a0a0b7a806579119814c4701cb4a43171334550183e83d23d0b04031cb3b"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_盖板2_v1.step",
+      "format": "STEP",
+      "bytes": 45579,
+      "sha256": "72a83861959aeaf6ffdc88174ac5371ebd4d3e5595d41e4b2c7c281984b7354b"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_盖板3_v1.step",
+      "format": "STEP",
+      "bytes": 46558,
+      "sha256": "23cde46d47cbedbbe0dda2d74f4556781634f866c2de1ab442e9efd8dce87c7c"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_盖板4_v1.step",
+      "format": "STEP",
+      "bytes": 45579,
+      "sha256": "87a4b3898b5bf53f606ec02a565567aae6fdbdb5b5d29e13cc3cc12dcd23f587"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_舵机接口1_v1.step",
+      "format": "STEP",
+      "bytes": 1719712,
+      "sha256": "cba4213c89c58cbb59b5100527e18412cad304073c8eb08c9bbe08f1b35b5047"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_舵机接口2_v1.step",
+      "format": "STEP",
+      "bytes": 1649638,
+      "sha256": "2480f33d510f1c3c4c0c3269d84bb49ade8c0452bb5c68a3dc55f3ae9c3ff1e9"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_舵机接口3_v1.step",
+      "format": "STEP",
+      "bytes": 1719714,
+      "sha256": "c04459f0a2d3b0f7e72d7b27aa8351bcebc2cfea12e4ef31c2ce25ea284e5b77"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_舵机接口4_v1.step",
+      "format": "STEP",
+      "bytes": 1649638,
+      "sha256": "7548ab380c3b1607e35f77d59b4efdf2f01fc8ca79ef015b7bb058ec210f7423"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_被动支撑1_v1.step",
+      "format": "STEP",
+      "bytes": 201197,
+      "sha256": "b48674c22d635410fc97645bafb31148d93139803940686c33f7c5c572922c10"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_被动支撑2_v1.step",
+      "format": "STEP",
+      "bytes": 194353,
+      "sha256": "dd2a617b70bb5e16436006e38700d66347a49b409d567b3a6cd9d715f7766cb1"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_被动支撑3_v1.step",
+      "format": "STEP",
+      "bytes": 201197,
+      "sha256": "c83418816e04a2fe07ae510a07b7eb2e5858e6ff4f04e4b7decd43330725e8ef"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_被动支撑4_v1.step",
+      "format": "STEP",
+      "bytes": 194353,
+      "sha256": "6d2c40485672ecbc3fe02d6426a22c8f746d0497d7bf7e9f238422ec955a142e"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_隔套1_v1.step",
+      "format": "STEP",
+      "bytes": 14486,
+      "sha256": "5287f6a790e3a6cb0b097b27582e24897232254713b622f35f6a7fc0a031fc3d"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_隔套2_v1.step",
+      "format": "STEP",
+      "bytes": 15585,
+      "sha256": "53e049e94f7cec82138826c21657f339daddbe275fb7672111c4384bd9893014"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_隔套3_v1.step",
+      "format": "STEP",
+      "bytes": 14486,
+      "sha256": "0575f9f6d5644b8dcc5ed3ea5da46f11e3593389c068846653bfee5ebd5250ca"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/HA8_隔套4_v1.step",
+      "format": "STEP",
+      "bytes": 15585,
+      "sha256": "7b4c326645ff790134a6ef675fc091495c0649a34c537f477fa8c03878a89ee3"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/QD4310_电机固定X1_v1.step",
+      "format": "STEP",
+      "bytes": 85434,
+      "sha256": "75c3ec2bb5f64d5473bfc54677fbc71268596442592bf13eac8449b1331e6e85"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/QD4310_电机固定X2_v1.step",
+      "format": "STEP",
+      "bytes": 85434,
+      "sha256": "0f42a1ef0b7d988f757cf789b67c334ff95e4f8fff0523d64103bb3b800fc4f1"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/QD4310_轮固定X1_v1.step",
+      "format": "STEP",
+      "bytes": 9765,
+      "sha256": "5388dcd77891e8aebb16551587413c8e1ac2db5961aed92a20364d1149e78edd"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/QD4310_轮固定X2_v1.step",
+      "format": "STEP",
+      "bytes": 9765,
+      "sha256": "e509229593fd35831aa904b5eb7196af542d12011da8a24b6386849adbd05b38"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/QD4310_轮毂X1_v1.step",
+      "format": "STEP",
+      "bytes": 48911,
+      "sha256": "bd87ef8026a868f9e91f20ec26ad9394d2f1f41f0dd6ce26de79330b58e1d645"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/QD4310_轮毂X2_v1.step",
+      "format": "STEP",
+      "bytes": 48911,
+      "sha256": "e258671423378bae78016d44f1228c07b1680891bcee827bfec8c3256711917c"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/QD4310_轮端适配分总成_v1.step",
+      "format": "STEP_ASSEMBLY",
+      "bytes": 297820,
+      "sha256": "3ab7171f2edad9229b887539f10e844ad672aaaba0abaf7ce412e2b012af7091"
+    },
+    {
+      "relative_path": "02_STEP装配与零件/轮足机器人_HA8_QD4310_全适配总装_v1.step",
+      "format": "STEP_ASSEMBLY",
+      "bytes": 8680050,
+      "sha256": "3c2ffb2244f996a879f39cea7a2ccecf949c84ec3a1860f9c8813847f30309e7"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_外固定1_v1.stl",
+      "format": "STL",
+      "bytes": 179284,
+      "sha256": "97b9d213adbe630d5a83ef42fd3c59fb8753e15ff5413219dac9e993764a6e40"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_外固定2_v1.stl",
+      "format": "STL",
+      "bytes": 179284,
+      "sha256": "b1082f7be7a647e5277939e481c35cac43270d9c1bbb71d4ef85f2fc16d41e45"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_外固定3_v1.stl",
+      "format": "STL",
+      "bytes": 179284,
+      "sha256": "97b9d213adbe630d5a83ef42fd3c59fb8753e15ff5413219dac9e993764a6e40"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_外固定4_v1.stl",
+      "format": "STL",
+      "bytes": 179284,
+      "sha256": "b1082f7be7a647e5277939e481c35cac43270d9c1bbb71d4ef85f2fc16d41e45"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_盖板1_v1.stl",
+      "format": "STL",
+      "bytes": 27084,
+      "sha256": "5ff6c8ee93c93a8166155d317fe2565eb2e4e4996b86c7a4a9ee23275ffe5bed"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_盖板2_v1.stl",
+      "format": "STL",
+      "bytes": 27084,
+      "sha256": "8a1360bd6327bf4c9bafc55b74bf57a1613d807587d47d9573e20dbc59ea86b5"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_盖板3_v1.stl",
+      "format": "STL",
+      "bytes": 27084,
+      "sha256": "5ff6c8ee93c93a8166155d317fe2565eb2e4e4996b86c7a4a9ee23275ffe5bed"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_盖板4_v1.stl",
+      "format": "STL",
+      "bytes": 27084,
+      "sha256": "8a1360bd6327bf4c9bafc55b74bf57a1613d807587d47d9573e20dbc59ea86b5"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_舵机接口1_v1.stl",
+      "format": "STL",
+      "bytes": 1307884,
+      "sha256": "490e654c57cd232c54245f01f5931c9099b069cf176c322c4323804dd1cac15f"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_舵机接口2_v1.stl",
+      "format": "STL",
+      "bytes": 1307884,
+      "sha256": "2ab3b0baf7ff977f697eaa5c5e74351288e7f560b8d94655b3787e2fca72e3f8"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_舵机接口3_v1.stl",
+      "format": "STL",
+      "bytes": 1307884,
+      "sha256": "490e654c57cd232c54245f01f5931c9099b069cf176c322c4323804dd1cac15f"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_舵机接口4_v1.stl",
+      "format": "STL",
+      "bytes": 1307884,
+      "sha256": "2ab3b0baf7ff977f697eaa5c5e74351288e7f560b8d94655b3787e2fca72e3f8"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_被动支撑1_v1.stl",
+      "format": "STL",
+      "bytes": 730084,
+      "sha256": "402792c291fd23f8e631db16cac5be873250a627f442891f22ef6f9c720043fb"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_被动支撑2_v1.stl",
+      "format": "STL",
+      "bytes": 730084,
+      "sha256": "c246c41bdef172debfea588b9c948a554f8fdc5949efc219b40609d14e2754a7"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_被动支撑3_v1.stl",
+      "format": "STL",
+      "bytes": 730084,
+      "sha256": "402792c291fd23f8e631db16cac5be873250a627f442891f22ef6f9c720043fb"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_被动支撑4_v1.stl",
+      "format": "STL",
+      "bytes": 730084,
+      "sha256": "c246c41bdef172debfea588b9c948a554f8fdc5949efc219b40609d14e2754a7"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_隔套1_v1.stl",
+      "format": "STL",
+      "bytes": 75684,
+      "sha256": "79fa87da5c693825f4569f50e169a309c289c5c178e808d4c3c394b77005dbe3"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_隔套2_v1.stl",
+      "format": "STL",
+      "bytes": 75684,
+      "sha256": "30f43f0e341678dad3ff545f3ff2500ebdf15d950ceaec7f975ae54222858b53"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_隔套3_v1.stl",
+      "format": "STL",
+      "bytes": 75684,
+      "sha256": "79fa87da5c693825f4569f50e169a309c289c5c178e808d4c3c394b77005dbe3"
+    },
+    {
+      "relative_path": "03_STL打印件/HA8_隔套4_v1.stl",
+      "format": "STL",
+      "bytes": 75684,
+      "sha256": "30f43f0e341678dad3ff545f3ff2500ebdf15d950ceaec7f975ae54222858b53"
+    },
+    {
+      "relative_path": "03_STL打印件/QD4310_电机固定X1_v1.stl",
+      "format": "STL",
+      "bytes": 149084,
+      "sha256": "7dea441393f03c72dc9b887ce5deadb5d46e2884ab90dff7a92a567a794ed73d"
+    },
+    {
+      "relative_path": "03_STL打印件/QD4310_电机固定X2_v1.stl",
+      "format": "STL",
+      "bytes": 149084,
+      "sha256": "7dea441393f03c72dc9b887ce5deadb5d46e2884ab90dff7a92a567a794ed73d"
+    },
+    {
+      "relative_path": "03_STL打印件/QD4310_轮固定X1_v1.stl",
+      "format": "STL",
+      "bytes": 50484,
+      "sha256": "fedccb324c4bafafde84e57a5abc6ff7d446e945d10188585c701ccb79871a41"
+    },
+    {
+      "relative_path": "03_STL打印件/QD4310_轮固定X2_v1.stl",
+      "format": "STL",
+      "bytes": 50484,
+      "sha256": "fedccb324c4bafafde84e57a5abc6ff7d446e945d10188585c701ccb79871a41"
+    },
+    {
+      "relative_path": "03_STL打印件/QD4310_轮毂X1_v1.stl",
+      "format": "STL",
+      "bytes": 278884,
+      "sha256": "893f7b313059f8ff54a589b9ddbaab56ad33bfd382064e85f5661b7a5fd106a9"
+    },
+    {
+      "relative_path": "03_STL打印件/QD4310_轮毂X2_v1.stl",
+      "format": "STL",
+      "bytes": 278884,
+      "sha256": "893f7b313059f8ff54a589b9ddbaab56ad33bfd382064e85f5661b7a5fd106a9"
+    }
+  ]
+}

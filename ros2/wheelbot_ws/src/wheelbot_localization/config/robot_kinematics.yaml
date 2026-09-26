@@ -1,0 +1,8 @@
+wheelbot_state_adapter:
+  ros__parameters:
+    # Replace with measured values after the physical assembly is complete.
+    wheel_radius_m: 0.10
+    wheel_track_m: 0.40
+    # Both wheel feedback slots are populated; enable both once their signs are measured.
+    wheel_indices: [0]
+    wheel_signs: [1.0]

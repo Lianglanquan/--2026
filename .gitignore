@@ -3,11 +3,20 @@ __pycache__/
 *.py[cod]
 .superpowers/sdd/
 .worktrees/
+/tmp/xiaozhi-upstream/
+/tmp/xiaozhi-upstream.tar
+/tmp/pdfs/
 
 # ROS 2 / colcon 生成物
 build/
 install/
 log/
+build.failed.*/
+install.failed.*/
+log.failed.*/
+
+# Embedded vendor checkout metadata
+firmware/c_board/vendor/freertos-gcc/.git/
 
 # IDE
 .vscode/

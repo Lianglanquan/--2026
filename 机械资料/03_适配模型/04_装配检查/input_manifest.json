@@ -1,0 +1,1111 @@
+{
+  "empty_files": [],
+  "files": [
+    {
+      "bytes": 3013718,
+      "extension": ".pdf",
+      "relative_path": "QD4310使用手册.pdf",
+      "sha256": "e5b05224eec90ac6486ab3e67ea941ea1fab4766dc1de123168899da7551134f"
+    },
+    {
+      "bytes": 1156474,
+      "extension": ".zip",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL.zip",
+      "sha256": "e9c2cacb6753b0c5b09eb819ac33b1f5ea60f9a8b8c433dabf41fbc57b9116a6"
+    },
+    {
+      "bytes": 221284,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/上盖.stl",
+      "sha256": "dc4b268d814ac0ca192ee382d57dbf332053a19b5f86a04b7419cd8b82fa3e0d"
+    },
+    {
+      "bytes": 153884,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/前小臂X1.stl",
+      "sha256": "ac316ef4982cda2318f68563dbd0e6729ed07cd88332d7e0fe25dc248e0483bc"
+    },
+    {
+      "bytes": 153884,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/前小臂X2.stl",
+      "sha256": "ac316ef4982cda2318f68563dbd0e6729ed07cd88332d7e0fe25dc248e0483bc"
+    },
+    {
+      "bytes": 254584,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/后小臂X1.stl",
+      "sha256": "5c932b5c51587d9f96e9e24c86a98c9da5f20b6436f049a0b69b1afc699d1f03"
+    },
+    {
+      "bytes": 254584,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/后小臂X2.stl",
+      "sha256": "5c932b5c51587d9f96e9e24c86a98c9da5f20b6436f049a0b69b1afc699d1f03"
+    },
+    {
+      "bytes": 103684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/外固定1.stl",
+      "sha256": "4afb8f9befe2edd8c4272ec815bccad6c2d47e32f313d3e19f841083dc313f81"
+    },
+    {
+      "bytes": 103684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/外固定2.stl",
+      "sha256": "4afb8f9befe2edd8c4272ec815bccad6c2d47e32f313d3e19f841083dc313f81"
+    },
+    {
+      "bytes": 103684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/外固定3.stl",
+      "sha256": "4afb8f9befe2edd8c4272ec815bccad6c2d47e32f313d3e19f841083dc313f81"
+    },
+    {
+      "bytes": 103684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/外固定4.stl",
+      "sha256": "4afb8f9befe2edd8c4272ec815bccad6c2d47e32f313d3e19f841083dc313f81"
+    },
+    {
+      "bytes": 102684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/大腿1.stl",
+      "sha256": "7dfd287a9caba466212597740b9111191f028b7f10e38b07209c92c7acf97393"
+    },
+    {
+      "bytes": 102684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/大腿2.stl",
+      "sha256": "7dfd287a9caba466212597740b9111191f028b7f10e38b07209c92c7acf97393"
+    },
+    {
+      "bytes": 102684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/大腿3.stl",
+      "sha256": "7dfd287a9caba466212597740b9111191f028b7f10e38b07209c92c7acf97393"
+    },
+    {
+      "bytes": 102684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/大腿4.stl",
+      "sha256": "7dfd287a9caba466212597740b9111191f028b7f10e38b07209c92c7acf97393"
+    },
+    {
+      "bytes": 468584,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/框架.stl",
+      "sha256": "e822741da7b280d79abe48de1eb0b76ed95c96062f79a32fbb980393f8808ada"
+    },
+    {
+      "bytes": 300084,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/电机固定X1.stl",
+      "sha256": "8e98e833263b669c180a636c7bda1f852582ba01d98a65cb5ff0c8c720a024db"
+    },
+    {
+      "bytes": 300084,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/电机固定X2.stl",
+      "sha256": "8e98e833263b669c180a636c7bda1f852582ba01d98a65cb5ff0c8c720a024db"
+    },
+    {
+      "bytes": 135284,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/电池架.stl",
+      "sha256": "a9638cd9ac551b86570010f9087b0e55425fd0171deb4a2cd49ca26d88f35c0c"
+    },
+    {
+      "bytes": 68684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/盖板1.stl",
+      "sha256": "5fab6e2573142693735ed19ae825278076948508ab80b5777045fe7093093434"
+    },
+    {
+      "bytes": 68684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/盖板2.stl",
+      "sha256": "5fab6e2573142693735ed19ae825278076948508ab80b5777045fe7093093434"
+    },
+    {
+      "bytes": 68684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/盖板3.stl",
+      "sha256": "5fab6e2573142693735ed19ae825278076948508ab80b5777045fe7093093434"
+    },
+    {
+      "bytes": 68684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/盖板4.stl",
+      "sha256": "5fab6e2573142693735ed19ae825278076948508ab80b5777045fe7093093434"
+    },
+    {
+      "bytes": 173884,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口1.stl",
+      "sha256": "911ead9c54d17cfb26a68467cb524feaef845eeb7213cea60240d3002c9001f2"
+    },
+    {
+      "bytes": 173884,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口2.stl",
+      "sha256": "911ead9c54d17cfb26a68467cb524feaef845eeb7213cea60240d3002c9001f2"
+    },
+    {
+      "bytes": 173884,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口3.stl",
+      "sha256": "911ead9c54d17cfb26a68467cb524feaef845eeb7213cea60240d3002c9001f2"
+    },
+    {
+      "bytes": 173884,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口4.stl",
+      "sha256": "911ead9c54d17cfb26a68467cb524feaef845eeb7213cea60240d3002c9001f2"
+    },
+    {
+      "bytes": 77684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/轮固定X1.stl",
+      "sha256": "e5b4a3f4db608ecdbc01278efbf29ed119f38d44ed3e5c8fdcbbc60cd12cdc4b"
+    },
+    {
+      "bytes": 77684,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/轮固定X2.stl",
+      "sha256": "e5b4a3f4db608ecdbc01278efbf29ed119f38d44ed3e5c8fdcbbc60cd12cdc4b"
+    },
+    {
+      "bytes": 231284,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/轮毂X1.stl",
+      "sha256": "4c0ae51207aa1ebba5e6cfb0d6070a73ff3cd1d7997b58c16d7bf28459e89fad"
+    },
+    {
+      "bytes": 231284,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/轮毂X2.stl",
+      "sha256": "4c0ae51207aa1ebba5e6cfb0d6070a73ff3cd1d7997b58c16d7bf28459e89fad"
+    },
+    {
+      "bytes": 187084,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes/LC_link.STL",
+      "sha256": "40f23af4fe3c9956e342dab65d46f8c3297ec088b458be90ba9d1e6bafef48e9"
+    },
+    {
+      "bytes": 68884,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes/LT_link.STL",
+      "sha256": "83fc8a5d72cce00808298086f9ec597340e8c88533d16c6a25adffbc49ca6b83"
+    },
+    {
+      "bytes": 372184,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes/LW_link.STL",
+      "sha256": "dee7217b04653481c52bff6b8c2706b5e740ce21c43cd27e4344d1c18c684edc"
+    },
+    {
+      "bytes": 187084,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes/RC_link.STL",
+      "sha256": "0277788cec43d3f3187590c5eb3012fdbbc2e5cb33df7a9219f41e4232b39517"
+    },
+    {
+      "bytes": 68884,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes/RT_link.STL",
+      "sha256": "38e205ea28f53b089a00b5f5c85ff2bdb994cd469ece0ffa5b7cd27d153eda1a"
+    },
+    {
+      "bytes": 372184,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes/RW__link.STL",
+      "sha256": "0b8b716d0a6aad4ab96235ed4296573b3f454a410755a8293103378678216bd4"
+    },
+    {
+      "bytes": 1260084,
+      "extension": ".stl",
+      "relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes/base_link.STL",
+      "sha256": "42b888c03141e600ec84dbe12943d89f5d39567a4398e4c696eb7d2797f456ec"
+    },
+    {
+      "bytes": 5242,
+      "extension": ".csv",
+      "relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/urdf/20250820_1.csv",
+      "sha256": "7fc472a0e563b244a2a02a1f80f7b12cf6dda8aec148b562dd08f39e860528d9"
+    },
+    {
+      "bytes": 9122,
+      "extension": ".urdf",
+      "relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/urdf/20250820_1.urdf",
+      "sha256": "defdfb869269f9c016dbe57b882f6c21e5a92ae1c5642165074261e6bb15476b"
+    },
+    {
+      "bytes": 668912,
+      "extension": ".zip",
+      "relative_path": "机械资料/01_灯哥小型轮足/03_来源说明/SF_bipedalWheel.zip",
+      "sha256": "d9ced9490aa2b5344ed694d24096ae4ff1dc283ebd5a3359cee6240101577170"
+    },
+    {
+      "bytes": 1020,
+      "extension": ".md",
+      "relative_path": "机械资料/01_灯哥小型轮足/03_来源说明/来源说明.md",
+      "sha256": "2ca37ede651a64ce630d82a8502701045a1d2c367b6e8ff541661004e1e19e25"
+    },
+    {
+      "bytes": 1149303,
+      "extension": ".stp",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/01_舵机本体_STEP/Single-shaft-Servo-3D.stp",
+      "sha256": "1ad1b67e7cbbf0b42d782a987cca55fd55d99a3291ecd73f11ad944f095c7605"
+    },
+    {
+      "bytes": 1503622,
+      "extension": ".step",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/01_舵机本体_STEP/ha8-hp8-hx8-series-3D.STEP",
+      "sha256": "e64e1dad71068a98889f37a16487dae2bed51e55bce55f6340de3fd1523dd33d"
+    },
+    {
+      "bytes": 4998352,
+      "extension": ".pdf",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/02_尺寸图_DWG_PDF/Fashion-Star-HA8-U25H-M.pdf",
+      "sha256": "e4d9d1b3f3a599aec971cc4e08d16858e3e44509253d8425d92c132dd7f2c4ac"
+    },
+    {
+      "bytes": 328200,
+      "extension": ".dwg",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/02_尺寸图_DWG_PDF/ha8-hp8-hx8-series-dimension.dwg",
+      "sha256": "83817066b4ea0791298eb25a7c951eea808834edd46fdddea3d377d2c1cd2178"
+    },
+    {
+      "bytes": 56573,
+      "extension": ".pdf",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/02_尺寸图_DWG_PDF/ha8-hp8-hx8-series-dimension.pdf",
+      "sha256": "916891d310af831410a02d820268be6ddada811786c664fc32ffe00ee5e45396"
+    },
+    {
+      "bytes": 50736,
+      "extension": ".dwg",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/02_尺寸图_DWG_PDF/单轴舵机外观CAD尺寸图.dwg",
+      "sha256": "edfcffbc2515b22a859983ad4bada0242e60f3741347e05a7645d0be2bd6843a"
+    },
+    {
+      "bytes": 41911,
+      "extension": ".pdf",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/02_尺寸图_DWG_PDF/单轴舵机外观CAD尺寸图.pdf",
+      "sha256": "081b2f85a3dac0c340eff0ad92a1f6d00239c4da2a0d449579af27e7942f24a3"
+    },
+    {
+      "bytes": 73795,
+      "extension": ".dwg",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/03_25T舵盘/25T主舵盘外观尺寸图.dwg",
+      "sha256": "29767cfe19fc82be1a2fc56d285242a55a68fa4ba4b54069fddae69d017098f8"
+    },
+    {
+      "bytes": 29750,
+      "extension": ".pdf",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/03_25T舵盘/25T主舵盘外观尺寸图.pdf",
+      "sha256": "d8a5f64313108927427f7879a4e2f3898e2729c4d2815fdf874e72b25df54206"
+    },
+    {
+      "bytes": 368706,
+      "extension": ".step",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/03_25T舵盘/main-horn-25T-8holes-3D.STEP",
+      "sha256": "d67a360cbb39da3bf1075f42c17eff0a9f6fe56106f6f5940d0ff09d1b466ff1"
+    },
+    {
+      "bytes": 231949,
+      "extension": ".dwg",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/03_25T舵盘/main-horn-25T-8holes-dimension.dwg",
+      "sha256": "62b988bb54e6d9626f52cff8290c823620a68cfeac1e12601def2e0bc83a09d9"
+    },
+    {
+      "bytes": 56879,
+      "extension": ".step",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/04_舵机支架/mounting-spacer-3D.STEP",
+      "sha256": "c3ce9ab4a9a26a040105d27f46078ad797d77e2ee819d607d50970d2856bc45c"
+    },
+    {
+      "bytes": 216225,
+      "extension": ".dwg",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/04_舵机支架/mounting-spacer-dimension.dwg",
+      "sha256": "8ac040de0b65b717b2b8d1d49fe0e6c69df99d2906113337b3d198de34bc9c19"
+    },
+    {
+      "bytes": 760103,
+      "extension": ".html",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/05_来源说明/FashionStar-HA8-U25H-M.html",
+      "sha256": "2232a139214c07aad087afa37c1c0f89d779938eb02e0d6410d4c4210f92d59f"
+    },
+    {
+      "bytes": 178149,
+      "extension": ".html",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/05_来源说明/FashionStar-UART-CAD列表.html",
+      "sha256": "41b4589712d6c0b6ca089ad6b95efb3a62c4c9630064228bd6d8c1c4ffd98d2e"
+    },
+    {
+      "bytes": 199135,
+      "extension": ".html",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/05_来源说明/FashionStar-Wiki-HA8-U25H-M.html",
+      "sha256": "edd96d77130ea33b793b0be26ae6bc66b7486c49de6f11db79d8735d91d32cf1"
+    },
+    {
+      "bytes": 380723,
+      "extension": ".zip",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/05_来源说明/ha8-hp8-hx8-series-3D.STEP.zip",
+      "sha256": "6af3503e3a38abf94b6faf1d54fe2cf7e2c94e4f02e2721865969d905354bb15"
+    },
+    {
+      "bytes": 311142,
+      "extension": ".zip",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/05_来源说明/ha8-hp8-hx8-series-dimension.dwg.zip",
+      "sha256": "d7241ac3711705885d72c416a99e826e91b44d6a4a4687075ff8c6bdaac82176"
+    },
+    {
+      "bytes": 1120,
+      "extension": ".md",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/05_来源说明/servo-dimension_README.md",
+      "sha256": "d16e6ed5ee0f4355f51d146ccb6d679bcf4393cf73d46c4f6de3c572a6dbf8ec"
+    },
+    {
+      "bytes": 2027,
+      "extension": ".md",
+      "relative_path": "机械资料/02_华馨京_HA8-U25H-M/05_来源说明/来源说明.md",
+      "sha256": "6494a6c951fcd5a5b4ef1fcc3217eaf5908b03e9fcbc53bd3dc48d97fcece08d"
+    }
+  ],
+  "ha8_body_step": "机械资料/02_华馨京_HA8-U25H-M/01_舵机本体_STEP/ha8-hp8-hx8-series-3D.STEP",
+  "ha8_horn_step": "机械资料/02_华馨京_HA8-U25H-M/03_25T舵盘/main-horn-25T-8holes-3D.STEP",
+  "ha8_step_geometry": {
+    "机械资料/02_华馨京_HA8-U25H-M/01_舵机本体_STEP/Single-shaft-Servo-3D.stp": {
+      "bounding_box_mm": {
+        "extents": [
+          56.0,
+          20.000000200038755,
+          45.200000200000005
+        ],
+        "maximum": [
+          28.0,
+          10.000000100019378,
+          20.7000001
+        ],
+        "minimum": [
+          -28.0,
+          -10.000000100019378,
+          -24.5000001
+        ]
+      },
+      "solid_count": 3
+    },
+    "机械资料/02_华馨京_HA8-U25H-M/01_舵机本体_STEP/ha8-hp8-hx8-series-3D.STEP": {
+      "bounding_box_mm": {
+        "extents": [
+          20.000073218440004,
+          44.800117668622185,
+          55.99999999999999
+        ],
+        "maximum": [
+          1.2704205954980228,
+          21.211785686279647,
+          27.781479857239525
+        ],
+        "minimum": [
+          -18.72965262294198,
+          -23.588331982342538,
+          -28.218520142760468
+        ]
+      },
+      "solid_count": 13
+    },
+    "机械资料/02_华馨京_HA8-U25H-M/03_25T舵盘/main-horn-25T-8holes-3D.STEP": {
+      "bounding_box_mm": {
+        "extents": [
+          20.0,
+          5.000000100000314,
+          20.0
+        ],
+        "maximum": [
+          10.00000000000068,
+          12.099999999999142,
+          10.0
+        ],
+        "minimum": [
+          -9.99999999999932,
+          7.099999899998828,
+          -10.0
+        ]
+      },
+      "solid_count": 1
+    },
+    "机械资料/02_华馨京_HA8-U25H-M/04_舵机支架/mounting-spacer-3D.STEP": {
+      "bounding_box_mm": {
+        "extents": [
+          7.5,
+          20.0,
+          3.200000000000001
+        ],
+        "maximum": [
+          28.0,
+          10.0,
+          12.4
+        ],
+        "minimum": [
+          20.5,
+          -10.0,
+          9.2
+        ]
+      },
+      "solid_count": 1
+    }
+  },
+  "input_roots": [
+    "机械资料/01_灯哥小型轮足",
+    "机械资料/02_华馨京_HA8-U25H-M",
+    "QD4310使用手册.pdf"
+  ],
+  "original_stl_count": 29,
+  "original_stl_geometry": {
+    "机械资料/01_灯哥小型轮足/01_原版STL/上盖.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          145.1999969482422,
+          105.0,
+          11.5
+        ],
+        "maximum": [
+          72.5999984741211,
+          60.0,
+          1.5
+        ],
+        "minimum": [
+          -72.5999984741211,
+          -45.0,
+          -10.0
+        ]
+      },
+      "face_count": 4424,
+      "watertight": false
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/前小臂X1.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          121.48158693313599,
+          26.993837356567383,
+          11.5
+        ],
+        "maximum": [
+          113.5,
+          13.496918678283691,
+          7.0
+        ],
+        "minimum": [
+          -7.981586933135986,
+          -13.496918678283691,
+          -4.5
+        ]
+      },
+      "face_count": 3076,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/前小臂X2.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          121.48158693313599,
+          26.993837356567383,
+          11.5
+        ],
+        "maximum": [
+          113.5,
+          13.496918678283691,
+          7.0
+        ],
+        "minimum": [
+          -7.981586933135986,
+          -13.496918678283691,
+          -4.5
+        ]
+      },
+      "face_count": 3076,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/后小臂X1.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          126.0,
+          35.961326599121094,
+          14.0
+        ],
+        "maximum": [
+          118.0,
+          17.980663299560547,
+          7.0
+        ],
+        "minimum": [
+          -8.0,
+          -17.980663299560547,
+          -7.0
+        ]
+      },
+      "face_count": 5090,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/后小臂X2.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          126.0,
+          35.961326599121094,
+          14.0
+        ],
+        "maximum": [
+          118.0,
+          17.980663299560547,
+          7.0
+        ],
+        "minimum": [
+          -8.0,
+          -17.980663299560547,
+          -7.0
+        ]
+      },
+      "face_count": 5090,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/外固定1.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          38.0,
+          15.0,
+          38.0
+        ],
+        "maximum": [
+          19.0,
+          15.0,
+          19.0
+        ],
+        "minimum": [
+          -19.0,
+          0.0,
+          -19.0
+        ]
+      },
+      "face_count": 2072,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/外固定2.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          38.0,
+          15.0,
+          38.0
+        ],
+        "maximum": [
+          19.0,
+          15.0,
+          19.0
+        ],
+        "minimum": [
+          -19.0,
+          0.0,
+          -19.0
+        ]
+      },
+      "face_count": 2072,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/外固定3.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          38.0,
+          15.0,
+          38.0
+        ],
+        "maximum": [
+          19.0,
+          15.0,
+          19.0
+        ],
+        "minimum": [
+          -19.0,
+          0.0,
+          -19.0
+        ]
+      },
+      "face_count": 2072,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/外固定4.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          38.0,
+          15.0,
+          38.0
+        ],
+        "maximum": [
+          19.0,
+          15.0,
+          19.0
+        ],
+        "minimum": [
+          -19.0,
+          0.0,
+          -19.0
+        ]
+      },
+      "face_count": 2072,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/大腿1.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          86.0,
+          29.994314193725586,
+          6.000000000000001
+        ],
+        "maximum": [
+          71.0,
+          14.997157096862793,
+          6.0
+        ],
+        "minimum": [
+          -15.0,
+          -14.997157096862793,
+          -1.1021821408568715e-15
+        ]
+      },
+      "face_count": 2052,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/大腿2.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          86.0,
+          29.994314193725586,
+          6.000000000000001
+        ],
+        "maximum": [
+          71.0,
+          14.997157096862793,
+          6.0
+        ],
+        "minimum": [
+          -15.0,
+          -14.997157096862793,
+          -1.1021821408568715e-15
+        ]
+      },
+      "face_count": 2052,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/大腿3.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          86.0,
+          29.994314193725586,
+          6.000000000000001
+        ],
+        "maximum": [
+          71.0,
+          14.997157096862793,
+          6.0
+        ],
+        "minimum": [
+          -15.0,
+          -14.997157096862793,
+          -1.1021821408568715e-15
+        ]
+      },
+      "face_count": 2052,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/大腿4.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          86.0,
+          29.994314193725586,
+          6.000000000000001
+        ],
+        "maximum": [
+          71.0,
+          14.997157096862793,
+          6.0
+        ],
+        "minimum": [
+          -15.0,
+          -14.997157096862793,
+          -1.1021821408568715e-15
+        ]
+      },
+      "face_count": 2052,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/框架.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          145.1999969482422,
+          105.0,
+          45.0
+        ],
+        "maximum": [
+          72.5999984741211,
+          45.0,
+          22.5
+        ],
+        "minimum": [
+          -72.5999984741211,
+          -60.0,
+          -22.5
+        ]
+      },
+      "face_count": 9370,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/电机固定X1.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          26.0,
+          8.0,
+          26.0
+        ],
+        "maximum": [
+          13.0,
+          4.0,
+          13.0
+        ],
+        "minimum": [
+          -13.0,
+          -4.0,
+          -13.0
+        ]
+      },
+      "face_count": 6000,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/电机固定X2.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          26.0,
+          8.0,
+          26.0
+        ],
+        "maximum": [
+          13.0,
+          4.0,
+          13.0
+        ],
+        "minimum": [
+          -13.0,
+          -4.0,
+          -13.0
+        ]
+      },
+      "face_count": 6000,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/电池架.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          53.0,
+          24.679978519678116,
+          41.026063442230225
+        ],
+        "maximum": [
+          26.5,
+          24.854290008544922,
+          36.04508972167969
+        ],
+        "minimum": [
+          -26.5,
+          0.17431148886680603,
+          -4.980973720550537
+        ]
+      },
+      "face_count": 2704,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/盖板1.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          37.99380302429199,
+          37.99690246582031,
+          1.5
+        ],
+        "maximum": [
+          18.993803024291992,
+          18.998451232910156,
+          1.5
+        ],
+        "minimum": [
+          -19.0,
+          -18.998451232910156,
+          0.0
+        ]
+      },
+      "face_count": 1372,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/盖板2.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          37.99380302429199,
+          37.99690246582031,
+          1.5
+        ],
+        "maximum": [
+          18.993803024291992,
+          18.998451232910156,
+          1.5
+        ],
+        "minimum": [
+          -19.0,
+          -18.998451232910156,
+          0.0
+        ]
+      },
+      "face_count": 1372,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/盖板3.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          37.99380302429199,
+          37.99690246582031,
+          1.5
+        ],
+        "maximum": [
+          18.993803024291992,
+          18.998451232910156,
+          1.5
+        ],
+        "minimum": [
+          -19.0,
+          -18.998451232910156,
+          0.0
+        ]
+      },
+      "face_count": 1372,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/盖板4.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          37.99380302429199,
+          37.99690246582031,
+          1.5
+        ],
+        "maximum": [
+          18.993803024291992,
+          18.998451232910156,
+          1.5
+        ],
+        "minimum": [
+          -19.0,
+          -18.998451232910156,
+          0.0
+        ]
+      },
+      "face_count": 1372,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口1.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          27.99373435974121,
+          27.99686622619629,
+          7.0
+        ],
+        "maximum": [
+          14.0,
+          13.998433113098145,
+          4.0
+        ],
+        "minimum": [
+          -13.993734359741211,
+          -13.998433113098145,
+          -3.0
+        ]
+      },
+      "face_count": 3476,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口2.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          27.99373435974121,
+          27.99686622619629,
+          7.0
+        ],
+        "maximum": [
+          14.0,
+          13.998433113098145,
+          4.0
+        ],
+        "minimum": [
+          -13.993734359741211,
+          -13.998433113098145,
+          -3.0
+        ]
+      },
+      "face_count": 3476,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口3.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          27.99373435974121,
+          27.99686622619629,
+          7.0
+        ],
+        "maximum": [
+          14.0,
+          13.998433113098145,
+          4.0
+        ],
+        "minimum": [
+          -13.993734359741211,
+          -13.998433113098145,
+          -3.0
+        ]
+      },
+      "face_count": 3476,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口4.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          27.99373435974121,
+          27.99686622619629,
+          7.0
+        ],
+        "maximum": [
+          14.0,
+          13.998433113098145,
+          4.0
+        ],
+        "minimum": [
+          -13.993734359741211,
+          -13.998433113098145,
+          -3.0
+        ]
+      },
+      "face_count": 3476,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/轮固定X1.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          16.0,
+          14.5,
+          15.997901916503906
+        ],
+        "maximum": [
+          8.0,
+          7.25,
+          7.998950958251953
+        ],
+        "minimum": [
+          -8.0,
+          -7.25,
+          -7.998950958251953
+        ]
+      },
+      "face_count": 1552,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/轮固定X2.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          16.0,
+          14.5,
+          15.997901916503906
+        ],
+        "maximum": [
+          8.0,
+          7.25,
+          7.998950958251953
+        ],
+        "minimum": [
+          -8.0,
+          -7.25,
+          -7.998950958251953
+        ]
+      },
+      "face_count": 1552,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/轮毂X1.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          23.0,
+          23.0,
+          9.0
+        ],
+        "maximum": [
+          11.5,
+          11.5,
+          9.0
+        ],
+        "minimum": [
+          -11.5,
+          -11.5,
+          0.0
+        ]
+      },
+      "face_count": 4624,
+      "watertight": true
+    },
+    "机械资料/01_灯哥小型轮足/01_原版STL/轮毂X2.stl": {
+      "bounding_box_mm": {
+        "extents": [
+          23.0,
+          23.0,
+          9.0
+        ],
+        "maximum": [
+          11.5,
+          11.5,
+          9.0
+        ],
+        "minimum": [
+          -11.5,
+          -11.5,
+          0.0
+        ]
+      },
+      "face_count": 4624,
+      "watertight": true
+    }
+  },
+  "original_stls": [
+    "上盖.stl",
+    "前小臂X1.stl",
+    "前小臂X2.stl",
+    "后小臂X1.stl",
+    "后小臂X2.stl",
+    "外固定1.stl",
+    "外固定2.stl",
+    "外固定3.stl",
+    "外固定4.stl",
+    "大腿1.stl",
+    "大腿2.stl",
+    "大腿3.stl",
+    "大腿4.stl",
+    "框架.stl",
+    "电机固定X1.stl",
+    "电机固定X2.stl",
+    "电池架.stl",
+    "盖板1.stl",
+    "盖板2.stl",
+    "盖板3.stl",
+    "盖板4.stl",
+    "舵机接口1.stl",
+    "舵机接口2.stl",
+    "舵机接口3.stl",
+    "舵机接口4.stl",
+    "轮固定X1.stl",
+    "轮固定X2.stl",
+    "轮毂X1.stl",
+    "轮毂X2.stl"
+  ],
+  "qd4310_manual": "QD4310使用手册.pdf",
+  "schema_version": 1
+}

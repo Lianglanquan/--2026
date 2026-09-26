@@ -1,0 +1,21 @@
+[Unit]
+Description=WheelBot Phase 1 real-hardware ROS stack
+After=network-online.target wheelbot-lidar-tcp.service ydlidar-x2.service
+Wants=network-online.target
+Wants=wheelbot-lidar-tcp.service ydlidar-x2.service
+
+[Service]
+Type=simple
+User=fool
+WorkingDirectory=/home/fool/wheelbot_ws
+Environment=ROS_DOMAIN_ID=42
+Environment=RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/bin/bash -lc 'source /opt/ros/jazzy/setup.bash && source /home/fool/wheelbot_ws/install/setup.bash && exec ros2 launch wheelbot_bringup phase1.launch.py use_real_bridge:=true use_fake_bridge:=false use_lidar:=false use_ekf:=true use_slam:=true use_description:=true'
+Restart=on-failure
+RestartSec=5
+KillMode=control-group
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target

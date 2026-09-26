@@ -1,0 +1,914 @@
+{
+  "coordinate_convention": {
+    "joint_local_positive_axis": "+Z",
+    "mirror_rule": "all left/right frame mirroring uses mirror_y(location)",
+    "robot_axes": {
+      "X": "forward",
+      "Y": "left",
+      "Z": "up"
+    },
+    "wheel_local_positive_axis": "+Z"
+  },
+  "input_manifest": {
+    "relative_path": "机械资料/03_适配模型/04_装配检查/input_manifest.json",
+    "sha256": "87dcec4b6228bc68416c84d964cfd2526f3108d58e9959786b0860c9bede82ee"
+  },
+  "joint_transforms": [
+    {
+      "assembly_placement_status": "unresolved",
+      "canonical_rotation_axis": "+Z",
+      "expected_axis": {
+        "direction": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "frame": "joint_1",
+        "origin_mm": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "frame_name": "joint_1",
+      "joint_id": 1,
+      "mirror_partner": 2,
+      "orientation": "canonical_positive_axis",
+      "side": "left",
+      "source_part": "舵机接口1.stl",
+      "source_relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口1.stl",
+      "transform": {
+        "rotation_extrinsic_xyz_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "translation_mm": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "transform_role": "center_preservation_local_identity_no_assembly_placement",
+      "variant": "front_mirror_pair"
+    },
+    {
+      "assembly_placement_status": "unresolved",
+      "canonical_rotation_axis": "+Z",
+      "expected_axis": {
+        "direction": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "frame": "joint_2",
+        "origin_mm": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "frame_name": "joint_2",
+      "joint_id": 2,
+      "mirror_partner": 1,
+      "orientation": "canonical_positive_axis",
+      "side": "right",
+      "source_part": "舵机接口2.stl",
+      "source_relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口2.stl",
+      "transform": {
+        "rotation_extrinsic_xyz_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "translation_mm": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "transform_role": "center_preservation_local_identity_no_assembly_placement",
+      "variant": "front_mirror_pair"
+    },
+    {
+      "assembly_placement_status": "unresolved",
+      "canonical_rotation_axis": "+Z",
+      "expected_axis": {
+        "direction": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "frame": "joint_3",
+        "origin_mm": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "frame_name": "joint_3",
+      "joint_id": 3,
+      "mirror_partner": 4,
+      "orientation": "canonical_positive_axis",
+      "side": "left",
+      "source_part": "舵机接口3.stl",
+      "source_relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口3.stl",
+      "transform": {
+        "rotation_extrinsic_xyz_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "translation_mm": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "transform_role": "center_preservation_local_identity_no_assembly_placement",
+      "variant": "rear_mirror_pair"
+    },
+    {
+      "assembly_placement_status": "unresolved",
+      "canonical_rotation_axis": "+Z",
+      "expected_axis": {
+        "direction": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "frame": "joint_4",
+        "origin_mm": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "frame_name": "joint_4",
+      "joint_id": 4,
+      "mirror_partner": 3,
+      "orientation": "canonical_positive_axis",
+      "side": "right",
+      "source_part": "舵机接口4.stl",
+      "source_relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口4.stl",
+      "transform": {
+        "rotation_extrinsic_xyz_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "translation_mm": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "transform_role": "center_preservation_local_identity_no_assembly_placement",
+      "variant": "rear_mirror_pair"
+    }
+  ],
+  "measured_fit_allowances": [
+    {
+      "measurement_method": "measure the selected metal insert or bearing",
+      "name": "passive_insert_outer_diameter",
+      "reason": "purchase part has not been selected",
+      "status": "requires_first_article_measurement",
+      "value_mm": null
+    },
+    {
+      "measurement_method": "measure the selected insert and available HA8 depth",
+      "name": "passive_insert_length",
+      "reason": "purchase part and usable thread depth require physical confirmation",
+      "status": "requires_first_article_measurement",
+      "value_mm": null
+    },
+    {
+      "measurement_method": "print and gauge a hole-calibration coupon",
+      "name": "printer_hole_compensation",
+      "reason": "printer, material, and process are not yet fixed",
+      "status": "requires_first_article_measurement",
+      "value_mm": null
+    }
+  ],
+  "original_center_baseline": {
+    "absolute_assembly_placement": {
+      "measurement_method": "capture the original assembly coordinate system or measure centers from an assembled reference robot",
+      "name": "original_absolute_joint_and_wheel_assembly_placement",
+      "reason": "absolute centers cannot be recovered uniquely from isolated STL names and per-part bounding boxes",
+      "status": "unresolved",
+      "value_mm": null
+    },
+    "mesh_origin_datum": "preserved_for_joint_frames",
+    "mode": "source_part_local_origin_with_wheel_center_datum",
+    "wheel_center_datum": "derived_from_source_y_bounds_and_transformed_to_canonical_origin"
+  },
+  "original_part_bounding_boxes_mm": [
+    {
+      "extents_mm": [
+        145.1999969482422,
+        105.0,
+        11.5
+      ],
+      "maximum_mm": [
+        72.5999984741211,
+        60.0,
+        1.5
+      ],
+      "minimum_mm": [
+        -72.5999984741211,
+        -45.0,
+        -10.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/上盖.stl",
+      "sha256": "dc4b268d814ac0ca192ee382d57dbf332053a19b5f86a04b7419cd8b82fa3e0d"
+    },
+    {
+      "extents_mm": [
+        121.48158693313599,
+        26.993837356567383,
+        11.5
+      ],
+      "maximum_mm": [
+        113.5,
+        13.496918678283691,
+        7.0
+      ],
+      "minimum_mm": [
+        -7.981586933135986,
+        -13.496918678283691,
+        -4.5
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/前小臂X1.stl",
+      "sha256": "ac316ef4982cda2318f68563dbd0e6729ed07cd88332d7e0fe25dc248e0483bc"
+    },
+    {
+      "extents_mm": [
+        121.48158693313599,
+        26.993837356567383,
+        11.5
+      ],
+      "maximum_mm": [
+        113.5,
+        13.496918678283691,
+        7.0
+      ],
+      "minimum_mm": [
+        -7.981586933135986,
+        -13.496918678283691,
+        -4.5
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/前小臂X2.stl",
+      "sha256": "ac316ef4982cda2318f68563dbd0e6729ed07cd88332d7e0fe25dc248e0483bc"
+    },
+    {
+      "extents_mm": [
+        126.0,
+        35.961326599121094,
+        14.0
+      ],
+      "maximum_mm": [
+        118.0,
+        17.980663299560547,
+        7.0
+      ],
+      "minimum_mm": [
+        -8.0,
+        -17.980663299560547,
+        -7.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/后小臂X1.stl",
+      "sha256": "5c932b5c51587d9f96e9e24c86a98c9da5f20b6436f049a0b69b1afc699d1f03"
+    },
+    {
+      "extents_mm": [
+        126.0,
+        35.961326599121094,
+        14.0
+      ],
+      "maximum_mm": [
+        118.0,
+        17.980663299560547,
+        7.0
+      ],
+      "minimum_mm": [
+        -8.0,
+        -17.980663299560547,
+        -7.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/后小臂X2.stl",
+      "sha256": "5c932b5c51587d9f96e9e24c86a98c9da5f20b6436f049a0b69b1afc699d1f03"
+    },
+    {
+      "extents_mm": [
+        38.0,
+        15.0,
+        38.0
+      ],
+      "maximum_mm": [
+        19.0,
+        15.0,
+        19.0
+      ],
+      "minimum_mm": [
+        -19.0,
+        0.0,
+        -19.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/外固定1.stl",
+      "sha256": "4afb8f9befe2edd8c4272ec815bccad6c2d47e32f313d3e19f841083dc313f81"
+    },
+    {
+      "extents_mm": [
+        38.0,
+        15.0,
+        38.0
+      ],
+      "maximum_mm": [
+        19.0,
+        15.0,
+        19.0
+      ],
+      "minimum_mm": [
+        -19.0,
+        0.0,
+        -19.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/外固定2.stl",
+      "sha256": "4afb8f9befe2edd8c4272ec815bccad6c2d47e32f313d3e19f841083dc313f81"
+    },
+    {
+      "extents_mm": [
+        38.0,
+        15.0,
+        38.0
+      ],
+      "maximum_mm": [
+        19.0,
+        15.0,
+        19.0
+      ],
+      "minimum_mm": [
+        -19.0,
+        0.0,
+        -19.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/外固定3.stl",
+      "sha256": "4afb8f9befe2edd8c4272ec815bccad6c2d47e32f313d3e19f841083dc313f81"
+    },
+    {
+      "extents_mm": [
+        38.0,
+        15.0,
+        38.0
+      ],
+      "maximum_mm": [
+        19.0,
+        15.0,
+        19.0
+      ],
+      "minimum_mm": [
+        -19.0,
+        0.0,
+        -19.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/外固定4.stl",
+      "sha256": "4afb8f9befe2edd8c4272ec815bccad6c2d47e32f313d3e19f841083dc313f81"
+    },
+    {
+      "extents_mm": [
+        86.0,
+        29.994314193725586,
+        6.000000000000001
+      ],
+      "maximum_mm": [
+        71.0,
+        14.997157096862793,
+        6.0
+      ],
+      "minimum_mm": [
+        -15.0,
+        -14.997157096862793,
+        -1.1021821408568715e-15
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/大腿1.stl",
+      "sha256": "7dfd287a9caba466212597740b9111191f028b7f10e38b07209c92c7acf97393"
+    },
+    {
+      "extents_mm": [
+        86.0,
+        29.994314193725586,
+        6.000000000000001
+      ],
+      "maximum_mm": [
+        71.0,
+        14.997157096862793,
+        6.0
+      ],
+      "minimum_mm": [
+        -15.0,
+        -14.997157096862793,
+        -1.1021821408568715e-15
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/大腿2.stl",
+      "sha256": "7dfd287a9caba466212597740b9111191f028b7f10e38b07209c92c7acf97393"
+    },
+    {
+      "extents_mm": [
+        86.0,
+        29.994314193725586,
+        6.000000000000001
+      ],
+      "maximum_mm": [
+        71.0,
+        14.997157096862793,
+        6.0
+      ],
+      "minimum_mm": [
+        -15.0,
+        -14.997157096862793,
+        -1.1021821408568715e-15
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/大腿3.stl",
+      "sha256": "7dfd287a9caba466212597740b9111191f028b7f10e38b07209c92c7acf97393"
+    },
+    {
+      "extents_mm": [
+        86.0,
+        29.994314193725586,
+        6.000000000000001
+      ],
+      "maximum_mm": [
+        71.0,
+        14.997157096862793,
+        6.0
+      ],
+      "minimum_mm": [
+        -15.0,
+        -14.997157096862793,
+        -1.1021821408568715e-15
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/大腿4.stl",
+      "sha256": "7dfd287a9caba466212597740b9111191f028b7f10e38b07209c92c7acf97393"
+    },
+    {
+      "extents_mm": [
+        145.1999969482422,
+        105.0,
+        45.0
+      ],
+      "maximum_mm": [
+        72.5999984741211,
+        45.0,
+        22.5
+      ],
+      "minimum_mm": [
+        -72.5999984741211,
+        -60.0,
+        -22.5
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/框架.stl",
+      "sha256": "e822741da7b280d79abe48de1eb0b76ed95c96062f79a32fbb980393f8808ada"
+    },
+    {
+      "extents_mm": [
+        26.0,
+        8.0,
+        26.0
+      ],
+      "maximum_mm": [
+        13.0,
+        4.0,
+        13.0
+      ],
+      "minimum_mm": [
+        -13.0,
+        -4.0,
+        -13.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/电机固定X1.stl",
+      "sha256": "8e98e833263b669c180a636c7bda1f852582ba01d98a65cb5ff0c8c720a024db"
+    },
+    {
+      "extents_mm": [
+        26.0,
+        8.0,
+        26.0
+      ],
+      "maximum_mm": [
+        13.0,
+        4.0,
+        13.0
+      ],
+      "minimum_mm": [
+        -13.0,
+        -4.0,
+        -13.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/电机固定X2.stl",
+      "sha256": "8e98e833263b669c180a636c7bda1f852582ba01d98a65cb5ff0c8c720a024db"
+    },
+    {
+      "extents_mm": [
+        53.0,
+        24.679978519678116,
+        41.026063442230225
+      ],
+      "maximum_mm": [
+        26.5,
+        24.854290008544922,
+        36.04508972167969
+      ],
+      "minimum_mm": [
+        -26.5,
+        0.17431148886680603,
+        -4.980973720550537
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/电池架.stl",
+      "sha256": "a9638cd9ac551b86570010f9087b0e55425fd0171deb4a2cd49ca26d88f35c0c"
+    },
+    {
+      "extents_mm": [
+        37.99380302429199,
+        37.99690246582031,
+        1.5
+      ],
+      "maximum_mm": [
+        18.993803024291992,
+        18.998451232910156,
+        1.5
+      ],
+      "minimum_mm": [
+        -19.0,
+        -18.998451232910156,
+        0.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/盖板1.stl",
+      "sha256": "5fab6e2573142693735ed19ae825278076948508ab80b5777045fe7093093434"
+    },
+    {
+      "extents_mm": [
+        37.99380302429199,
+        37.99690246582031,
+        1.5
+      ],
+      "maximum_mm": [
+        18.993803024291992,
+        18.998451232910156,
+        1.5
+      ],
+      "minimum_mm": [
+        -19.0,
+        -18.998451232910156,
+        0.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/盖板2.stl",
+      "sha256": "5fab6e2573142693735ed19ae825278076948508ab80b5777045fe7093093434"
+    },
+    {
+      "extents_mm": [
+        37.99380302429199,
+        37.99690246582031,
+        1.5
+      ],
+      "maximum_mm": [
+        18.993803024291992,
+        18.998451232910156,
+        1.5
+      ],
+      "minimum_mm": [
+        -19.0,
+        -18.998451232910156,
+        0.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/盖板3.stl",
+      "sha256": "5fab6e2573142693735ed19ae825278076948508ab80b5777045fe7093093434"
+    },
+    {
+      "extents_mm": [
+        37.99380302429199,
+        37.99690246582031,
+        1.5
+      ],
+      "maximum_mm": [
+        18.993803024291992,
+        18.998451232910156,
+        1.5
+      ],
+      "minimum_mm": [
+        -19.0,
+        -18.998451232910156,
+        0.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/盖板4.stl",
+      "sha256": "5fab6e2573142693735ed19ae825278076948508ab80b5777045fe7093093434"
+    },
+    {
+      "extents_mm": [
+        27.99373435974121,
+        27.99686622619629,
+        7.0
+      ],
+      "maximum_mm": [
+        14.0,
+        13.998433113098145,
+        4.0
+      ],
+      "minimum_mm": [
+        -13.993734359741211,
+        -13.998433113098145,
+        -3.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口1.stl",
+      "sha256": "911ead9c54d17cfb26a68467cb524feaef845eeb7213cea60240d3002c9001f2"
+    },
+    {
+      "extents_mm": [
+        27.99373435974121,
+        27.99686622619629,
+        7.0
+      ],
+      "maximum_mm": [
+        14.0,
+        13.998433113098145,
+        4.0
+      ],
+      "minimum_mm": [
+        -13.993734359741211,
+        -13.998433113098145,
+        -3.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口2.stl",
+      "sha256": "911ead9c54d17cfb26a68467cb524feaef845eeb7213cea60240d3002c9001f2"
+    },
+    {
+      "extents_mm": [
+        27.99373435974121,
+        27.99686622619629,
+        7.0
+      ],
+      "maximum_mm": [
+        14.0,
+        13.998433113098145,
+        4.0
+      ],
+      "minimum_mm": [
+        -13.993734359741211,
+        -13.998433113098145,
+        -3.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口3.stl",
+      "sha256": "911ead9c54d17cfb26a68467cb524feaef845eeb7213cea60240d3002c9001f2"
+    },
+    {
+      "extents_mm": [
+        27.99373435974121,
+        27.99686622619629,
+        7.0
+      ],
+      "maximum_mm": [
+        14.0,
+        13.998433113098145,
+        4.0
+      ],
+      "minimum_mm": [
+        -13.993734359741211,
+        -13.998433113098145,
+        -3.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/舵机接口4.stl",
+      "sha256": "911ead9c54d17cfb26a68467cb524feaef845eeb7213cea60240d3002c9001f2"
+    },
+    {
+      "extents_mm": [
+        16.0,
+        14.5,
+        15.997901916503906
+      ],
+      "maximum_mm": [
+        8.0,
+        7.25,
+        7.998950958251953
+      ],
+      "minimum_mm": [
+        -8.0,
+        -7.25,
+        -7.998950958251953
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/轮固定X1.stl",
+      "sha256": "e5b4a3f4db608ecdbc01278efbf29ed119f38d44ed3e5c8fdcbbc60cd12cdc4b"
+    },
+    {
+      "extents_mm": [
+        16.0,
+        14.5,
+        15.997901916503906
+      ],
+      "maximum_mm": [
+        8.0,
+        7.25,
+        7.998950958251953
+      ],
+      "minimum_mm": [
+        -8.0,
+        -7.25,
+        -7.998950958251953
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/轮固定X2.stl",
+      "sha256": "e5b4a3f4db608ecdbc01278efbf29ed119f38d44ed3e5c8fdcbbc60cd12cdc4b"
+    },
+    {
+      "extents_mm": [
+        23.0,
+        23.0,
+        9.0
+      ],
+      "maximum_mm": [
+        11.5,
+        11.5,
+        9.0
+      ],
+      "minimum_mm": [
+        -11.5,
+        -11.5,
+        0.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/轮毂X1.stl",
+      "sha256": "4c0ae51207aa1ebba5e6cfb0d6070a73ff3cd1d7997b58c16d7bf28459e89fad"
+    },
+    {
+      "extents_mm": [
+        23.0,
+        23.0,
+        9.0
+      ],
+      "maximum_mm": [
+        11.5,
+        11.5,
+        9.0
+      ],
+      "minimum_mm": [
+        -11.5,
+        -11.5,
+        0.0
+      ],
+      "relative_path": "机械资料/01_灯哥小型轮足/01_原版STL/轮毂X2.stl",
+      "sha256": "4c0ae51207aa1ebba5e6cfb0d6070a73ff3cd1d7997b58c16d7bf28459e89fad"
+    }
+  ],
+  "original_wheel_envelope": {
+    "mesh_bounding_boxes_mm": [
+      {
+        "extents_mm": [
+          65.99532812833786,
+          29.89999996498227,
+          65.9974217414856
+        ],
+        "maximum_mm": [
+          32.99766406416893,
+          24.10000003874302,
+          32.9987108707428
+        ],
+        "minimum_mm": [
+          -32.99766406416893,
+          -5.799999926239252,
+          -32.9987108707428
+        ],
+        "relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes/LW_link.STL",
+        "sha256": "dee7217b04653481c52bff6b8c2706b5e740ce21c43cd27e4344d1c18c684edc"
+      },
+      {
+        "extents_mm": [
+          65.99532812833786,
+          29.89999996498227,
+          65.9974217414856
+        ],
+        "maximum_mm": [
+          32.99766406416893,
+          5.799999926239252,
+          32.9987108707428
+        ],
+        "minimum_mm": [
+          -32.99766406416893,
+          -24.10000003874302,
+          -32.9987108707428
+        ],
+        "relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes/RW__link.STL",
+        "sha256": "0b8b716d0a6aad4ab96235ed4296573b3f454a410755a8293103378678216bd4"
+      }
+    ],
+    "method": "audited_mesh_bounding_box",
+    "nominal_tolerance_assertions_mm": {
+      "outer_diameter": {
+        "absolute_tolerance": 0.2,
+        "nominal": 66.0
+      },
+      "width": {
+        "absolute_tolerance": 0.2,
+        "nominal": 29.9
+      }
+    },
+    "outer_diameter_mm": 65.9974217414856,
+    "width_mm": 29.89999996498227
+  },
+  "schema_version": 1,
+  "wheel_transforms": [
+    {
+      "assembly_placement_status": "unresolved",
+      "canonical_rotation_axis": "+Z",
+      "expected_axis": {
+        "direction": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "frame": "wheel_left",
+        "origin_mm": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "frame_name": "wheel_left",
+      "mirror_partner": "right",
+      "orientation": "source_positive_y_to_canonical_positive_z",
+      "side": "left",
+      "source_axis_sign": 1.0,
+      "source_bounds_max_mm": [
+        32.99766406416893,
+        24.10000003874302,
+        32.9987108707428
+      ],
+      "source_bounds_min_mm": [
+        -32.99766406416893,
+        -5.799999926239252,
+        -32.9987108707428
+      ],
+      "source_center_plane_mm": 9.150000056251884,
+      "source_part": "LW_link.STL",
+      "source_relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes/LW_link.STL",
+      "transform": {
+        "rotation_extrinsic_xyz_deg": [
+          89.99999999999999,
+          0.0,
+          0.0
+        ],
+        "translation_mm": [
+          0.0,
+          0.0,
+          -9.150000056251884
+        ]
+      },
+      "transform_role": "source_y_to_canonical_z_and_center_plane_to_origin",
+      "variant": "left_source_mesh"
+    },
+    {
+      "assembly_placement_status": "unresolved",
+      "canonical_rotation_axis": "+Z",
+      "expected_axis": {
+        "direction": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "frame": "wheel_right",
+        "origin_mm": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "frame_name": "wheel_right",
+      "mirror_partner": "left",
+      "orientation": "mirrored_source_negative_y_to_canonical_positive_z",
+      "side": "right",
+      "source_axis_sign": -1.0,
+      "source_bounds_max_mm": [
+        32.99766406416893,
+        5.799999926239252,
+        32.9987108707428
+      ],
+      "source_bounds_min_mm": [
+        -32.99766406416893,
+        -24.10000003874302,
+        -32.9987108707428
+      ],
+      "source_center_plane_mm": -9.150000056251884,
+      "source_part": "RW__link.STL",
+      "source_relative_path": "机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes/RW__link.STL",
+      "transform": {
+        "rotation_extrinsic_xyz_deg": [
+          -89.99999999999999,
+          0.0,
+          0.0
+        ],
+        "translation_mm": [
+          0.0,
+          0.0,
+          -9.150000056251884
+        ]
+      },
+      "transform_role": "mirror_y_of_left_axis_and_center_datum",
+      "variant": "right_mirror_of_left_source_mesh"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+[Unit]
+Description=WheelBot YDLIDAR scan stream watchdog
+After=network-online.target wheelbot-lidar-tcp.service ydlidar-x2.service
+Wants=network-online.target
+Wants=wheelbot-lidar-tcp.service ydlidar-x2.service
+
+[Service]
+Type=simple
+User=root
+Environment=ROS_DOMAIN_ID=42
+Environment=RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/bin/bash -lc 'source /opt/ros/jazzy/setup.bash && source /home/fool/wheelbot_ws/install/setup.bash && exec ros2 run wheelbot_lidar scan_watchdog --ros-args -p scan_timeout_s:=1.5 -p startup_grace_s:=10.0 -p restart_cooldown_s:=15.0'
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

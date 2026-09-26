@@ -1,0 +1,167 @@
+name: Software integration
+
+'on':
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: software-integration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  host-validation:
+    name: Protocol, mission, and XiaoZhi checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Install host test dependencies
+        run: python -m pip install pytest PyYAML pyserial
+      - name: Run ROS-independent Python regression
+        shell: bash
+        run: |
+          export PYTHONPATH="$(find ros2/wheelbot_ws/src -mindepth 1 -maxdepth 1 -type d -printf '%p:' | sed 's/:$//')"
+          python -m pytest -q \
+            ros2/wheelbot_ws/src/wheelbot_bridge/test/test_robot_protocol.py \
+            ros2/wheelbot_ws/src/wheelbot_bridge/test/test_usb_protocol.py \
+            ros2/wheelbot_ws/src/wheelbot_bridge/test/test_wheel_command.py \
+            ros2/wheelbot_ws/src/wheelbot_bringup/test/test_phase1_config.py \
+            ros2/wheelbot_ws/src/wheelbot_lidar/test/test_scan_watchdog.py \
+            ros2/wheelbot_ws/src/wheelbot_localization/test/test_ekf_config.py \
+            ros2/wheelbot_ws/src/wheelbot_mapping/test/test_mapping_config.py \
+            ros2/wheelbot_ws/src/wheelbot_mission/test \
+            ros2/wheelbot_ws/src/wheelbot_navigation/test \
+            tests/integration/test_mission_api_smoke.py
+          python -m compileall -q \
+            ros2/wheelbot_ws/src/wheelbot_mission \
+            ros2/wheelbot_ws/src/wheelbot_bringup \
+            ros2/wheelbot_ws/src/wheelbot_navigation
+      - name: Run C protocol and watchdog tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/host-tests
+          cc -std=c11 -Wall -Wextra -Werror \
+            -Ifirmware/c_board/communication \
+            tests/unit/test_command_watchdog.c \
+            -o build/host-tests/test_command_watchdog
+          build/host-tests/test_command_watchdog
+          cc -std=c11 -Wall -Wextra -Werror \
+            -Ifirmware/c_board/communication \
+            tests/unit/test_battery_protocol.c \
+            firmware/c_board/communication/robot_protocol.c \
+            -lm -o build/host-tests/test_battery_protocol
+          build/host-tests/test_battery_protocol
+          cc -std=c11 -Wall -Wextra -Werror \
+            -Ifirmware/c_board/communication \
+            tests/unit/test_usb_command_stream.c \
+            firmware/c_board/communication/usb_robot_protocol.c \
+            firmware/c_board/communication/uart_robot_protocol.c \
+            firmware/c_board/communication/robot_protocol.c \
+            -lm -o build/host-tests/test_usb_command_stream
+          build/host-tests/test_usb_command_stream
+          cc -std=c11 -Wall -Wextra -Werror \
+            -Ifirmware/c_board/communication \
+            tests/esp32_s3/test_cboard_uart_receiver.c \
+            firmware/c_board/communication/uart_robot_protocol.c \
+            firmware/c_board/communication/robot_protocol.c \
+            -lm -o build/host-tests/test_cboard_uart_receiver
+          build/host-tests/test_cboard_uart_receiver
+      - name: Validate XiaoZhi board registration and dashboard
+        working-directory: firmware/esp32_s3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest \
+            scripts.tests.test_build.VersionTests.test_default_flash_options_are_not_repeated \
+            scripts.tests.test_build.BoardMenuTests.test_board_menu_is_sorted_and_matches_cmake \
+            scripts.tests.test_build.BoardMenuTests.test_board_menu_has_explicit_target_defaults \
+            scripts.tests.test_build.BoardSourceTests.test_relative_board_includes_exist
+          python scripts/build.py --list-boards | grep -Fx wheelbot-s3-audio
+          node -e 'const fs=require("fs");const h=fs.readFileSync("../../ros2/wheelbot_ws/src/wheelbot_mission/web/index.html","utf8");const m=h.match(/<script>([\s\S]*?)<\/script>/);if(!m)throw new Error("script missing");new Function(m[1]);'
+
+  ros-jazzy:
+    name: ROS 2 Jazzy build and tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+          persist-credentials: false
+      - uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: jazzy
+      - name: Install package dependencies
+        shell: bash
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          if [[ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]]; then
+            sudo rosdep init
+          fi
+          rosdep update --rosdistro jazzy
+          rosdep install --from-paths ros2/wheelbot_ws/src --ignore-src -r -y --rosdistro jazzy
+      - name: Build workspace
+        working-directory: ros2/wheelbot_ws
+        shell: bash
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          colcon build --event-handlers console_direct+
+      - name: Run workspace tests
+        working-directory: ros2/wheelbot_ws
+        shell: bash
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          source install/setup.bash
+          colcon test --event-handlers console_direct+
+          colcon test-result --verbose
+      - name: Run fake navigation-to-arm-to-return smoke test
+        shell: bash
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          source ros2/wheelbot_ws/install/setup.bash
+          set -euo pipefail
+          mkdir -p build
+          ros2 launch wheelbot_bringup phase1.launch.py \
+            use_fake_bridge:=true use_real_bridge:=false \
+            use_lidar:=false use_ekf:=false use_slam:=false use_nav2:=false \
+            mission_navigation_mode:=fake mission_use_fake_arm:=true \
+            mission_require_robot_state:=false \
+            mission_allow_uncommissioned_locations:=true \
+            mission_api_token:=ci-smoke-token \
+            > build/mission-smoke.log 2>&1 &
+          launch_pid=$!
+          trap 'kill "$launch_pid" 2>/dev/null || true; wait "$launch_pid" 2>/dev/null || true' EXIT
+          ready=false
+          for _ in $(seq 1 40); do
+            if curl --fail --silent http://127.0.0.1:8080/healthz >/dev/null; then
+              ready=true
+              break
+            fi
+            if ! kill -0 "$launch_pid" 2>/dev/null; then
+              break
+            fi
+            sleep 0.25
+          done
+          if [[ "$ready" != true ]]; then
+            cat build/mission-smoke.log
+            exit 1
+          fi
+          python tools/mission_api_smoke.py --token ci-smoke-token --timeout 15 || {
+            cat build/mission-smoke.log
+            exit 1
+          }
