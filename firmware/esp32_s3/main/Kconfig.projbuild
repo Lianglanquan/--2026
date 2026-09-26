@@ -599,6 +599,16 @@ choice BOARD_TYPE
     config BOARD_TYPE_WHEELBOT_S3_AUDIO
         bool "WheelBot ESP32-S3 Audio"
         depends on IDF_TARGET_ESP32S3
+
+config WHEELBOT_MISSION_BASE_URL
+    string "WheelBot mission API base URL"
+    default "http://wheelbot-pi:8080"
+    depends on BOARD_TYPE_WHEELBOT_S3_AUDIO
+
+config WHEELBOT_MISSION_TOKEN
+    string "WheelBot mission API token"
+    default "change-me-before-deploy"
+    depends on BOARD_TYPE_WHEELBOT_S3_AUDIO
     config BOARD_TYPE_WK_ESP32S3_DEV
         bool "WK ESP32-S3 Dev Board (维控智能开发板)"
         depends on IDF_TARGET_ESP32S3

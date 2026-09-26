@@ -69,6 +69,10 @@ if(CONFIG_XIAOZHI_NETWORK_ETHERNET)
 endif()
 list(APPEND INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/boards/common)
 
+if(CONFIG_BOARD_TYPE_WHEELBOT_S3_AUDIO)
+    list(APPEND SOURCES "boards/wheelbot-s3-audio/wheelbot_mission_client.cc")
+endif()
+
 
 idf_build_get_property(build_components BUILD_COMPONENTS)
 # Function to find component dynamically by pattern
