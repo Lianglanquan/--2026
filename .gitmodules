@@ -4,3 +4,6 @@
 [submodule "firmware/c_board/vendor/fashionstar"]
 	path = firmware/c_board/vendor/fashionstar
 	url = https://github.com/servodevelop/servo-uart-rs485-sdk.git
+[submodule "firmware/c_board/vendor/freertos-gcc"]
+	path = firmware/c_board/vendor/freertos-gcc
+	url = https://github.com/FreeRTOS/FreeRTOS-Kernel.git
