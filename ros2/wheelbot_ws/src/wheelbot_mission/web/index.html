@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WheelBot Mission Console</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, "Microsoft YaHei", sans-serif; }
+    body { margin: 0; background: #09111f; color: #e8eef9; }
+    main { max-width: 1100px; margin: auto; padding: 28px 20px 48px; }
+    header, .grid { display: grid; gap: 16px; }
+    header { grid-template-columns: 1fr auto; align-items: end; margin-bottom: 20px; }
+    h1 { margin: 0; font-size: clamp(24px, 4vw, 42px); }
+    .subtitle, .muted { color: #91a4bf; }
+    .grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+    .card { background: #111d30; border: 1px solid #243651; border-radius: 14px; padding: 18px; }
+    .wide { grid-column: 1 / -1; }
+    .label { color: #91a4bf; font-size: 13px; text-transform: uppercase; letter-spacing: .08em; }
+    .value { font-size: 24px; margin-top: 6px; overflow-wrap: anywhere; }
+    input, button { color: inherit; background: #172842; border: 1px solid #345076; border-radius: 8px; padding: 10px 12px; }
+    button { cursor: pointer; }
+    button:hover { background: #21395d; }
+    .danger { border-color: #a74955; }
+    .ok { color: #5ee5a0; } .bad { color: #ff7c8a; } .warn { color: #ffd166; }
+    .timeline { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .stage { color: #8397b3; background: #0c1728; border-radius: 999px; padding: 7px 11px; font-size: 12px; }
+    .stage.active { color: #08131f; background: #59d6ff; font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    td { border-top: 1px solid #243651; padding: 9px 6px; vertical-align: top; }
+    #error { min-height: 20px; margin: 10px 0; }
+    @media (max-width: 650px) { header { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div><h1>WheelBot Mission Console</h1><div class="subtitle">任务、导航、底盘与交接状态</div></div>
+    <div><input id="token" type="password" placeholder="API Bearer Token"><button id="connect">连接</button></div>
+  </header>
+  <div id="error" class="bad"></div>
+  <section class="grid">
+    <article class="card"><div class="label">任务阶段</div><div id="missionState" class="value">未连接</div><div id="missionDetail" class="muted"></div></article>
+    <article class="card"><div class="label">C 板链路</div><div id="cboard" class="value">-</div><div id="battery" class="muted">电池 -</div></article>
+    <article class="card"><div class="label">机器人位置</div><div id="pose" class="value">-</div><div id="poseFresh" class="muted"></div></article>
+    <article class="card wide">
+      <div class="label">任务生命周期</div><div id="timeline" class="timeline"></div>
+      <p><span class="label">目标</span> <span id="target">-</span> · <span class="label">物品</span> <span id="item">-</span></p>
+      <button id="cancel" class="danger">取消当前任务</button>
+      <button id="home">取消并返航</button>
+    </article>
+    <article class="card wide"><div class="label">实时事件</div><table id="events"><tbody></tbody></table></article>
+  </section>
+</main>
+<script>
+const stages = ["PENDING","NAVIGATING","ARRIVED","WAITING_FOR_ARM","ARM_RUNNING","LOADED","RETURNING","COMPLETED","FAILED","CANCELLED"];
+let token = sessionStorage.getItem("wheelbotToken") || "", current = null, after = 0, generation = 0;
+const el = id => document.getElementById(id);
+el("token").value = token;
+function headers(){ return {"Authorization": `Bearer ${token}`, "Content-Type":"application/json"}; }
+async function api(path, options={}) {
+  const response = await fetch(path, {...options, headers: {...headers(), ...(options.headers||{})}});
+  const body = await response.json();
+  if (!response.ok) throw new Error(body.error || `HTTP ${response.status}`);
+  return body;
+}
+function render(status) {
+  current = status.mission;
+  const state = current?.state || "IDLE";
+  el("missionState").textContent = state;
+  el("missionState").className = `value ${state === "FAILED" ? "bad" : state === "COMPLETED" ? "ok" : ""}`;
+  el("missionDetail").textContent = current?.detail || "当前没有活动任务";
+  el("target").textContent = current?.target_location || "-";
+  el("item").textContent = current?.target_item || "-";
+  const robot = status.robot;
+  el("cboard").textContent = robot?.cboard_link || "无数据";
+  el("cboard").className = `value ${status.robot_state_fresh && robot?.cboard_link === "up" ? "ok" : "bad"}`;
+  el("battery").textContent = `电池 ${robot ? Number(robot.battery_voltage).toFixed(2) + " V" : "-"} · 故障 ${robot?.faults ?? "-"}`;
+  const pose = status.robot_pose;
+  el("pose").textContent = pose ? `${Number(pose.x).toFixed(2)}, ${Number(pose.y).toFixed(2)}, ${Number(pose.yaw).toFixed(2)} rad` : "无数据";
+  el("poseFresh").textContent = status.robot_pose_fresh ? "定位数据有效" : "定位数据过期或缺失";
+  el("timeline").innerHTML = stages.map(s => `<span class="stage ${s===state ? "active" : ""}">${s}</span>`).join("");
+}
+function appendEvents(events) {
+  const body = el("events").querySelector("tbody");
+  for (const event of events.reverse()) {
+    const row = document.createElement("tr");
+    for (const value of [event.event_id, event.state, event.detail || "", new Date(event.timestamp).toLocaleTimeString()]) {
+      const cell = document.createElement("td"); cell.textContent = value; row.appendChild(cell);
+    }
+    body.prepend(row); after = Math.max(after, event.event_id);
+  }
+  while (body.rows.length > 30) body.deleteRow(body.rows.length - 1);
+}
+async function loop(myGeneration) {
+  while (generation === myGeneration) {
+    try {
+      const [status, feed] = await Promise.all([api("/api/v1/system/status"), api(`/api/v1/events?after=${after}&wait_ms=1000`)]);
+      render(status); appendEvents(feed.events || []); el("error").textContent = "";
+    } catch (error) { el("error").textContent = error.message; await new Promise(r => setTimeout(r, 1500)); }
+  }
+}
+el("connect").onclick = () => { token = el("token").value.trim(); sessionStorage.setItem("wheelbotToken", token); after = 0; generation += 1; loop(generation); };
+el("cancel").onclick = async () => { if (current) await api(`/api/v1/missions/${current.mission_id}/cancel`, {method:"POST", body:"{}"}); };
+el("home").onclick = async () => { await api("/api/v1/missions", {method:"POST", body:JSON.stringify({request_id:`web-return-${Date.now()}`,task_type:"RETURN_HOME",return_location:"home"})}); };
+if (token) { generation += 1; loop(generation); }
+</script>
+</body>
+</html>

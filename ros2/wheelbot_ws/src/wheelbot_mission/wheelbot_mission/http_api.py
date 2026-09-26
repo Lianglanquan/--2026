@@ -6,10 +6,16 @@ import hmac
 import json
 import re
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from threading import Thread
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
+from .events import MissionEventBroker
 from .model import MissionStore, MissionValidationError
+
+
+class _MissionThreadingHttpServer(ThreadingHTTPServer):
+    daemon_threads = True
 
 
 class MissionHttpServer:
@@ -21,11 +27,15 @@ class MissionHttpServer:
         store: MissionStore,
         on_cancel=None,
         get_system_status=None,
+        events: MissionEventBroker | None = None,
+        dashboard_file: str | Path | None = None,
     ) -> None:
         self.store = store
         self.token = token
         self.on_cancel = on_cancel
         self.get_system_status = get_system_status
+        self.events = events
+        self.dashboard_file = Path(dashboard_file) if dashboard_file else None
         api = self
 
         class Handler(BaseHTTPRequestHandler):
@@ -52,6 +62,16 @@ class MissionHttpServer:
                 self.end_headers()
                 self.wfile.write(encoded)
 
+            def _send_html(self, status: int, html: bytes) -> None:
+                self.send_response(status)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(html)))
+                self.send_header("Cache-Control", "no-store")
+                self.send_header("X-Content-Type-Options", "nosniff")
+                self.send_header("Content-Security-Policy", "default-src 'self'; style-src 'unsafe-inline'; script-src 'unsafe-inline'")
+                self.end_headers()
+                self.wfile.write(html)
+
             def _require_auth(self) -> bool:
                 if self._authorized():
                     return True
@@ -68,7 +88,14 @@ class MissionHttpServer:
                 return body
 
             def do_GET(self):
-                path = urlparse(self.path).path
+                parsed = urlparse(self.path)
+                path = parsed.path
+                if path in {"/", "/dashboard"}:
+                    if api.dashboard_file and api.dashboard_file.is_file():
+                        self._send_html(200, api.dashboard_file.read_bytes())
+                    else:
+                        self._send(404, {"error": "dashboard not installed"})
+                    return
                 if path == "/healthz":
                     active = api.store.active()
                     self._send(200, {"ok": True, "active_mission_id": active.mission_id if active else None})
@@ -85,6 +112,19 @@ class MissionHttpServer:
                 if path == "/api/v1/system/status":
                     payload = api.get_system_status() if api.get_system_status else {}
                     self._send(200, payload)
+                    return
+                if path == "/api/v1/events":
+                    try:
+                        query = parse_qs(parsed.query)
+                        after = int(query.get("after", ["0"])[0])
+                        wait_ms = min(25000, max(0, int(query.get("wait_ms", ["0"])[0])))
+                        if after < 0:
+                            raise ValueError("after must be non-negative")
+                        events = api.events.wait_after(after, wait_ms / 1000.0) if api.events else []
+                        latest = api.events.latest_id() if api.events else 0
+                        self._send(200, {"events": events, "latest_event_id": latest})
+                    except ValueError as exc:
+                        self._send(400, {"error": str(exc)})
                     return
                 match = self._mission_path.fullmatch(path)
                 if match:
@@ -104,14 +144,11 @@ class MissionHttpServer:
                     if path == "/api/v1/missions":
                         request_body = self._read_json()
                         if str(request_body.get("task_type", "")).upper() == "RETURN_HOME":
-                            active = api.store.active()
-                            if active is not None:
-                                cancelled = api.store.cancel(
-                                    active.mission_id, "replaced by return-home request"
-                                )
-                                if api.on_cancel:
-                                    api.on_cancel(cancelled)
-                        mission, created = api.store.submit(request_body)
+                            mission, created, _ = api.store.replace_active_with_return(
+                                request_body, on_cancel=api.on_cancel
+                            )
+                        else:
+                            mission, created = api.store.submit(request_body)
                         self._send(202 if created else 200, {"mission": mission.to_dict(), "created": created})
                         return
                     match = self._cancel_path.fullmatch(path)
@@ -127,7 +164,7 @@ class MissionHttpServer:
                 except (MissionValidationError, ValueError, json.JSONDecodeError) as exc:
                     self._send(409 if "already active" in str(exc) else 400, {"error": str(exc)})
 
-        self._server = ThreadingHTTPServer((host, port), Handler)
+        self._server = _MissionThreadingHttpServer((host, port), Handler)
         self._thread = Thread(target=self._server.serve_forever, name="mission-http", daemon=True)
 
     @property

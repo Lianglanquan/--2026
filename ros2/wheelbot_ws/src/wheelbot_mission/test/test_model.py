@@ -61,6 +61,57 @@ class MissionStoreTest(unittest.TestCase):
             self.assertEqual(MissionState.FAILED, restored.state_enum)
             self.assertEqual("MANAGER_RESTARTED", restored.error_code)
 
+    def test_idempotency_key_rejects_a_different_payload(self):
+        store = MissionStore()
+        store.submit({
+            "request_id": "same-key",
+            "task_type": "NAVIGATE",
+            "target_location": "workbench",
+        })
+        with self.assertRaisesRegex(MissionValidationError, "different payload"):
+            store.submit({
+                "request_id": "same-key",
+                "task_type": "NAVIGATE",
+                "target_location": "arm_zone",
+            })
+
+    def test_return_replay_does_not_cancel_a_newer_active_mission(self):
+        store = MissionStore()
+        payload = {"request_id": "return-once", "task_type": "RETURN_HOME"}
+        returned, _, cancelled = store.replace_active_with_return(payload)
+        self.assertIsNone(cancelled)
+        store.transition(returned.mission_id, MissionState.RETURNING)
+        store.transition(returned.mission_id, MissionState.COMPLETED)
+        active, _ = store.submit({
+            "request_id": "new-navigation",
+            "task_type": "NAVIGATE",
+            "target_location": "workbench",
+        })
+
+        replay, created, cancelled = store.replace_active_with_return(payload)
+
+        self.assertFalse(created)
+        self.assertIsNone(cancelled)
+        self.assertEqual(returned.mission_id, replay.mission_id)
+        self.assertEqual(MissionState.PENDING, store.get(active.mission_id).state_enum)
+
+    def test_return_cancels_downstream_before_announcing_replacement(self):
+        observed = []
+        store = MissionStore(on_change=lambda mission: observed.append(mission.state))
+        store.submit({
+            "request_id": "moving",
+            "task_type": "NAVIGATE",
+            "target_location": "workbench",
+        })
+        observed.clear()
+
+        store.replace_active_with_return(
+            {"request_id": "safe-return", "task_type": "RETURN_HOME"},
+            on_cancel=lambda mission: observed.append(f"STOP:{mission.state}"),
+        )
+
+        self.assertEqual(["STOP:CANCELLED", "CANCELLED", "PENDING"], observed)
+
 
 if __name__ == "__main__":
     unittest.main()

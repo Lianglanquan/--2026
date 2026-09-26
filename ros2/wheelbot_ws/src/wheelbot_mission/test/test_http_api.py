@@ -2,17 +2,22 @@ import json
 import unittest
 import urllib.error
 import urllib.request
+from pathlib import Path
 
+from wheelbot_mission.events import MissionEventBroker
 from wheelbot_mission.http_api import MissionHttpServer
 from wheelbot_mission.model import MissionStore
 
 
 class MissionHttpApiTest(unittest.TestCase):
     def setUp(self):
-        self.store = MissionStore()
+        self.events = MissionEventBroker()
+        self.store = MissionStore(on_change=self.events.publish)
         self.server = MissionHttpServer(
             "127.0.0.1", 0, "test-token", self.store,
             get_system_status=lambda: {"robot_state_fresh": True},
+            events=self.events,
+            dashboard_file=Path(__file__).parents[1] / "web" / "index.html",
         )
         self.server.start()
         self.base = f"http://127.0.0.1:{self.server.address[1]}"
@@ -53,6 +58,17 @@ class MissionHttpApiTest(unittest.TestCase):
         self.assertEqual(200, status)
         self.assertTrue(payload["robot_state_fresh"])
 
+    def test_dashboard_and_event_feed(self):
+        with urllib.request.urlopen(self.base + "/dashboard", timeout=2) as response:
+            self.assertIn(b"WheelBot Mission Console", response.read())
+        self.request("/api/v1/missions", "POST", {
+            "request_id": "event-http",
+            "task_type": "RETURN_HOME",
+        })
+        _, feed = self.request("/api/v1/events?after=0&wait_ms=10")
+        self.assertEqual("PENDING", feed["events"][0]["state"])
+        self.assertEqual(feed["events"][-1]["event_id"], feed["latest_event_id"])
+
     def test_return_home_replaces_active_mission(self):
         _, first = self.request("/api/v1/missions", "POST", {
             "request_id": "active-1",
@@ -67,6 +83,20 @@ class MissionHttpApiTest(unittest.TestCase):
         old = self.store.get(first["mission"]["mission_id"])
         self.assertEqual("CANCELLED", old.state)
         self.assertEqual("PENDING", replacement["mission"]["state"])
+
+    def test_invalid_return_request_does_not_cancel_active_mission(self):
+        _, first = self.request("/api/v1/missions", "POST", {
+            "request_id": "keep-active",
+            "task_type": "NAVIGATE",
+            "target_location": "workbench",
+        })
+        with self.assertRaises(urllib.error.HTTPError) as error:
+            self.request("/api/v1/missions", "POST", {
+                "request_id": "contains spaces",
+                "task_type": "RETURN_HOME",
+            })
+        self.assertEqual(400, error.exception.code)
+        self.assertEqual("PENDING", self.store.get(first["mission"]["mission_id"]).state)
 
 
 if __name__ == "__main__":

@@ -148,6 +148,53 @@ class MissionStore:
         self._load()
 
     def submit(self, payload: dict[str, object]) -> tuple[Mission, bool]:
+        normalized = self._normalize(payload)
+        with self._lock:
+            return self._submit_normalized(normalized)
+
+    def replace_active_with_return(
+        self,
+        payload: dict[str, object],
+        detail: str = "replaced by return-home request",
+        on_cancel: Callable[[Mission], None] | None = None,
+    ) -> tuple[Mission, bool, Mission | None]:
+        """Atomically validate a return-home request, cancel the active mission, and submit it.
+
+        A replay of an existing request never cancels a newer mission. This is important for
+        retries from an intermittently connected voice device.
+        """
+        normalized = self._normalize(payload)
+        if normalized["task_type"] != MissionType.RETURN_HOME.value:
+            raise MissionValidationError("replacement mission must be RETURN_HOME")
+
+        with self._lock:
+            existing_id = self._request_ids.get(normalized["request_id"])
+            if existing_id:
+                existing = self._missions[existing_id]
+                self._require_matching_replay(existing, normalized)
+                return self._copy(existing), False, None
+
+            active = self._active_unlocked()
+            cancelled = None
+            if active is not None:
+                active.state = MissionState.CANCELLED.value
+                active.detail = detail[:240]
+                active.error_code = ""
+                active.updated_at = _utc_now()
+                cancelled = self._copy(active)
+            mission = self._new_mission(normalized)
+            self._missions[mission.mission_id] = mission
+            self._request_ids[mission.request_id] = mission.mission_id
+            self._persist()
+            if cancelled is not None and on_cancel:
+                on_cancel(self._copy(cancelled))
+            if self._on_change:
+                if cancelled is not None:
+                    self._on_change(self._copy(cancelled))
+                self._on_change(self._copy(mission))
+            return self._copy(mission), True, cancelled
+
+    def _normalize(self, payload: dict[str, object]) -> dict[str, str]:
         task_raw = _require_text(payload.get("task_type"), "task_type", 32).upper()
         try:
             task_type = MissionType(task_raw)
@@ -175,31 +222,56 @@ class MissionStore:
         elif len(target_item) > 120:
             raise MissionValidationError("target_item exceeds 120 characters")
 
-        with self._lock:
-            existing_id = self._request_ids.get(request_id)
-            if existing_id:
-                return self._copy(self._missions[existing_id]), False
-            if any(not mission.terminal for mission in self._missions.values()):
-                raise MissionValidationError("another mission is already active")
+        return {
+            "request_id": request_id,
+            "task_type": task_type.value,
+            "target_location": target_location,
+            "return_location": return_location,
+            "target_item": target_item,
+        }
 
-            now = _utc_now()
-            mission = Mission(
-                mission_id=str(uuid.uuid4()),
-                request_id=request_id,
-                task_type=task_type.value,
-                target_location=target_location,
-                return_location=return_location,
-                target_item=target_item,
-                state=MissionState.PENDING.value,
-                detail="accepted",
-                error_code="",
-                created_at=now,
-                updated_at=now,
-            )
-            self._missions[mission.mission_id] = mission
-            self._request_ids[request_id] = mission.mission_id
-            self._commit(mission)
-            return self._copy(mission), True
+    def _submit_normalized(self, normalized: dict[str, str]) -> tuple[Mission, bool]:
+        existing_id = self._request_ids.get(normalized["request_id"])
+        if existing_id:
+            existing = self._missions[existing_id]
+            self._require_matching_replay(existing, normalized)
+            return self._copy(existing), False
+        if self._active_unlocked() is not None:
+            raise MissionValidationError("another mission is already active")
+
+        mission = self._new_mission(normalized)
+        self._missions[mission.mission_id] = mission
+        self._request_ids[mission.request_id] = mission.mission_id
+        self._commit(mission)
+        return self._copy(mission), True
+
+    @staticmethod
+    def _new_mission(normalized: dict[str, str]) -> Mission:
+        now = _utc_now()
+        return Mission(
+            mission_id=str(uuid.uuid4()),
+            request_id=normalized["request_id"],
+            task_type=normalized["task_type"],
+            target_location=normalized["target_location"],
+            return_location=normalized["return_location"],
+            target_item=normalized["target_item"],
+            state=MissionState.PENDING.value,
+            detail="accepted",
+            error_code="",
+            created_at=now,
+            updated_at=now,
+        )
+
+    @staticmethod
+    def _require_matching_replay(mission: Mission, normalized: dict[str, str]) -> None:
+        comparable = (
+            "task_type",
+            "target_location",
+            "return_location",
+            "target_item",
+        )
+        if any(getattr(mission, field) != normalized[field] for field in comparable):
+            raise MissionValidationError("request_id was already used with a different payload")
 
     def transition(
         self,
@@ -243,10 +315,12 @@ class MissionStore:
 
     def active(self) -> Mission | None:
         with self._lock:
-            active = [mission for mission in self._missions.values() if not mission.terminal]
-            if not active:
-                return None
-            return self._copy(max(active, key=lambda item: item.created_at))
+            active = self._active_unlocked()
+            return self._copy(active) if active else None
+
+    def _active_unlocked(self) -> Mission | None:
+        active = [mission for mission in self._missions.values() if not mission.terminal]
+        return max(active, key=lambda item: item.created_at) if active else None
 
     def all(self) -> list[Mission]:
         with self._lock:
@@ -254,6 +328,12 @@ class MissionStore:
                 self._copy(item)
                 for item in sorted(self._missions.values(), key=lambda value: value.created_at)
             ]
+
+    def latest(self) -> Mission | None:
+        with self._lock:
+            if not self._missions:
+                return None
+            return self._copy(max(self._missions.values(), key=lambda item: item.created_at))
 
     def _copy(self, mission: Mission) -> Mission:
         return Mission.from_dict(mission.to_dict())

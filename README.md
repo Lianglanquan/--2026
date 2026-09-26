@@ -25,7 +25,8 @@ ESP32-S3 的具体串口、人机交互和输入优先级约束见 [`docs/archit
 ## 任务级语音闭环
 
 - `firmware/esp32_s3/`：固定版本的官方小智固件与 `wheelbot-s3-audio` 专用板型。
-- `ros2/wheelbot_ws/src/wheelbot_mission/`：Mission Manager、Nav2 适配、任务状态与 REST API。
+- `ros2/wheelbot_ws/src/wheelbot_mission/`：Mission Manager、Nav2 适配、任务状态、REST/事件
+  API、Web 控制台和小智反馈 webhook。
 - `ros2/wheelbot_ws/src/wheelbot_navigation/`：要求显式实测参数的 Nav2 启动边界。
 - `docs/current-system-capability-gap-analysis.md`：按任务书完成的现状与缺口审计。
 - `docs/architecture/mission-manager.md`：小智、任务管理、导航、机械臂服务边界和接口说明。

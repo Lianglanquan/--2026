@@ -19,8 +19,11 @@ from rclpy.node import Node
 from std_msgs.msg import String
 from wheelbot_interfaces.msg import RobotState
 
+from .events import MissionEventBroker
+from .feedback import FeedbackWebhook
 from .http_api import MissionHttpServer
 from .model import Mission, MissionState, MissionStore, MissionType
+from .safety import evaluate_mission_safety
 
 
 class MissionManagerNode(Node):
@@ -34,6 +37,15 @@ class MissionManagerNode(Node):
         self.declare_parameter("navigation_mode", "nav2")
         self.declare_parameter("fake_navigation_delay_s", 0.25)
         self.declare_parameter("allow_uncommissioned_locations", False)
+        self.declare_parameter("navigation_timeout_s", 300.0)
+        self.declare_parameter("arm_timeout_s", 180.0)
+        self.declare_parameter("robot_state_timeout_s", 2.0)
+        self.declare_parameter("require_robot_state", True)
+        self.declare_parameter("fail_on_robot_fault", True)
+        self.declare_parameter("dashboard_file", "")
+        self.declare_parameter("feedback_webhook_url", "")
+        self.declare_parameter("feedback_webhook_token", "")
+        self.declare_parameter("feedback_webhook_timeout_s", 3.0)
 
         self.status_pub = self.create_publisher(String, "/wheelbot/mission/status", 20)
         self.arm_request_pub = self.create_publisher(String, "/wheelbot/arm/task_requests", 10)
@@ -46,9 +58,19 @@ class MissionManagerNode(Node):
         self._pose_update = 0.0
         self._robot = None
         self._robot_update = 0.0
+        self._phase_lock = threading.RLock()
+        self._phase_deadline = 0.0
+        self._phase_mission_id = None
 
+        self.events = MissionEventBroker()
+        self.feedback = FeedbackWebhook(
+            str(self.get_parameter("feedback_webhook_url").value),
+            str(self.get_parameter("feedback_webhook_token").value),
+            float(self.get_parameter("feedback_webhook_timeout_s").value),
+            log=lambda message: self.get_logger().warning(message),
+        )
         self.store = MissionStore(
-            str(self.get_parameter("state_file").value), on_change=self._publish_status
+            str(self.get_parameter("state_file").value), on_change=self._on_mission_change
         )
         self.locations = self._load_locations(str(self.get_parameter("locations_file").value))
         self.navigation_mode = str(self.get_parameter("navigation_mode").value)
@@ -56,8 +78,11 @@ class MissionManagerNode(Node):
             raise ValueError("navigation_mode must be 'nav2' or 'fake'")
         self.nav_client = ActionClient(self, NavigateToPose, "navigate_to_pose")
         self._goal_handle = None
+        self._goal_mission_id = None
+        self._pending_goal_mission_id = None
         self._dispatched_mission_id = None
         self._fake_timer = None
+        self._fake_mission_id = None
         self.create_timer(0.1, self._tick)
 
         self.http = MissionHttpServer(
@@ -67,6 +92,8 @@ class MissionManagerNode(Node):
             self.store,
             self._on_cancel,
             self._system_status,
+            self.events,
+            str(self.get_parameter("dashboard_file").value),
         )
         self.http.start()
         self.get_logger().info(f"mission API listening on {self.http.address[0]}:{self.http.address[1]}")
@@ -97,6 +124,7 @@ class MissionManagerNode(Node):
     def _system_status(self) -> dict[str, object]:
         now = time.monotonic()
         active = self.store.active()
+        visible_mission = active or self.store.latest()
         with self._telemetry_lock:
             pose = dict(self._pose) if self._pose else None
             robot = dict(self._robot) if self._robot else None
@@ -107,7 +135,7 @@ class MissionManagerNode(Node):
             "robot_pose_fresh": pose_fresh,
             "robot": robot,
             "robot_state_fresh": robot_fresh,
-            "mission": active.to_dict() if active else None,
+            "mission": visible_mission.to_dict() if visible_mission else None,
             "navigation_state": active.state if active and active.state in {
                 MissionState.NAVIGATING.value,
                 MissionState.RETURNING.value,
@@ -129,14 +157,28 @@ class MissionManagerNode(Node):
             raise ValueError("locations_file must define a non-empty locations map")
         return locations
 
-    def _publish_status(self, mission: Mission) -> None:
+    def _on_mission_change(self, mission: Mission) -> None:
         msg = String()
         msg.data = json.dumps(mission.to_dict(), ensure_ascii=False)
         self.status_pub.publish(msg)
+        self.events.publish(mission)
+        self.feedback.publish(mission)
+        timeout_s = 0.0
+        if mission.state_enum in {MissionState.NAVIGATING, MissionState.RETURNING}:
+            timeout_s = float(self.get_parameter("navigation_timeout_s").value)
+        elif mission.state_enum in {MissionState.WAITING_FOR_ARM, MissionState.ARM_RUNNING}:
+            timeout_s = float(self.get_parameter("arm_timeout_s").value)
+        with self._phase_lock:
+            self._phase_mission_id = mission.mission_id if timeout_s > 0 else None
+            self._phase_deadline = time.monotonic() + timeout_s if timeout_s > 0 else 0.0
 
     def _tick(self) -> None:
         mission = self.store.active()
-        if mission is None or mission.state_enum != MissionState.PENDING:
+        if mission is None:
+            return
+        if self._safety_failed(mission):
+            return
+        if mission.state_enum != MissionState.PENDING:
             return
         if mission.mission_id == self._dispatched_mission_id:
             return
@@ -145,6 +187,47 @@ class MissionManagerNode(Node):
             self._start_navigation(mission, mission.return_location, returning=True)
         else:
             self._start_navigation(mission, mission.target_location, returning=False)
+
+    def _safety_failed(self, mission: Mission) -> bool:
+        now = time.monotonic()
+        with self._telemetry_lock:
+            robot = dict(self._robot) if self._robot else None
+            robot_age = now - self._robot_update if robot is not None else float("inf")
+
+        with self._phase_lock:
+            timed_out = (
+                self._phase_mission_id == mission.mission_id
+                and self._phase_deadline > 0
+                and now >= self._phase_deadline
+            )
+        failure = evaluate_mission_safety(
+            mission.state_enum,
+            require_robot_state=bool(self.get_parameter("require_robot_state").value),
+            robot=robot,
+            robot_age_s=robot_age,
+            robot_timeout_s=float(self.get_parameter("robot_state_timeout_s").value),
+            fail_on_robot_fault=bool(self.get_parameter("fail_on_robot_fault").value),
+            phase_timed_out=timed_out,
+        )
+        if failure is None:
+            return False
+        self._fail_mission(mission, failure.detail, failure.error_code)
+        return True
+
+    def _fail_mission(self, mission: Mission, detail: str, error_code: str) -> None:
+        if self._goal_handle is not None and self._goal_mission_id == mission.mission_id:
+            self._goal_handle.cancel_goal_async()
+            self._goal_handle = None
+            self._goal_mission_id = None
+        if self._fake_timer is not None and self._fake_mission_id == mission.mission_id:
+            self._fake_timer.cancel()
+            self._fake_timer = None
+            self._fake_mission_id = None
+        if mission.state_enum in {MissionState.WAITING_FOR_ARM, MissionState.ARM_RUNNING}:
+            msg = String()
+            msg.data = json.dumps({"mission_id": mission.mission_id})
+            self.arm_cancel_pub.publish(msg)
+        self.store.transition(mission.mission_id, MissionState.FAILED, detail, error_code)
 
     def _pose_for(self, location_name: str) -> PoseStamped:
         raw = self.locations.get(location_name)
@@ -173,6 +256,7 @@ class MissionManagerNode(Node):
 
         if self.navigation_mode == "fake":
             delay = float(self.get_parameter("fake_navigation_delay_s").value)
+            self._fake_mission_id = mission.mission_id
             self._fake_timer = self.create_timer(
                 max(0.01, delay), lambda: self._finish_fake_navigation(mission.mission_id, returning)
             )
@@ -184,35 +268,60 @@ class MissionManagerNode(Node):
             return
         goal = NavigateToPose.Goal()
         goal.pose = pose
+        self._pending_goal_mission_id = mission.mission_id
         future = self.nav_client.send_goal_async(goal)
         future.add_done_callback(
             lambda value: self._on_goal_response(value, mission.mission_id, returning)
         )
 
     def _finish_fake_navigation(self, mission_id: str, returning: bool) -> None:
-        if self._fake_timer is not None:
+        if self._fake_timer is not None and self._fake_mission_id == mission_id:
             self._fake_timer.cancel()
             self._fake_timer = None
+            self._fake_mission_id = None
         mission = self.store.get(mission_id)
         if mission is None or mission.terminal:
             return
         self._navigation_succeeded(mission, returning)
 
     def _on_goal_response(self, future, mission_id: str, returning: bool) -> None:
-        goal_handle = future.result()
+        self._pending_goal_mission_id = None
+        try:
+            goal_handle = future.result()
+        except Exception as exc:
+            mission = self.store.get(mission_id)
+            if mission is not None and not mission.terminal:
+                self.store.transition(
+                    mission_id, MissionState.FAILED, f"Nav2 goal request failed: {exc}", "NAV_ERROR"
+                )
+            return
+        mission = self.store.get(mission_id)
+        if mission is None or mission.terminal:
+            if goal_handle.accepted:
+                goal_handle.cancel_goal_async()
+            return
         if not goal_handle.accepted:
             self.store.transition(mission_id, MissionState.FAILED, "Nav2 rejected goal", "NAV_REJECTED")
             return
         self._goal_handle = goal_handle
+        self._goal_mission_id = mission_id
         result = goal_handle.get_result_async()
         result.add_done_callback(lambda value: self._on_navigation_result(value, mission_id, returning))
 
     def _on_navigation_result(self, future, mission_id: str, returning: bool) -> None:
-        self._goal_handle = None
+        if self._goal_mission_id == mission_id:
+            self._goal_handle = None
+            self._goal_mission_id = None
         mission = self.store.get(mission_id)
         if mission is None or mission.terminal:
             return
-        status = future.result().status
+        try:
+            status = future.result().status
+        except Exception as exc:
+            self.store.transition(
+                mission_id, MissionState.FAILED, f"Nav2 result failed: {exc}", "NAV_ERROR"
+            )
+            return
         if status == GoalStatus.STATUS_SUCCEEDED:
             self._navigation_succeeded(mission, returning)
         else:
@@ -271,15 +380,21 @@ class MissionManagerNode(Node):
             self.get_logger().warning(f"ignored invalid arm result: {exc}")
 
     def _on_cancel(self, mission: Mission) -> None:
-        if self._goal_handle is not None:
+        if self._goal_handle is not None and self._goal_mission_id == mission.mission_id:
             self._goal_handle.cancel_goal_async()
             self._goal_handle = None
+            self._goal_mission_id = None
+        if self._fake_timer is not None and self._fake_mission_id == mission.mission_id:
+            self._fake_timer.cancel()
+            self._fake_timer = None
+            self._fake_mission_id = None
         msg = String()
         msg.data = json.dumps({"mission_id": mission.mission_id})
         self.arm_cancel_pub.publish(msg)
 
     def destroy_node(self):
         self.http.close()
+        self.feedback.close()
         super().destroy_node()
 
 
