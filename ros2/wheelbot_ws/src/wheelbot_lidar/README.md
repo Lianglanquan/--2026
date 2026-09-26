@@ -20,3 +20,26 @@ ros2 topic hz /scan
 ```
 
 没有看到真实 `sensor_msgs/msg/LaserScan` 前，不认为雷达链路验收通过。
+
+## 生产环境自恢复
+
+树莓派上的 `ydlidar-x2.service` 负责驱动，`wheelbot-lidar-watchdog.service`
+负责监测 `/scan`。watchdog 启动后有 10 秒宽限期；连续 1.5 秒没有收到扫描才会
+重启 YDLIDAR，单次丢帧不会触发重启。重启后 15 秒内不会重复触发。
+
+查看状态：
+
+```bash
+systemctl status wheelbot-lidar-watchdog.service
+journalctl -u wheelbot-lidar-watchdog.service -f
+```
+
+阶段一主服务和雷达 watchdog 相互独立，重启雷达驱动不会停止 C Board、EKF 或
+`slam_toolbox`。四个相关服务均已设置为开机自动启动：
+
+```text
+wheelbot-lidar-tcp.service
+ydlidar-x2.service
+wheelbot-lidar-watchdog.service
+wheelbot-phase1.service
+```

@@ -4,6 +4,11 @@
 #include <stddef.h>
 #include <stdint.h>
 
+/* Board-level motor assignment after commissioning the two QD4310 units. */
+#define QD4310_MOTOR_ID_1 ((uint8_t)1u)
+#define QD4310_MOTOR_ID_2 ((uint8_t)2u)
+#define QD4310_MOTOR_COUNT (2u)
+
 /* QDrive's official QD4310 CAN protocol (classic CAN, 1 Mbps). */
 enum qd4310_command {
     QD4310_CMD_NOP = 0x00,

@@ -1,4 +1,4 @@
-from wheelbot_lidar.scan_watchdog import ScanHealthMonitor
+from wheelbot_lidar.scan_watchdog_policy import ScanHealthMonitor
 
 
 def test_single_short_scan_gap_does_not_request_restart():

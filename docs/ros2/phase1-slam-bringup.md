@@ -37,6 +37,17 @@ ros2 run tf2_ros tf2_echo base_link laser_frame
 
 ## 3. 真实雷达与建图
 
+生产运行时不需要手工逐个启动节点。树莓派开机后由 systemd 自动启动 TCP
+传输、YDLIDAR、扫描 watchdog 和阶段一 ROS 主服务。状态检查：
+
+```bash
+systemctl is-active wheelbot-lidar-tcp.service ydlidar-x2.service \
+  wheelbot-lidar-watchdog.service wheelbot-phase1.service
+```
+
+如果 `/scan` 连续 1.5 秒没有更新，watchdog 会自动重启 `ydlidar-x2.service`；
+正常的单次丢帧不会触发动作。
+
 实物接好并且 X2 驱动已经能够发布真实 `/scan` 后：
 
 ```bash

@@ -2,7 +2,7 @@
 Description=WheelBot Phase 1 real-hardware ROS stack
 After=network-online.target wheelbot-lidar-tcp.service ydlidar-x2.service
 Wants=network-online.target
-Requires=wheelbot-lidar-tcp.service ydlidar-x2.service
+Wants=wheelbot-lidar-tcp.service ydlidar-x2.service
 
 [Service]
 Type=simple

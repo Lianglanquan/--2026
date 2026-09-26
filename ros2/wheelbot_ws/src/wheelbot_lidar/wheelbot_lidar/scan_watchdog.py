@@ -9,41 +9,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import LaserScan
-
-
-class ScanHealthMonitor:
-    """Small, deterministic policy for deciding when a scan stream is stalled."""
-
-    def __init__(
-        self,
-        started_at: float,
-        timeout_s: float,
-        startup_grace_s: float,
-        restart_cooldown_s: float,
-    ) -> None:
-        if timeout_s <= 0.0 or startup_grace_s < 0.0 or restart_cooldown_s < 0.0:
-            raise ValueError("watchdog timing values are invalid")
-        self.started_at = float(started_at)
-        self.timeout_s = float(timeout_s)
-        self.startup_grace_s = float(startup_grace_s)
-        self.restart_cooldown_s = float(restart_cooldown_s)
-        self.last_scan_at: float | None = None
-        self.last_restart_at: float | None = None
-
-    def record_scan(self, now: float) -> None:
-        self.last_scan_at = float(now)
-
-    def mark_restart(self, now: float) -> None:
-        self.last_restart_at = float(now)
-
-    def restart_due(self, now: float) -> bool:
-        now = float(now)
-        if now - self.started_at < self.startup_grace_s:
-            return False
-        if self.last_restart_at is not None and now - self.last_restart_at < self.restart_cooldown_s:
-            return False
-        reference = self.started_at if self.last_scan_at is None else self.last_scan_at
-        return now - reference >= self.timeout_s
+from wheelbot_lidar.scan_watchdog_policy import ScanHealthMonitor
 
 
 class ScanWatchdog(Node):
@@ -75,10 +41,8 @@ class ScanWatchdog(Node):
             float(self.get_parameter("check_period_s").value), self._check_callback
         )
         self.get_logger().info(
-            "Watching %s; restart %s after %.1fs without a scan",
-            scan_topic,
-            self.service_name,
-            self.monitor.timeout_s,
+            f"Watching {scan_topic}; restart {self.service_name} "
+            f"after {self.monitor.timeout_s:.1f}s without a scan"
         )
 
     def _scan_callback(self, _message: LaserScan) -> None:
@@ -90,9 +54,8 @@ class ScanWatchdog(Node):
             return
         self.monitor.mark_restart(now)
         self.get_logger().error(
-            "No LaserScan received for %.1fs; restarting %s",
-            self.monitor.timeout_s,
-            self.service_name,
+            f"No LaserScan received for {self.monitor.timeout_s:.1f}s; "
+            f"restarting {self.service_name}"
         )
         result = subprocess.run(
             ["/usr/bin/systemctl", "restart", self.service_name],
@@ -102,10 +65,8 @@ class ScanWatchdog(Node):
         )
         if result.returncode != 0:
             self.get_logger().error(
-                "Failed to restart %s (exit %d): %s",
-                self.service_name,
-                result.returncode,
-                result.stderr.strip(),
+                f"Failed to restart {self.service_name} (exit {result.returncode}): "
+                f"{result.stderr.strip()}"
             )
 
 

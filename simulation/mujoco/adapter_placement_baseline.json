@@ -1,0 +1,6 @@
+{
+  "basis": "design_confirmation",
+  "preserves_urdf_frames": true,
+  "statement": "The HA8 and QD4310 adapters replace the actuators without changing the joint centers, joint axes, or wheel axle frames from the source URDF.",
+  "physical_validation_required_before_hardware": true
+}

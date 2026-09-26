@@ -1,0 +1,73 @@
+{
+  "device": "fashionstar_ha8_u25h_m",
+  "protocol": {
+    "baudrate": 115200,
+    "servo_id_parameter_address": 34
+  },
+  "joints": [
+    {
+      "logical_id": 1,
+      "name": "left_front",
+      "short_name": "LF",
+      "servo_model": "HA8-U25H-M",
+      "bus_id": 1,
+      "previous_bus_id": 0,
+      "commissioned": true,
+      "verification": {
+        "ping": true,
+        "old_id_silent": true,
+        "angle_query": true,
+        "motion_command_sent": false,
+        "origin_command_sent": false
+      }
+    },
+    {
+      "logical_id": 2,
+      "name": "left_rear",
+      "short_name": "LR",
+      "servo_model": "HA8-U25H-M",
+      "bus_id": 2,
+      "commissioned": true,
+      "previous_bus_id": 0,
+      "verification": {
+        "ping": true,
+        "old_id_silent": true,
+        "angle_query": true,
+        "motion_command_sent": false,
+        "origin_command_sent": false
+      }
+    },
+    {
+      "logical_id": 3,
+      "name": "right_front",
+      "short_name": "RF",
+      "servo_model": "HA8-U25H-M",
+      "bus_id": 3,
+      "commissioned": true,
+      "previous_bus_id": 0,
+      "verification": {
+        "ping": true,
+        "old_id_silent": true,
+        "angle_query": true,
+        "motion_command_sent": false,
+        "origin_command_sent": false
+      }
+    },
+    {
+      "logical_id": 4,
+      "name": "right_rear",
+      "short_name": "RR",
+      "servo_model": "HA8-U25H-M",
+      "bus_id": 4,
+      "commissioned": true,
+      "previous_bus_id": 0,
+      "verification": {
+        "ping": true,
+        "old_id_silent": true,
+        "angle_query": true,
+        "motion_command_sent": false,
+        "origin_command_sent": false
+      }
+    }
+  ]
+}

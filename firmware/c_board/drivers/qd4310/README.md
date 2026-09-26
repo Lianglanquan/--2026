@@ -28,6 +28,8 @@ callback should call `qd4310_handle_can_rx()` after `HAL_CAN_GetRxMessage()` for
 feedback frames. The cached state is updated asynchronously; `qd4310_get_state`
 sends the official NOP request and returns the most recently received state.
 
-No hardware claim is made by this adapter alone. A connected QD4310 ID 1,
+The wheelbot board assigns QD4310 IDs 1 and 2 to its two actuator channels.
+No hardware claim is made by this adapter alone. A connected QD4310 ID 1 and
+ID 2,
 correct CANH/CANL termination, common ground, and a verified 1 Mbps bus are
 required for end-to-end validation.

@@ -1,0 +1,128 @@
+<mujoco model="wheelbot_nominal">
+  <!-- Nominal model: source URDF topology plus the current QD4310 limit. -->
+  <compiler angle="radian" meshdir="../../机械资料/01_灯哥小型轮足/02_Seeed官方URDF_STL/meshes" autolimits="true"/>
+  <option timestep="0.002" integrator="implicitfast" gravity="0 0 -9.81"/>
+
+  <visual>
+    <global offwidth="640" offheight="480"/>
+    <quality shadowsize="2048"/>
+    <headlight ambient="0.28 0.28 0.28" diffuse="0.65 0.65 0.65" specular="0.15 0.15 0.15"/>
+  </visual>
+
+  <default>
+    <joint damping="0.04" armature="0.0001"/>
+    <geom condim="3" friction="0.8 0.02 0.01" rgba="0.65 0.68 0.75 1"/>
+    <motor ctrllimited="true"/>
+  </default>
+
+  <asset>
+    <texture name="skybox_texture" type="skybox" builtin="gradient" rgb1="0.12 0.16 0.22" rgb2="0.015 0.02 0.03" width="512" height="512"/>
+    <texture name="ground_texture" type="2d" builtin="checker" rgb1="0.22 0.24 0.28" rgb2="0.10 0.11 0.14" width="256" height="256"/>
+    <material name="ground_material" texture="ground_texture" texrepeat="8 8" reflectance="0.12"/>
+    <material name="robot_material" rgba="0.792 0.820 0.933 1" specular="0.35" shininess="0.45"/>
+    <material name="collision_material" rgba="0.18 0.38 0.62 1"/>
+    <mesh name="base_mesh" file="base_link.STL"/>
+    <mesh name="left_thigh_mesh" file="LT_link.STL"/>
+    <mesh name="left_calf_mesh" file="LC_link.STL"/>
+    <mesh name="left_wheel_mesh" file="LW_link.STL"/>
+    <mesh name="right_thigh_mesh" file="RT_link.STL"/>
+    <mesh name="right_calf_mesh" file="RC_link.STL"/>
+    <mesh name="right_wheel_mesh" file="RW__link.STL"/>
+  </asset>
+
+  <worldbody>
+    <geom name="ground" type="plane" size="2 2 0.05" pos="0 0 0" material="ground_material"/>
+    <light name="key_light" directional="true" pos="0.4 -0.6 0.8" dir="-0.2 0.3 -1" diffuse="0.85 0.85 0.85" specular="0.35 0.35 0.35" castshadow="true"/>
+    <camera name="inspection_view" mode="targetbody" target="base_link" pos="0.34 -0.42 0.24"/>
+    <!-- Zero-joint pose: wheel envelope is tangent to the z=0 ground plane. -->
+    <body name="base_link" pos="0 0 0.106744">
+      <freejoint name="base_free"/>
+      <!-- Source URDF inertial data; fullinertia order is ixx iyy izz ixy ixz iyz. -->
+      <inertial pos="0.0061304 0.0002476 -0.0093676" mass="0.266" fullinertia="0.0006309 0.0003008 0.0007489 0.0000006 -0.0000468 0.0000003"/>
+      <geom name="base_visual" type="mesh" mesh="base_mesh" material="robot_material" contype="0" conaffinity="0"/>
+      <!-- Only the wheels contact the ground in this first contact baseline. -->
+      <geom name="base_collision" type="box" pos="0.01 0 0" size="0.052 0.075 0.025" contype="0" conaffinity="0" rgba="0.35 0.38 0.45 1"/>
+      <site name="imu" pos="0 0 0"/>
+
+      <body name="left_thigh" pos="0.037193 0.04014 0.00555" euler="0 -1.3914 0">
+        <joint name="LT_joint" type="hinge" axis="0 -1 0" range="-1.3479 0.3363"/>
+        <!--
+          The rounded URDF LT tensor violates the rigid-body triangle inequality
+          by about 4.5e-9 kg*m^2. The +5e-9 kg*m^2 izz adjustment is the smallest
+          accepted correction and remains within the source decimal precision.
+        -->
+        <inertial pos="0.0012701 0.0040620 -0.0190086" mass="0.008" fullinertia="0.0000041 0.0000046 0.000000505 0 0.0000002 0.0000001"/>
+        <geom name="left_thigh_visual" type="mesh" mesh="left_thigh_mesh" material="robot_material" contype="0" conaffinity="0"/>
+        <geom name="left_thigh_collision" type="capsule" fromto="0 0 0 0 0 -0.06" size="0.013" contype="0" conaffinity="0"/>
+
+        <body name="left_calf" pos="0.004006 0.00825 -0.05996" euler="3.141593 0.970968 3.141593">
+          <joint name="LC_joint" type="hinge" axis="0 -1 0" range="-0.29147 1.25"/>
+          <inertial pos="0.0013809 0.0047027 -0.0690315" mass="0.0166292" fullinertia="0.0000192606315320937 0.0000199807316204063 0.00000155379596081475 -0.00000000882655659688194 -0.000000355356649539172 0.000000441228359669666"/>
+          <geom name="left_calf_visual" type="mesh" mesh="left_calf_mesh" material="robot_material" contype="0" conaffinity="0"/>
+          <geom name="left_calf_collision" type="capsule" fromto="0 0 0 0 0 -0.10" size="0.014" contype="0" conaffinity="0"/>
+
+          <body name="left_wheel" pos="0.002 0.024 -0.09998" euler="0 -0.779220 0">
+            <joint name="LW_joint" type="hinge" axis="0 1 0"/>
+            <inertial pos="0 0.0083246 0" mass="0.0559681585451639" fullinertia="0.0000121 0.0000209 0.0000121 0 0 0"/>
+            <geom name="left_wheel_visual" type="mesh" mesh="left_wheel_mesh" material="robot_material" contype="0" conaffinity="0"/>
+            <geom name="left_wheel_collision" type="cylinder" pos="0 0.009 0" quat="0.707107 0.707107 0 0" size="0.033 0.015"/>
+          </body>
+        </body>
+      </body>
+
+      <body name="right_thigh" pos="0.037193 -0.03976 0.00555" euler="0 -1.3914 0">
+        <joint name="RT_joint" type="hinge" axis="0 1 0" range="-0.3363 1.3479"/>
+        <!-- Same minimal rigid-body consistency correction as left_thigh. -->
+        <inertial pos="0.00127013 -0.0040620 -0.0190086" mass="0.008" fullinertia="0.0000041 0.0000046 0.000000505 0 0.0000002 0.0000001"/>
+        <geom name="right_thigh_visual" type="mesh" mesh="right_thigh_mesh" material="robot_material" contype="0" conaffinity="0"/>
+        <geom name="right_thigh_collision" type="capsule" fromto="0 0 0 0 0 -0.06" size="0.013" contype="0" conaffinity="0"/>
+
+        <body name="right_calf" pos="0.004006 -0.00825 -0.05996" euler="-3.141593 1.010970 -3.141593">
+          <joint name="RC_joint" type="hinge" axis="0 1 0" range="-1.25 0.29147"/>
+          <inertial pos="-0.0013809 -0.0047027 -0.0690315" mass="0.0166292" fullinertia="0.0000240 0.0000245 0.0000016 0 0.0000004 -0.00000006"/>
+          <geom name="right_calf_visual" type="mesh" mesh="right_calf_mesh" material="robot_material" contype="0" conaffinity="0"/>
+          <geom name="right_calf_collision" type="capsule" fromto="0 0 0 0 0 -0.10" size="0.014" contype="0" conaffinity="0"/>
+
+          <body name="right_wheel" pos="-0.002 -0.024 -0.09998" euler="0 -0.739217 0">
+            <joint name="RW_joint" type="hinge" axis="0 -1 0"/>
+            <inertial pos="0 -0.0083246 0" mass="0.0559681585451639" fullinertia="0.0000121 0.0000209 0.0000121 0 0 0"/>
+            <geom name="right_wheel_visual" type="mesh" mesh="right_wheel_mesh" contype="0" conaffinity="0"/>
+            <geom name="right_wheel_collision" type="cylinder" pos="0 -0.009 0" quat="0.707107 0.707107 0 0" size="0.033 0.015"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <keyframe>
+    <!-- Source-URDF zero-joint pose, placed with both wheel envelopes on ground. -->
+    <key name="nominal_stand" qpos="0 0 0.106744 1 0 0 0 0 0 0 0 0 0"/>
+  </keyframe>
+
+  <actuator>
+    <position name="ha8_left_thigh" joint="LT_joint" kp="8" ctrlrange="-1.3479 0.3363" forcerange="-2.45 2.45"/>
+    <position name="ha8_left_calf" joint="LC_joint" kp="8" ctrlrange="-0.29147 1.25" forcerange="-2.45 2.45"/>
+    <position name="ha8_right_thigh" joint="RT_joint" kp="8" ctrlrange="-0.3363 1.3479" forcerange="-2.45 2.45"/>
+    <position name="ha8_right_calf" joint="RC_joint" kp="8" ctrlrange="-1.25 0.29147" forcerange="-2.45 2.45"/>
+    <velocity name="qd4310_left_wheel" joint="LW_joint" kv="0.15" ctrlrange="-5.235988 5.235988" forcerange="-0.446 0.446"/>
+    <velocity name="qd4310_right_wheel" joint="RW_joint" kv="0.15" ctrlrange="-5.235988 5.235988" forcerange="-0.446 0.446"/>
+  </actuator>
+
+  <sensor>
+    <framequat name="base_orientation" objtype="site" objname="imu"/>
+    <gyro name="base_gyro" site="imu"/>
+    <accelerometer name="base_accel" site="imu"/>
+    <jointpos name="left_thigh_pos" joint="LT_joint"/>
+    <jointpos name="left_calf_pos" joint="LC_joint"/>
+    <jointpos name="right_thigh_pos" joint="RT_joint"/>
+    <jointpos name="right_calf_pos" joint="RC_joint"/>
+    <jointpos name="left_wheel_pos" joint="LW_joint"/>
+    <jointpos name="right_wheel_pos" joint="RW_joint"/>
+    <jointvel name="left_thigh_vel" joint="LT_joint"/>
+    <jointvel name="left_calf_vel" joint="LC_joint"/>
+    <jointvel name="right_thigh_vel" joint="RT_joint"/>
+    <jointvel name="right_calf_vel" joint="RC_joint"/>
+    <jointvel name="left_wheel_vel" joint="LW_joint"/>
+    <jointvel name="right_wheel_vel" joint="RW_joint"/>
+  </sensor>
+</mujoco>

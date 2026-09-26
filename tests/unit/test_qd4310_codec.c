@@ -16,6 +16,16 @@ static void test_enable_frame(void) {
     assert(frame.data[1] == 0u && frame.data[2] == 0u);
 }
 
+static void test_configured_motor_ids(void) {
+    qd4310_can_frame_t frame;
+    assert(QD4310_MOTOR_ID_1 == 1u);
+    assert(QD4310_MOTOR_ID_2 == 2u);
+    assert(qd4310_encode_control(QD4310_MOTOR_ID_1, QD4310_CMD_ENABLE, 0, &frame) == 0);
+    assert(frame.std_id == 0x401u);
+    assert(qd4310_encode_control(QD4310_MOTOR_ID_2, QD4310_CMD_ENABLE, 0, &frame) == 0);
+    assert(frame.std_id == 0x402u);
+}
+
 static void test_signed_control_is_little_endian(void) {
     qd4310_can_frame_t frame;
     assert(qd4310_encode_control(0x0fu, QD4310_CMD_CURRENT, -1234, &frame) == 0);
@@ -31,6 +41,9 @@ static void test_official_speed_and_angle_frames(void) {
     assert(frame.data[0] == 0x04u && frame.data[1] == 0x00u && frame.data[2] == 0x20u);
     assert(qd4310_encode_control(1u, QD4310_CMD_ANGLE, (int16_t)5218, &frame) == 0);
     assert(frame.data[0] == 0x05u && frame.data[1] == 0x62u && frame.data[2] == 0x14u);
+    assert(qd4310_encode_control(QD4310_MOTOR_ID_2, QD4310_CMD_LOW_SPEED, -123, &frame) == 0);
+    assert(frame.std_id == 0x402u && frame.data[0] == QD4310_CMD_LOW_SPEED);
+    assert(frame.data[1] == 0x85u && frame.data[2] == 0xffu);
 }
 
 static void test_feedback_decode(void) {
@@ -62,6 +75,7 @@ static void test_bad_feedback_is_rejected(void) {
 
 int main(void) {
     test_enable_frame();
+    test_configured_motor_ids();
     test_signed_control_is_little_endian();
     test_official_speed_and_angle_frames();
     test_feedback_decode();
