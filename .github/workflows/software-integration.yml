@@ -22,10 +22,10 @@ jobs:
       - uses: actions/checkout@v7
         with:
           submodules: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
       - name: Install host test dependencies
@@ -130,9 +130,9 @@ jobs:
       - name: Run fake navigation-to-arm-to-return smoke test
         shell: bash
         run: |
-          set -euo pipefail
           source /opt/ros/jazzy/setup.bash
           source ros2/wheelbot_ws/install/setup.bash
+          set -euo pipefail
           mkdir -p build
           ros2 launch wheelbot_bringup phase1.launch.py \
             use_fake_bridge:=true use_real_bridge:=false \
