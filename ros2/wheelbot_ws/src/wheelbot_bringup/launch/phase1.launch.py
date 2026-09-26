@@ -33,6 +33,7 @@ def generate_launch_description():
         DeclareLaunchArgument("mission_api_token", default_value="change-me-before-deploy"),
         DeclareLaunchArgument("mission_use_fake_arm", default_value="false"),
         DeclareLaunchArgument("mission_require_robot_state", default_value="true"),
+        DeclareLaunchArgument("mission_allow_uncommissioned_locations", default_value="false"),
         DeclareLaunchArgument("mission_feedback_webhook_url", default_value=""),
         DeclareLaunchArgument("mission_feedback_webhook_token", default_value=""),
         DeclareLaunchArgument("fake_wheel_rpm", default_value="0.0"),
@@ -74,6 +75,9 @@ def generate_launch_description():
                 "api_token": LaunchConfiguration("mission_api_token"),
                 "use_fake_arm": LaunchConfiguration("mission_use_fake_arm"),
                 "require_robot_state": LaunchConfiguration("mission_require_robot_state"),
+                "allow_uncommissioned_locations": LaunchConfiguration(
+                    "mission_allow_uncommissioned_locations"
+                ),
                 "feedback_webhook_url": LaunchConfiguration("mission_feedback_webhook_url"),
                 "feedback_webhook_token": LaunchConfiguration("mission_feedback_webhook_token"),
             },

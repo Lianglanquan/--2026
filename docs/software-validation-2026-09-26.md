@@ -27,6 +27,8 @@
 - 增加反馈 webhook、阶段播报文本、导航/机械臂超时、C Board 链路/fault 安全门槛。
 - 修复幂等冲突和返航重试竞态：相同 key 的不同载荷会拒绝，旧返航重放不会取消新任务，
   替换返航先停止旧下游动作再发布新任务。
+- 补齐总启动的未标定语义点透传参数，增加公开 REST API 的完整取物状态序列 smoke test 和
+  GitHub Actions ROS 2 Jazzy 构建/测试流水线。
 - 将 Mission Manager 纳入总启动，并补齐 Pi 的 Navigation2 运行依赖。
 - 新增 C Board 指令超时停车和 fault bit 7。
 - 更新架构、能力缺口、构建和联调文档。
@@ -34,11 +36,13 @@
 ## 当前实际测试结果
 
 - Mission model/API/事件/反馈/安全：20 个测试全部通过。
-- ROS 2 纯 Python 回归：42 个可在 Windows 运行的测试全部通过（包含上述 20 项）。
+- ROS 2/任务 API 纯 Python 回归：43 个可在 Windows 运行的测试全部通过（包含上述 20 项与
+  完整八阶段 REST smoke client 测试）。
 - C 主机测试：command watchdog、battery protocol、USB command stream、C Board UART receiver
   共 4 个程序通过。
 - 小智板型结构：Kconfig/CMake 一致性、默认 flash 配置、相对 include 共 4 个上游测试通过。
 - Python compileall、Web 控制台 JavaScript 解析、package XML 和板型 JSON 解析通过。
+- GitHub Actions 工作流 YAML 本地解析通过；首次 ROS 2 Jazzy runner 构建仍待推送权限恢复后执行。
 - 小智上游完整 83 项主机测试中，本次引入的两项失败已修复；另 5 项在 Windows 临时目录
   清理阶段因文件锁报错，属于上游测试的 Windows 环境限制，不是功能断言失败。
 

@@ -1,5 +1,7 @@
 # Wheelbot
 
+[![Software integration](https://github.com/Lianglanquan/--2026/actions/workflows/software-integration.yml/badge.svg)](https://github.com/Lianglanquan/--2026/actions/workflows/software-integration.yml)
+
 轮足机器人 Monorepo，按实时控制、高层智能、人机交互、仿真与硬件资料分层组织。
 
 ## 目录

@@ -49,6 +49,9 @@
 - 增加导航/机械臂阶段超时以及 C Board 状态新鲜度、链路和 fault mask 安全门槛；异常时取消
   下游动作并终止任务。
 - 修复幂等边界：相同 request ID 的不同载荷会被拒绝，重复返航不会误取消后来创建的新任务。
+- 新增 GitHub Actions 软件集成流水线：在不拉取损坏 vendor 子模块的前提下执行 ROS 2 Jazzy
+  `colcon build/test`、REST 到 fake 导航/机械臂/返航 smoke test、C 协议测试和小智板型校验。
+  工作流已完成本地语法检查，但必须成功推送后才能获得 GitHub runner 的首次实际结果。
 - C Board 新增 200 ms command-age watchdog；超时后进入 idle、取消 HA8 目标、停止并禁用
   轮电机，同时在状态 fault bit 7 报告超时。
 - 语义点默认全部 `commissioned: false`；未完成地图坐标标定时，真实导航请求会明确失败，

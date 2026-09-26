@@ -102,6 +102,14 @@ ros2 launch wheelbot_mission mission.launch.py \
 ```
 
 `use_fake_arm` 只用于验证“导航-装载-返航”软件状态链，绝不能作为机械臂验收结果。
+上述 fake 启动完成后，可在另一终端运行以下严格 smoke test；它会通过公开 REST API 创建一条
+`FETCH_ITEM`，并验证八个阶段事件按顺序到达 `COMPLETED`：
+
+```bash
+python3 tools/mission_api_smoke.py --token change-me-before-deploy
+```
+
+禁止对已连接真实底盘/机械臂的系统运行这个自动创建任务的脚本。
 
 真机模式使用 `navigation_mode:=nav2`。在启动前必须已有可用地图/定位、唯一 TF 链、已测量
 footprint、真实轮参数、Nav2 action server 和 C Board 失联停车保护。

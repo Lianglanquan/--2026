@@ -22,5 +22,10 @@ def test_phase1_launch_declares_switches_for_real_and_fake_inputs():
         "use_ekf",
         "use_slam",
         "use_description",
+        "use_mission",
+        "use_nav2",
+        "mission_navigation_mode",
+        "mission_require_robot_state",
+        "mission_allow_uncommissioned_locations",
     ):
         assert f'"{name}"' in text
