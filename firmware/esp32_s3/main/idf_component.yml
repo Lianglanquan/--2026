@@ -43,15 +43,6 @@ dependencies:
     version: ^0.3.6
     rules:
     - if: target in [esp32p4, esp32s3]
-  espressif/esp32-camera:
-    version: ^2.1.7
-    rules:
-    - if: target in [esp32s3]
-  espressif/esp_video:
-    version: ^2.4.1
-    rules:
-    - if: target in [esp32p4, esp32s3, esp32s31]
-
   espressif/esp_image_effects:
     version: ^1.1.0
     rules:

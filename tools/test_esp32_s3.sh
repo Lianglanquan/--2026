@@ -34,14 +34,25 @@ assert 'CONFIG_SR_MN_CN_MULTINET7_QUANT=y' in options
 
 header = (board_dir / "config.h").read_text(encoding="utf-8")
 expected = {
-    "AUDIO_I2S_GPIO_BCLK": 4,
-    "AUDIO_I2S_GPIO_WS": 5,
-    "AUDIO_I2S_GPIO_DIN": 6,
-    "AUDIO_I2S_GPIO_DOUT": 7,
+    "AUDIO_I2S_MIC_GPIO_BCLK": 4,
+    "AUDIO_I2S_MIC_GPIO_WS": 5,
+    "AUDIO_I2S_MIC_GPIO_DIN": 6,
+    "AUDIO_I2S_SPK_GPIO_DOUT": 7,
+    "AUDIO_I2S_SPK_GPIO_WS": 15,
+    "AUDIO_I2S_SPK_GPIO_BCLK": 16,
 }
 for name, gpio in expected.items():
     assert re.search(rf"^#define\s+{name}\s+GPIO_NUM_{gpio}\s*$", header, re.MULTILINE), name
 assert "AUDIO_I2S_METHOD_SIMPLEX" not in header
+for name, gpio in {
+    "WHEELBOT_OLED_SDA_GPIO": 41, "WHEELBOT_OLED_SCL_GPIO": 42,
+    "WHEELBOT_UART_TX_GPIO": 17, "WHEELBOT_UART_RX_GPIO": 18,
+    "WHEELBOT_KEY1_GPIO": 9, "WHEELBOT_KEY2_GPIO": 10, "WHEELBOT_KEY3_GPIO": 11,
+}.items():
+    assert re.search(rf"^#define\s+{name}\s+GPIO_NUM_{gpio}\s*$", header, re.MULTILINE), name
+assert re.search(r"^#define\s+WHEELBOT_OLED_I2C_ADDRESS_7BIT\s+0x3C\s*$", header, re.MULTILINE)
+assert re.search(r"^#define\s+WHEELBOT_OLED_WIDTH\s+128\s*$", header, re.MULTILINE)
+assert re.search(r"^#define\s+WHEELBOT_OLED_HEIGHT\s+64\s*$", header, re.MULTILINE)
 PY
 
 grep -Fq -- '--config config.production.json' "$repo_root/tools/build_esp32_s3.sh"

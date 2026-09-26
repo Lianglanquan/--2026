@@ -1051,7 +1051,7 @@ if(CONFIG_IDF_TARGET_ESP32)
 endif()
 
 # Include EspVideo if target is ESP32S3 or ESP32P4
-if(CONFIG_IDF_TARGET_ESP32S3 OR CONFIG_IDF_TARGET_ESP32P4)
+if((CONFIG_IDF_TARGET_ESP32S3 OR CONFIG_IDF_TARGET_ESP32P4) AND NOT CONFIG_BOARD_TYPE_WHEELBOT_S3_AUDIO)
     list(APPEND SOURCES "boards/common/esp_video.cc"
                         "boards/common/rndis_board.cc"
                         )
@@ -1063,7 +1063,7 @@ if(CONFIG_IDF_TARGET_ESP32S31)
 endif()
 
 # Include Esp32Camera if target is ESP32S3
-if(CONFIG_IDF_TARGET_ESP32S3)
+if(CONFIG_IDF_TARGET_ESP32S3 AND NOT CONFIG_BOARD_TYPE_WHEELBOT_S3_AUDIO)
     list(APPEND SOURCES "boards/common/esp32_camera.cc")
 endif()
 
@@ -1104,6 +1104,7 @@ idf_component_register(SRCS ${SOURCES}
                         esp_driver_spi
                         esp_driver_i2c
                         esp_driver_i2s
+                        esp_lcd
                         esp_driver_ledc
                         esp_driver_jpeg
                         esp_driver_ppa

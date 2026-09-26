@@ -15,6 +15,16 @@
 
 #define TAG "OledDisplay"
 
+// esp_lvgl_port's monochrome converter writes a complete SSD13xx page buffer.
+// Expand every invalidated region so the panel receives that buffer with the
+// matching 128x64 address window instead of interpreting it as a sub-rectangle.
+static void OledDisplayRounder(lv_area_t* area) {
+    area->x1 = 0;
+    area->y1 = 0;
+    area->x2 = 127;
+    area->y2 = 63;
+}
+
 LV_FONT_DECLARE(BUILTIN_TEXT_FONT);
 LV_FONT_DECLARE(BUILTIN_ICON_FONT);
 LV_FONT_DECLARE(font_material_symbols_30_1);
@@ -67,11 +77,15 @@ OledDisplay::OledDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_handl
                 .mirror_x = mirror_x,
                 .mirror_y = mirror_y,
             },
+        .rounder_cb = OledDisplayRounder,
         .flags =
             {
                 .buff_dma = 1,
                 .buff_spiram = 0,
                 .sw_rotate = 0,
+                // Monochrome mode in esp_lvgl_port already uses a complete
+                // 1-bit frame buffer; this flag is intentionally left off so
+                // it does not request a second full-refresh path.
                 .full_refresh = 0,
                 .direct_mode = 0,
             },
